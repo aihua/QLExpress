@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.RunEnvironment;
 import com.ql.util.express.instruction.op.OperatorBase;
@@ -21,27 +22,26 @@ public class InstructionOperator extends Instruction{
 		return this.operator;
 	}
 	public void execute(RunEnvironment environment,List<String> errorList) throws Exception{
-		execute(this.operator,this.opDataNumber, environment, errorList, this.log);
-	}
-	public static void execute(OperatorBase aOperator,int aOpNum,RunEnvironment environment,List<String> errorList,Log log) throws Exception{		
-		OperateData[] parameters = environment.popArray(environment.getContext(),aOpNum);		
-		if(environment.isTrace() && log.isDebugEnabled()){
-			String str = aOperator.toString() + "(";
+		ArraySwap parameters = environment.popArray(environment.getContext(),this.opDataNumber);		
+		if(environment.isTrace() && this.log.isDebugEnabled()){
+			String str = this.operator.toString() + "(";
+			OperateData p = null;
 			for(int i=0;i<parameters.length;i++){
+				p = parameters.get(i);
 				if(i > 0){
 					str = str + ",";
 				}
-				if(parameters[i] instanceof OperateDataAttr){
-					str = str + parameters[i] + ":" + parameters[i].getObject(environment.getContext());
+				if(p instanceof OperateDataAttr){
+					str = str + p + ":" + p.getObject(environment.getContext());
 				}else{
-				   str = str + parameters[i];
+				   str = str + p;
 				}
 			}
 			str = str + ")";
-			log.debug(str);
+			this.log.debug(str);
 		}
 		
-		OperateData result = aOperator.execute(environment.getContext(),parameters, errorList);
+		OperateData result = this.operator.execute(environment.getContext(),parameters, errorList);
 		environment.push(result);
 		environment.programPointAddOne();
 	}

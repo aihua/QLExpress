@@ -13,7 +13,7 @@ public class ReplaceOperatorTest {
 			ExpressRunner runner = new ExpressRunner();
 			Object r = runner.execute(express, null, null,false, false);
 			System.out.println(r);
-			Assert.assertTrue("±í´ïÊ½¼ÆËã", r.toString().equalsIgnoreCase("7"));
+			Assert.assertTrue("è¡¨è¾¾å¼è®¡ç®—", r.toString().equalsIgnoreCase("7"));
 			runner.replaceOperator("+", new ReplaceOperatorAddReduce("+"));
 			r = runner.execute(express, null, null,false, false);
 			System.out.println(r);
@@ -23,7 +23,7 @@ public class ReplaceOperatorTest {
 			runner.replaceOperator("+", new ReplaceOperatorAddReduce("+"));
 			r = runner.execute(express, null, null,false, false);
 			System.out.println(r);
-			Assert.assertTrue("Ìæ»»²Ù×÷·ûºÅ´íÎó", r.toString().equalsIgnoreCase("(3*4)"));
+			Assert.assertTrue("æ›¿æ¢æ“ä½œç¬¦å·é”™è¯¯", r.toString().equalsIgnoreCase("(3*4)"));
 	}
 }
 class ReplaceOperatorAddReduce extends Operator {

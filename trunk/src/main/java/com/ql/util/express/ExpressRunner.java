@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import com.ql.util.express.parse.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -20,60 +21,67 @@ import com.ql.util.express.instruction.op.OperatorPrintln;
 import com.ql.util.express.instruction.op.OperatorRound;
 import com.ql.util.express.instruction.op.OperatorSelfDefineClassFunction;
 import com.ql.util.express.instruction.op.OperatorSelfDefineServiceFunction;
-import com.ql.util.express.parse.ExpressNode;
-import com.ql.util.express.parse.ExpressPackage;
-import com.ql.util.express.parse.ExpressParse;
-import com.ql.util.express.parse.NodeType;
-import com.ql.util.express.parse.NodeTypeManager;
 
 /**
- * Óï·¨·ÖÎöºÍ¼ÆËãµÄÈë¿ÚÀà
+ * è¯­æ³•åˆ†æå’Œè®¡ç®—çš„å…¥å£ç±»
  * @author xuannan
  *
  */
 public class ExpressRunner {
 
 	private static final Log log = LogFactory.getLog(ExpressRunner.class);
-	private static final String GLOBAL_DEFINE_NAME="È«¾Ö¶¨Òå";
+	private static final String GLOBAL_DEFINE_NAME="å…¨å±€å®šä¹‰";
 	/**
-	 * ÊÇ·ñÊä³öËùÓĞµÄ¸ú×ÙĞÅÏ¢£¬Í¬Ê±»¹ĞèÒªlog¼¶±ğÊÇDEBUG¼¶±ğ
+	 * æ˜¯å¦è¾“å‡ºæ‰€æœ‰çš„è·Ÿè¸ªä¿¡æ¯ï¼ŒåŒæ—¶è¿˜éœ€è¦logçº§åˆ«æ˜¯DEBUGçº§åˆ«
 	 */
 	private boolean isTrace = false;
 	
 	/**
-	 * ÊÇ·ñÊ¹ÓÃÂß¼­¶ÌÂ·ÌØĞÔÔöÇ¿ÖÊÁ¿µÄĞ§ÂÊ
+	 * æ˜¯å¦ä½¿ç”¨é€»è¾‘çŸ­è·¯ç‰¹æ€§å¢å¼ºè´¨é‡çš„æ•ˆç‡
 	 */
 	private boolean isShortCircuit = true;
 	
 	/**
-	 * ÊÇ·ñĞèÒª¸ß¾«¶È¼ÆËã
+	 * æ˜¯å¦éœ€è¦é«˜ç²¾åº¦è®¡ç®—
 	 */
 	private boolean isPrecise = false;
 	
 	/**
-	 * Ò»¶ÎÎÄ±¾¶ÔÓ¦µÄÖ¸Áî¼¯µÄ»º´æ
+	 * ä¸€æ®µæ–‡æœ¬å¯¹åº”çš„æŒ‡ä»¤é›†çš„ç¼“å­˜
 	 */
     private Map<String,InstructionSet> expressInstructionSetCache = new HashMap<String, InstructionSet>();
     
     private ExpressLoader loader;
     private IExpressResourceLoader expressResourceLoader;
     /**
-     * Óï·¨¶¨ÒåµÄ¹ÜÀíÆ÷
+     * è¯­æ³•å®šä¹‰çš„ç®¡ç†å™¨
      */
 	private NodeTypeManager manager;
 	/**
-	 * ²Ù×÷·ûµÄ¹ÜÀíÆ÷
+	 * æ“ä½œç¬¦çš„ç®¡ç†å™¨
 	 */
 	private OperatorFactory operatorManager;
 	/**
-	 * Óï·¨·ÖÎöÆ÷
+	 * è¯­æ³•åˆ†æå™¨
 	 */
 	private ExpressParse parse ;	
 	
 	/**
-	 * È±Ê¡µÄClass²éÕÒµÄ°ü¹ÜÀíÆ÷
+	 * ç¼ºçœçš„ClassæŸ¥æ‰¾çš„åŒ…ç®¡ç†å™¨
 	 */
 	ExpressPackage rootExpressPackage = new ExpressPackage(null);
+
+	public AppendingClassMethodManager getAppendingClassMethodManager() {
+		return appendingClassMethodManager;
+	}
+
+	private AppendingClassMethodManager appendingClassMethodManager;
+
+	public AppendingClassFieldManager getAppendingClassFieldManager() {
+		return appendingClassFieldManager;
+	}
+
+	private AppendingClassFieldManager appendingClassFieldManager;
 	
 	private ThreadLocal<IOperateDataCache> m_OperateDataObjectCache = new ThreadLocal<IOperateDataCache>(){
 		protected IOperateDataCache initialValue() {
@@ -89,8 +97,8 @@ public class ExpressRunner {
 	}
 	/**
 	 * 
-	 * @param aIsPrecise ÊÇ·ñĞèÒª¸ß¾«¶È¼ÆËãÖ§³Ö
-	 * @param aIstrace ÊÇ·ñ¸ú×ÙÖ´ĞĞÖ¸ÁîµÄ¹ı³Ì
+	 * @param aIsPrecise æ˜¯å¦éœ€è¦é«˜ç²¾åº¦è®¡ç®—æ”¯æŒ
+	 * @param aIstrace æ˜¯å¦è·Ÿè¸ªæ‰§è¡ŒæŒ‡ä»¤çš„è¿‡ç¨‹
 	 */
 	public ExpressRunner(boolean aIsPrecise,boolean aIstrace){
 		this(aIsPrecise,aIstrace,new DefaultExpressResourceLoader(),null);
@@ -100,9 +108,9 @@ public class ExpressRunner {
 	}
 	/**
 	 * 
-	 * @param aIsPrecise ÊÇ·ñĞèÒª¸ß¾«¶È¼ÆËãÖ§³Ö
-	 * @param aIstrace ÊÇ·ñ¸ú×ÙÖ´ĞĞÖ¸ÁîµÄ¹ı³Ì
-	 * @param aExpressResourceLoader ±í´ïÊ½µÄ×ÊÔ´×°ÔØÆ÷
+	 * @param aIsPrecise æ˜¯å¦éœ€è¦é«˜ç²¾åº¦è®¡ç®—æ”¯æŒ
+	 * @param aIstrace æ˜¯å¦è·Ÿè¸ªæ‰§è¡ŒæŒ‡ä»¤çš„è¿‡ç¨‹
+	 * @param aExpressResourceLoader è¡¨è¾¾å¼çš„èµ„æºè£…è½½å™¨
 	 */
 	public ExpressRunner(boolean aIsPrecise,boolean aIstrace,IExpressResourceLoader aExpressResourceLoader,NodeTypeManager aManager){
 		this.isTrace = aIstrace;
@@ -129,14 +137,14 @@ public class ExpressRunner {
 	}
 
 	/**
-	 * »ñÈ¡Óï·¨¶¨ÒåµÄ¹ÜÀíÆ÷
+	 * è·å–è¯­æ³•å®šä¹‰çš„ç®¡ç†å™¨
 	 * @return
 	 */
 	public NodeTypeManager getNodeTypeManager(){
 		return this.manager;
 	}
 	/**
-	 * »ñÈ¡²Ù×÷·ûºÅ¹ÜÀíÆ÷
+	 * è·å–æ“ä½œç¬¦å·ç®¡ç†å™¨
 	 * @return
 	 */
 	public OperatorFactory getOperatorFactory(){
@@ -146,9 +154,9 @@ public class ExpressRunner {
 		return this.expressResourceLoader;
 	}
 	/**
-	 * Ìí¼Óºê¶¨Òå ÀıÈç£º macro ĞşÄÑ { abc(userinfo.userId);}
-	 * @param macroName£ºĞşÄÑ
-	 * @param express £ºabc(userinfo.userId);
+	 * æ·»åŠ å®å®šä¹‰ ä¾‹å¦‚ï¼š macro ç„éš¾ { abc(userinfo.userId);}
+	 * @param macroNameï¼šç„éš¾
+	 * @param express ï¼šabc(userinfo.userId);
 	 * @throws Exception 
 	 */
 	public void addMacro(String macroName,String express) throws Exception{		
@@ -157,7 +165,7 @@ public class ExpressRunner {
 	}
 	
 	/**
-	 * ×°ÔØ±í´ïÊ½£¬µ«²»Ö´ĞĞ£¬ÀıÈçÒ»Ğ©ºê¶¨Òå£¬»òÕß×Ô¶¨Òåº¯Êı
+	 * è£…è½½è¡¨è¾¾å¼ï¼Œä½†ä¸æ‰§è¡Œï¼Œä¾‹å¦‚ä¸€äº›å®å®šä¹‰ï¼Œæˆ–è€…è‡ªå®šä¹‰å‡½æ•°
 	 * @param groupName
 	 * @param express
 	 * @throws Exception
@@ -169,37 +177,89 @@ public class ExpressRunner {
 		this.loader.parseInstructionSet(groupName,express);
 	}
     /**
-     * ×°ÔØÎÄ¼şÖĞ¶¨ÒåµÄExpress
-     * @param fileName
+     * è£…è½½æ–‡ä»¶ä¸­å®šä¹‰çš„Express
+     * @param expressName
      * @throws Exception
      */
 	public void loadExpress(String expressName) throws Exception {
 		this.loader.loadExpress(expressName);
 	}
 	/**
-	 * Ìí¼Óº¯Êı¶¨Òå
-	 * @param name º¯ÊıÃû³Æ
-	 * @param op ¶ÔÓ¦µÄ²Ù×÷ÊµÏÖÀà
+	 * æ·»åŠ å‡½æ•°å®šä¹‰
+	 * @param name å‡½æ•°åç§°
+	 * @param op å¯¹åº”çš„æ“ä½œå®ç°ç±»
 	 */
 	public void addFunction(String name, OperatorBase op) {
 		this.operatorManager.addOperator(name, op);
 		this.manager.addFunctionName(name);
 	};
+
 	/**
-	 * »ñÈ¡º¯Êı¶¨Òå£¬Í¨¹ıº¯Êı¶¨Òå¿ÉÒÔÄÃµ½²ÎÊıµÄËµÃ÷ĞÅÏ¢
-	 * @param name º¯ÊıÃû³Æ
+	 * æ·»åŠ å‡½æ•°å®šä¹‰æ‰©å±•ç±»çš„æ–¹æ³•
+	 * @param name
+	 * @param bindingClass
+     * @param op
+     */
+	public void addFunctionAndClassMethod(String name,Class<?>bindingClass, OperatorBase op) {
+		this.addFunction(name,op);
+		this.addClassMethod(name,bindingClass,op);
+
+	};
+
+	/**
+	 * æ·»åŠ ç±»çš„æ–¹æ³•
+	 * @param field
+	 * @param bindingClass
+	 * @param op
+	 */
+	public void addClassField(String field,Class<?>bindingClass,Operator op)
+	{
+		this.addClassField(field,bindingClass,Object.class,op);
+	}
+
+	/**
+	 * æ·»åŠ ç±»çš„æ–¹æ³•
+	 * @param field
+	 * @param bindingClass
+	 * @param returnType
+	 * @param op
+	 */
+	public void addClassField(String field,Class<?>bindingClass,Class<?>returnType,Operator op)
+	{
+		if(this.appendingClassFieldManager==null){
+			this.appendingClassFieldManager = new AppendingClassFieldManager();
+		}
+		this.appendingClassFieldManager.addAppendingField(field, bindingClass,returnType,op);
+	}
+
+	/**
+	 * æ·»åŠ ç±»çš„æ–¹æ³•
+	 * @param name
+	 * @param bindingClass
+     * @param op
+     */
+	public void addClassMethod(String name,Class<?>bindingClass,OperatorBase op)
+	{
+		if(this.appendingClassMethodManager==null){
+			this.appendingClassMethodManager = new AppendingClassMethodManager();
+		}
+		this.appendingClassMethodManager.addAppendingMethod(name, bindingClass, op);
+	}
+	/**
+	 * è·å–å‡½æ•°å®šä¹‰ï¼Œé€šè¿‡å‡½æ•°å®šä¹‰å¯ä»¥æ‹¿åˆ°å‚æ•°çš„è¯´æ˜ä¿¡æ¯
+	 * @param name å‡½æ•°åç§°
 	 * @return
 	 */
 	public OperatorBase getFunciton(String name){
 		return this.operatorManager.getOperator(name);
 	}
     /**
-     * Ìí¼ÓÒ»¸öÀàµÄº¯Êı¶¨Òå£¬ÀıÈç£ºMath.abs(double) Ó³ÉäÎª±í´ïÊ½ÖĞµÄ "È¡¾ø¶ÔÖµ(-5.0)"
-     * @param name º¯ÊıÃû³Æ
-     * @param aClassName ÀàÃû³Æ
-     * @param aFunctionName ÀàÖĞµÄ·½·¨Ãû³Æ
-     * @param aParameterClassTypes ·½·¨µÄ²ÎÊıÀàĞÍÃû³Æ
-     * @param errorInfo Èç¹ûº¯ÊıÖ´ĞĞµÄ½á¹ûÊÇfalse£¬ĞèÒªÊä³öµÄ´íÎóĞÅÏ¢
+     * æ·»åŠ ä¸€ä¸ªç±»çš„å‡½æ•°å®šä¹‰ï¼Œä¾‹å¦‚ï¼šMath.abs(double) æ˜ å°„ä¸ºè¡¨è¾¾å¼ä¸­çš„ "å–ç»å¯¹å€¼(-5.0)"
+     * @param name å‡½æ•°åç§°
+     * @param aClassName ç±»åç§°
+     * @param aFunctionName ç±»ä¸­çš„æ–¹æ³•åç§°
+     * @param aParameterClassTypes æ–¹æ³•çš„å‚æ•°ç±»å‹åç§°
+     * @param errorInfo å¦‚æœå‡½æ•°æ‰§è¡Œçš„ç»“æœæ˜¯falseï¼Œéœ€è¦è¾“å‡ºçš„é”™è¯¯ä¿¡æ¯
      * @throws Exception
      */
 	public void addFunctionOfClassMethod(String name, String aClassName,
@@ -210,14 +270,14 @@ public class ExpressRunner {
 		
 	}
     /**
-     * Ìí¼ÓÒ»¸öÀàµÄº¯Êı¶¨Òå£¬ÀıÈç£ºMath.abs(double) Ó³ÉäÎª±í´ïÊ½ÖĞµÄ "È¡¾ø¶ÔÖµ(-5.0)"
-     * @param name º¯ÊıÃû³Æ
-     * @param aClassName ÀàÃû³Æ
-     * @param aFunctionName ÀàÖĞµÄ·½·¨Ãû³Æ
-     * @param aParameterClassTypes ·½·¨µÄ²ÎÊıÀàĞÍÃû³Æ
-     * @param aParameterDesc ·½·¨µÄ²ÎÊıËµÃ÷     
-     * @param aParameterAnnotation ·½·¨µÄ²ÎÊı×¢½â
-     * @param errorInfo Èç¹ûº¯ÊıÖ´ĞĞµÄ½á¹ûÊÇfalse£¬ĞèÒªÊä³öµÄ´íÎóĞÅÏ¢
+     * æ·»åŠ ä¸€ä¸ªç±»çš„å‡½æ•°å®šä¹‰ï¼Œä¾‹å¦‚ï¼šMath.abs(double) æ˜ å°„ä¸ºè¡¨è¾¾å¼ä¸­çš„ "å–ç»å¯¹å€¼(-5.0)"
+     * @param name å‡½æ•°åç§°
+     * @param aClassName ç±»åç§°
+     * @param aFunctionName ç±»ä¸­çš„æ–¹æ³•åç§°
+     * @param aParameterClassTypes æ–¹æ³•çš„å‚æ•°ç±»å‹åç§°
+     * @param aParameterDesc æ–¹æ³•çš„å‚æ•°è¯´æ˜     
+     * @param aParameterAnnotation æ–¹æ³•çš„å‚æ•°æ³¨è§£
+     * @param errorInfo å¦‚æœå‡½æ•°æ‰§è¡Œçš„ç»“æœæ˜¯falseï¼Œéœ€è¦è¾“å‡ºçš„é”™è¯¯ä¿¡æ¯
      * @throws Exception
      */
 	public void addFunctionOfClassMethod(String name, String aClassName,
@@ -229,12 +289,12 @@ public class ExpressRunner {
 
 	}
     /**
-     * Ìí¼ÓÒ»¸öÀàµÄº¯Êı¶¨Òå£¬ÀıÈç£ºMath.abs(double) Ó³ÉäÎª±í´ïÊ½ÖĞµÄ "È¡¾ø¶ÔÖµ(-5.0)"
-     * @param name º¯ÊıÃû³Æ
-     * @param aClassName ÀàÃû³Æ
-     * @param aFunctionName ÀàÖĞµÄ·½·¨Ãû³Æ
-     * @param aParameterTypes ·½·¨µÄ²ÎÊıÀàĞÍÃû³Æ
-     * @param errorInfo Èç¹ûº¯ÊıÖ´ĞĞµÄ½á¹ûÊÇfalse£¬ĞèÒªÊä³öµÄ´íÎóĞÅÏ¢
+     * æ·»åŠ ä¸€ä¸ªç±»çš„å‡½æ•°å®šä¹‰ï¼Œä¾‹å¦‚ï¼šMath.abs(double) æ˜ å°„ä¸ºè¡¨è¾¾å¼ä¸­çš„ "å–ç»å¯¹å€¼(-5.0)"
+     * @param name å‡½æ•°åç§°
+     * @param aClassName ç±»åç§°
+     * @param aFunctionName ç±»ä¸­çš„æ–¹æ³•åç§°
+     * @param aParameterTypes æ–¹æ³•çš„å‚æ•°ç±»å‹åç§°
+     * @param errorInfo å¦‚æœå‡½æ•°æ‰§è¡Œçš„ç»“æœæ˜¯falseï¼Œéœ€è¦è¾“å‡ºçš„é”™è¯¯ä¿¡æ¯
      * @throws Exception
      */
 	public void addFunctionOfClassMethod(String name, String aClassName,
@@ -244,14 +304,14 @@ public class ExpressRunner {
 				aClassName, aFunctionName, aParameterTypes, null,null,errorInfo));		
 	}
     /**
-     * Ìí¼ÓÒ»¸öÀàµÄº¯Êı¶¨Òå£¬ÀıÈç£ºMath.abs(double) Ó³ÉäÎª±í´ïÊ½ÖĞµÄ "È¡¾ø¶ÔÖµ(-5.0)"
-     * @param name º¯ÊıÃû³Æ
-     * @param aClassName ÀàÃû³Æ
-     * @param aFunctionName ÀàÖĞµÄ·½·¨Ãû³Æ
-     * @param aParameterTypes ·½·¨µÄ²ÎÊıÀàĞÍÃû³Æ
-     * @param aParameterDesc ·½·¨µÄ²ÎÊıËµÃ÷     
-     * @param aParameterAnnotation ·½·¨µÄ²ÎÊı×¢½â
-     * @param errorInfo Èç¹ûº¯ÊıÖ´ĞĞµÄ½á¹ûÊÇfalse£¬ĞèÒªÊä³öµÄ´íÎóĞÅÏ¢
+     * æ·»åŠ ä¸€ä¸ªç±»çš„å‡½æ•°å®šä¹‰ï¼Œä¾‹å¦‚ï¼šMath.abs(double) æ˜ å°„ä¸ºè¡¨è¾¾å¼ä¸­çš„ "å–ç»å¯¹å€¼(-5.0)"
+     * @param name å‡½æ•°åç§°
+     * @param aClassName ç±»åç§°
+     * @param aFunctionName ç±»ä¸­çš„æ–¹æ³•åç§°
+     * @param aParameterTypes æ–¹æ³•çš„å‚æ•°ç±»å‹åç§°
+     * @param aParameterDesc æ–¹æ³•çš„å‚æ•°è¯´æ˜     
+     * @param aParameterAnnotation æ–¹æ³•çš„å‚æ•°æ³¨è§£
+     * @param errorInfo å¦‚æœå‡½æ•°æ‰§è¡Œçš„ç»“æœæ˜¯falseï¼Œéœ€è¦è¾“å‡ºçš„é”™è¯¯ä¿¡æ¯
      * @throws Exception
      */
 	public void addFunctionOfClassMethod(String name, String aClassName,
@@ -264,7 +324,7 @@ public class ExpressRunner {
 	
 	}
     /**
-     * ÓÃÓÚ½«Ò»¸öÓÃ»§×Ô¼º¶¨ÒåµÄ¶ÔÏó(ÀıÈçSpring¶ÔÏó)·½·¨×ª»»ÎªÒ»¸ö±í´ïÊ½¼ÆËãµÄº¯Êı
+     * ç”¨äºå°†ä¸€ä¸ªç”¨æˆ·è‡ªå·±å®šä¹‰çš„å¯¹è±¡(ä¾‹å¦‚Springå¯¹è±¡)æ–¹æ³•è½¬æ¢ä¸ºä¸€ä¸ªè¡¨è¾¾å¼è®¡ç®—çš„å‡½æ•°
      * @param name
      * @param aServiceObject
      * @param aFunctionName
@@ -280,13 +340,13 @@ public class ExpressRunner {
 		
 	}
     /**
-     * ÓÃÓÚ½«Ò»¸öÓÃ»§×Ô¼º¶¨ÒåµÄ¶ÔÏó(ÀıÈçSpring¶ÔÏó)·½·¨×ª»»ÎªÒ»¸ö±í´ïÊ½¼ÆËãµÄº¯Êı
+     * ç”¨äºå°†ä¸€ä¸ªç”¨æˆ·è‡ªå·±å®šä¹‰çš„å¯¹è±¡(ä¾‹å¦‚Springå¯¹è±¡)æ–¹æ³•è½¬æ¢ä¸ºä¸€ä¸ªè¡¨è¾¾å¼è®¡ç®—çš„å‡½æ•°
      * @param name
      * @param aServiceObject
      * @param aFunctionName
      * @param aParameterClassTypes
-     * @param aParameterDesc ·½·¨µÄ²ÎÊıËµÃ÷     
-     * @param aParameterAnnotation ·½·¨µÄ²ÎÊı×¢½â
+     * @param aParameterDesc æ–¹æ³•çš„å‚æ•°è¯´æ˜     
+     * @param aParameterAnnotation æ–¹æ³•çš„å‚æ•°æ³¨è§£
      * @param errorInfo
      * @throws Exception
      */	
@@ -299,7 +359,7 @@ public class ExpressRunner {
 
 	}
     /**
-     * ÓÃÓÚ½«Ò»¸öÓÃ»§×Ô¼º¶¨ÒåµÄ¶ÔÏó(ÀıÈçSpring¶ÔÏó)·½·¨×ª»»ÎªÒ»¸ö±í´ïÊ½¼ÆËãµÄº¯Êı
+     * ç”¨äºå°†ä¸€ä¸ªç”¨æˆ·è‡ªå·±å®šä¹‰çš„å¯¹è±¡(ä¾‹å¦‚Springå¯¹è±¡)æ–¹æ³•è½¬æ¢ä¸ºä¸€ä¸ªè¡¨è¾¾å¼è®¡ç®—çš„å‡½æ•°
      * @param name
      * @param aServiceObject
      * @param aFunctionName
@@ -324,7 +384,7 @@ public class ExpressRunner {
 
 	}
 	/**
-	 * Ìí¼Ó²Ù×÷·ûºÅ£¬´Ë²Ù×÷·ûºÅµÄÓÅÏÈ¼¶Óë "*"ÏàÍ¬£¬Óï·¨ĞÎÊ½Ò²ÊÇ  data name data
+	 * æ·»åŠ æ“ä½œç¬¦å·ï¼Œæ­¤æ“ä½œç¬¦å·çš„ä¼˜å…ˆçº§ä¸ "*"ç›¸åŒï¼Œè¯­æ³•å½¢å¼ä¹Ÿæ˜¯  data name data
 	 * @param name
 	 * @param op
 	 * @throws Exception 
@@ -333,9 +393,9 @@ public class ExpressRunner {
 		 this.addOperator(name, "*", op);
 	}
 	/**
-	 * Ìí¼Ó²Ù×÷·ûºÅ£¬´Ë²Ù×÷·ûºÅÓë¸ø¶¨µÄ²ÎÕÕ²Ù×÷·ûºÅÔÚÓÅÏÈ¼¶±ğºÍÓï·¨ĞÎÊ½ÉÏÒ»ÖÂ
-	 * @param name ²Ù×÷·ûºÅÃû³Æ
-	 * @param aRefOpername ²ÎÕÕµÄ²Ù×÷·ûºÅ£¬ÀıÈç "+","--"µÈ
+	 * æ·»åŠ æ“ä½œç¬¦å·ï¼Œæ­¤æ“ä½œç¬¦å·ä¸ç»™å®šçš„å‚ç…§æ“ä½œç¬¦å·åœ¨ä¼˜å…ˆçº§åˆ«å’Œè¯­æ³•å½¢å¼ä¸Šä¸€è‡´
+	 * @param name æ“ä½œç¬¦å·åç§°
+	 * @param aRefOpername å‚ç…§çš„æ“ä½œç¬¦å·ï¼Œä¾‹å¦‚ "+","--"ç­‰
 	 * @param op
 	 * @throws Exception 
 	 */
@@ -345,8 +405,8 @@ public class ExpressRunner {
 	}
 
 	/**
-	 * Ìí¼Ó²Ù×÷·ûºÍ¹Ø¼ü×ÖµÄ±ğÃû£¬Í¬Ê±¶Ô²Ù×÷·û¿ÉÒÔÖ¸¶¨´íÎóĞÅÏ¢¡£
-	 * ÀıÈç£ºaddOperatorWithAlias("¼Ó","+",null)
+	 * æ·»åŠ æ“ä½œç¬¦å’Œå…³é”®å­—çš„åˆ«åï¼ŒåŒæ—¶å¯¹æ“ä½œç¬¦å¯ä»¥æŒ‡å®šé”™è¯¯ä¿¡æ¯ã€‚
+	 * ä¾‹å¦‚ï¼šaddOperatorWithAlias("åŠ ","+",null)
 	 * @param keyWordName
 	 * @param realKeyWordName
 	 * @param errorInfo
@@ -357,7 +417,7 @@ public class ExpressRunner {
 		if(errorInfo != null && errorInfo.trim().length() == 0){
 			errorInfo = null;
 		}
-		//Ìí¼Óº¯Êı±ğÃû
+		//æ·»åŠ å‡½æ•°åˆ«å
 		if(this.manager.isFunction(realKeyWordName)){
 			this.manager.addFunctionName(keyWordName);
 			this.operatorManager.addOperatorWithAlias(keyWordName, realKeyWordName, errorInfo);
@@ -365,14 +425,14 @@ public class ExpressRunner {
 		}
 		NodeType realNodeType = this.manager.findNodeType(realKeyWordName);
 		if(realNodeType == null){
-			throw new Exception("¹Ø¼ü×Ö£º" + realKeyWordName +"²»´æÔÚ");			
+			throw new Exception("å…³é”®å­—ï¼š" + realKeyWordName +"ä¸å­˜åœ¨");			
 		}
 		boolean isExist = this.operatorManager.isExistOperator(realNodeType.getName());
 		if(isExist == false &&  errorInfo != null){
-			throw new Exception("¹Ø¼ü×Ö£º" + realKeyWordName +"ÊÇÍ¨¹ıÖ¸ÁîÀ´ÊµÏÖµÄ£¬²»ÄÜÉèÖÃ´íÎóµÄÌáÊ¾ĞÅÏ¢£¬errorInfo ±ØĞëÊÇ null");
+			throw new Exception("å…³é”®å­—ï¼š" + realKeyWordName +"æ˜¯é€šè¿‡æŒ‡ä»¤æ¥å®ç°çš„ï¼Œä¸èƒ½è®¾ç½®é”™è¯¯çš„æç¤ºä¿¡æ¯ï¼ŒerrorInfo å¿…é¡»æ˜¯ null");
 		}
 		if(isExist == false || errorInfo == null){
-			//²»ĞèÒªĞÂÔö²Ù×÷·ûºÅ£¬Ö»ĞèÒª½¨Á¢Ò»¸ö¹Ø¼ü×Ó¼´¿É
+			//ä¸éœ€è¦æ–°å¢æ“ä½œç¬¦å·ï¼Œåªéœ€è¦å»ºç«‹ä¸€ä¸ªå…³é”®å­å³å¯
 			this.manager.addOperatorWithRealNodeType(keyWordName, realNodeType.getName());
 		}else{
 			this.manager.addOperatorWithLevelOfReference(keyWordName, realNodeType.getName());		
@@ -380,7 +440,7 @@ public class ExpressRunner {
 		}
 	}
 	/**
-	 * Ìæ»»²Ù×÷·û´¦Àí
+	 * æ›¿æ¢æ“ä½œç¬¦å¤„ç†
 	 * @param name
 	 */
     public OperatorBase replaceOperator(String name,OperatorBase op){
@@ -391,13 +451,13 @@ public class ExpressRunner {
 		return this.rootExpressPackage;
 	}
 	  /**
-	   * Çå³ı»º´æ
+	   * æ¸…é™¤ç¼“å­˜
 	   */
 	public void clearExpressCache() {
 		this.expressInstructionSetCache.clear();
 	}
 	/**
-	 * ¸ù¾İ±í´ïÊ½µÄÃû³Æ½øĞĞÖ´ĞĞ
+	 * æ ¹æ®è¡¨è¾¾å¼çš„åç§°è¿›è¡Œæ‰§è¡Œ
 	 * @param name
 	 * @param context
 	 * @param errorList
@@ -409,30 +469,14 @@ public class ExpressRunner {
 	 */
 	public Object executeByExpressName(String name,IExpressContext<String,Object> context, List<String> errorList,
 			boolean isTrace,boolean isCatchException, Log aLog) throws Exception {
-		return this.executeByExpressName(new String[]{name}, context, errorList, isTrace, isCatchException, aLog);
+		return  InstructionSetRunner.executeOuter(this,this.loader.getInstructionSet(name),this.loader,context, errorList,
+			 	isTrace,isCatchException,aLog,false);
+
 	}
+
 	/**
-	 * °Ñ¼¸¸ö±í´ïÊ½×éÖ¯³ÉÒ»¸ö±í´ïÊ½À´Ö´ĞĞ
-	 * @param setsNames
-	 * @param context
-	 * @param errorList
-	 * @param isTrace
-	 * @param isCatchException
-	 * @param aLog
-	 * @return
-	 * @throws Exception
-	 */
-	public Object executeByExpressName(String[] setsNames,IExpressContext<String,Object> context, List<String> errorList,
-			boolean isTrace,boolean isCatchException, Log aLog) throws Exception {
-		InstructionSet[] instructionSets = new InstructionSet[setsNames.length];
-		for(int i=0;i< setsNames.length;i++){
-			instructionSets[i] = this.loader.getInstructionSet(setsNames[i]);
-		}
-		return this.execute(instructionSets, context, errorList, isTrace, isCatchException, aLog);
-	}	
-    
-	/**
-	 * Ö´ĞĞÖ¸Áî¼¯
+	 * æ‰§è¡ŒæŒ‡ä»¤é›†(å…¼å®¹è€æ¥å£,è¯·ä¸è¦è‡ªå·±ç®¡ç†æŒ‡ä»¤ç¼“å­˜ï¼Œç›´æ¥ä½¿ç”¨execute(InstructionSet instructionSets,....... )
+	 * æ¸…ç†ç¼“å­˜å¯ä»¥ä½¿ç”¨clearExpressCache()å‡½æ•°
 	 * @param instructionSets
 	 * @param context
 	 * @param errorList
@@ -442,18 +486,36 @@ public class ExpressRunner {
 	 * @return
 	 * @throws Exception
 	 */
+	@Deprecated
 	public Object execute(InstructionSet[] instructionSets,IExpressContext<String,Object> context, List<String> errorList,
+						  boolean isTrace,boolean isCatchException, Log aLog) throws Exception {
+		return  InstructionSetRunner.executeOuter(this,instructionSets[0],this.loader,context, errorList,
+				isTrace,isCatchException,aLog,false);
+	}
+    
+	/**
+	 * æ‰§è¡ŒæŒ‡ä»¤é›†
+	 * @param instructionSets
+	 * @param context
+	 * @param errorList
+	 * @param isTrace
+	 * @param isCatchException
+	 * @param aLog
+	 * @return
+	 * @throws Exception
+	 */
+	public Object execute(InstructionSet instructionSets,IExpressContext<String,Object> context, List<String> errorList,
 			boolean isTrace,boolean isCatchException, Log aLog) throws Exception {
 		return  InstructionSetRunner.executeOuter(this,instructionSets,this.loader,context, errorList,
 				 	isTrace,isCatchException,aLog,false);
 	}
 /**
- * Ö´ĞĞÒ»¶ÎÎÄ±¾
- * @param expressString ³ÌĞòÎÄ±¾
- * @param context Ö´ĞĞÉÏÏÂÎÄ
- * @param errorList Êä³öµÄ´íÎóĞÅÏ¢List
- * @param isCache ÊÇ·ñÊ¹ÓÃCacheÖĞµÄÖ¸Áî¼¯
- * @param isTrace ÊÇ·ñÊä³öÏêÏ¸µÄÖ´ĞĞÖ¸ÁîĞÅÏ¢
+ * æ‰§è¡Œä¸€æ®µæ–‡æœ¬
+ * @param expressString ç¨‹åºæ–‡æœ¬
+ * @param context æ‰§è¡Œä¸Šä¸‹æ–‡
+ * @param errorList è¾“å‡ºçš„é”™è¯¯ä¿¡æ¯List
+ * @param isCache æ˜¯å¦ä½¿ç”¨Cacheä¸­çš„æŒ‡ä»¤é›†
+ * @param isTrace æ˜¯å¦è¾“å‡ºè¯¦ç»†çš„æ‰§è¡ŒæŒ‡ä»¤ä¿¡æ¯
  * @return
  * @throws Exception
  */
@@ -462,13 +524,13 @@ public class ExpressRunner {
 		return this.execute(expressString, context, errorList, isCache, isTrace, null);
 	}
 /**
- * Ö´ĞĞÒ»¶ÎÎÄ±¾
- * @param expressString ³ÌĞòÎÄ±¾
- * @param context Ö´ĞĞÉÏÏÂÎÄ
- * @param errorList Êä³öµÄ´íÎóĞÅÏ¢List
- * @param isCache ÊÇ·ñÊ¹ÓÃCacheÖĞµÄÖ¸Áî¼¯
- * @param isTrace ÊÇ·ñÊä³öÏêÏ¸µÄÖ´ĞĞÖ¸ÁîĞÅÏ¢
- * @param aLog Êä³öµÄlog
+ * æ‰§è¡Œä¸€æ®µæ–‡æœ¬
+ * @param expressString ç¨‹åºæ–‡æœ¬
+ * @param context æ‰§è¡Œä¸Šä¸‹æ–‡
+ * @param errorList è¾“å‡ºçš„é”™è¯¯ä¿¡æ¯List
+ * @param isCache æ˜¯å¦ä½¿ç”¨Cacheä¸­çš„æŒ‡ä»¤é›†
+ * @param isTrace æ˜¯å¦è¾“å‡ºè¯¦ç»†çš„æ‰§è¡ŒæŒ‡ä»¤ä¿¡æ¯
+ * @param aLog è¾“å‡ºçš„log
  * @return
  * @throws Exception
  */
@@ -491,12 +553,12 @@ public class ExpressRunner {
 		} else {
 			parseResult = this.parseInstructionSet(expressString);
 		}
-		return this.execute(new InstructionSet[] { parseResult },
-				context, errorList, isTrace, false,aLog);
+		return  InstructionSetRunner.executeOuter(this,parseResult,this.loader,context, errorList,
+			 	isTrace,false,aLog,false);
 	}
 
 	/**
-	 * ½âÎöÒ»¶ÎÎÄ±¾£¬Éú³ÉÖ¸Áî¼¯ºÏ
+	 * è§£æä¸€æ®µæ–‡æœ¬ï¼Œç”ŸæˆæŒ‡ä»¤é›†åˆ
 	 * @param text
 	 * @return
 	 * @throws Exception
@@ -518,7 +580,7 @@ public class ExpressRunner {
 		return result;
 	}
 	/**
-	 * Êä³öÈ«¾Ö¶¨ÒåĞÅÏ¢
+	 * è¾“å‡ºå…¨å±€å®šä¹‰ä¿¡æ¯
 	 * @return
 	 */
 	public ExportItem[] getExportInfo(){
@@ -526,8 +588,8 @@ public class ExpressRunner {
 	}
 	
 	/**
-	 * ÓÅÏÈ´Ó±¾µØÖ¸Áî¼¯»º´æ»ñÈ¡Ö¸Áî¼¯£¬Ã»ÓĞµÄ»°Éú³É²¢ÇÒ»º´æÔÚ±¾µØ
-	 * @param express
+	 * ä¼˜å…ˆä»æœ¬åœ°æŒ‡ä»¤é›†ç¼“å­˜è·å–æŒ‡ä»¤é›†ï¼Œæ²¡æœ‰çš„è¯ç”Ÿæˆå¹¶ä¸”ç¼“å­˜åœ¨æœ¬åœ°
+	 * @param expressString
 	 * @return
 	 * @throws Exception
 	 */
@@ -559,7 +621,7 @@ public class ExpressRunner {
 		Stack<ForRelBreakContinue> forStack = new Stack<ForRelBreakContinue>();
 		createInstructionSetPrivate(result, forStack, root, true);
 		if (forStack.size() > 0) {
-			throw new Exception("For´¦Àí´íÎó");
+			throw new Exception("Forå¤„ç†é”™è¯¯");
 		}
 	}
 
@@ -572,7 +634,7 @@ public class ExpressRunner {
 		return hasLocalVar;
 	}
 	/**
-	 * »ñÈ¡Ò»¸ö±í´ïÊ½ĞèÒªµÄÍâ²¿±äÁ¿Ãû³ÆÁĞ±í
+	 * è·å–ä¸€ä¸ªè¡¨è¾¾å¼éœ€è¦çš„å¤–éƒ¨å˜é‡åç§°åˆ—è¡¨
 	 * @param express
 	 * @return
 	 * @throws Exception 
@@ -580,6 +642,12 @@ public class ExpressRunner {
 	public String[] getOutVarNames(String express) throws Exception{
 		return this.parseInstructionSet(express).getOutAttrNames();
 	}
+
+	public String[] getOutFunctionNames(String express) throws Exception{
+		return this.parseInstructionSet(express).getOutFunctionNames();
+	}
+
+
 	public boolean isShortCircuit() {
 		return isShortCircuit;
 	}

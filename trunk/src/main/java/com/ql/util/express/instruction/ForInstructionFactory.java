@@ -15,31 +15,31 @@ public class ForInstructionFactory extends  InstructionFactory {
 			Stack<ForRelBreakContinue> forStack, ExpressNode node,boolean isRoot)
 			throws Exception {		
     	if(node.getChildren().length < 2){
-    		throw new Exception("for ²Ù×÷·ûÖÁÉÙĞèÒª2¸ö²Ù×÷Êı " );
+    		throw new Exception("for æ“ä½œç¬¦è‡³å°‘éœ€è¦2ä¸ªæ“ä½œæ•° " );
     	}else if(node.getChildren().length > 2){
-    		throw new Exception("for ²Ù×÷·û×î¶àÖ»ÓĞ2¸ö²Ù×÷Êı " );
+    		throw new Exception("for æ“ä½œç¬¦æœ€å¤šåªæœ‰2ä¸ªæ“ä½œæ•° " );
     	}
     	if(node.getChildren()[0].getChildren()!= null && node.getChildren()[0].getChildren().length > 3){
-    		throw new Exception("Ñ­»·Óï¾äµÄÉèÖÃ²»ºÏÊÊ:" + node.getChildren()[0]);	
+    		throw new Exception("å¾ªç¯è¯­å¥çš„è®¾ç½®ä¸åˆé€‚:" + node.getChildren()[0]);	
     	}
-    	//Éú³É×÷ÓÃÓò¿ªÊ¼Ö¸Áî
+    	//ç”Ÿæˆä½œç”¨åŸŸå¼€å§‹æŒ‡ä»¤
 	    result.addInstruction(new InstructionOpenNewArea());			
 	    forStack.push(new ForRelBreakContinue());
 	    
-    	//Éú³ÉÌõ¼şÓï¾ä²¿·ÖÖ¸Áî
+    	//ç”Ÿæˆæ¡ä»¶è¯­å¥éƒ¨åˆ†æŒ‡ä»¤
     	ExpressNode conditionNode = node.getChildren()[0];
     	int nodePoint = 0;
-    	if (conditionNode.getChildren() != null && conditionNode.getChildren().length == 3){//±äÁ¿¶¨Òå£¬ÅĞ¶Ï£¬×ÔÔö¶¼´æÔÚ
+    	if (conditionNode.getChildren() != null && conditionNode.getChildren().length == 3){//å˜é‡å®šä¹‰ï¼Œåˆ¤æ–­ï¼Œè‡ªå¢éƒ½å­˜åœ¨
     		int tempPoint = result.getCurrentPoint();
     		aCompile.createInstructionSetPrivate(result,forStack,conditionNode.getChildren()[0],false);
     		if(result.getCurrentPoint() > tempPoint){
     		   nodePoint = nodePoint + 1;
     		}
     	}
-    	//Ñ­»·µÄ¿ªÊ¼µÄÎ»ÖÃ
+    	//å¾ªç¯çš„å¼€å§‹çš„ä½ç½®
     	int loopStartPoint = result.getCurrentPoint()+ 1;
     	
-    	//ÓĞÌõ¼şÓï¾ä
+    	//æœ‰æ¡ä»¶è¯­å¥
     	InstructionGoToWithCondition conditionInstruction=null;
     	if(conditionNode.getChildren() != null 
     		&& (conditionNode.getChildren().length == 1
@@ -47,32 +47,32 @@ public class ForInstructionFactory extends  InstructionFactory {
     			|| conditionNode.getChildren().length == 3)
     		)	{    		
     		aCompile.createInstructionSetPrivate(result,forStack,conditionNode.getChildren()[nodePoint],false);
-    		//Ìø×ªµÄÎ»ÖÃĞèÒª¸ù¾İºóĞøµÄÖ¸ÁîÇé¿ö¾ö¶¨    		
+    		//è·³è½¬çš„ä½ç½®éœ€è¦æ ¹æ®åç»­çš„æŒ‡ä»¤æƒ…å†µå†³å®š    		
     		conditionInstruction = new InstructionGoToWithCondition(false,-1,true);
     		result.insertInstruction(result.getCurrentPoint()+1,conditionInstruction);   
     		nodePoint = nodePoint+ 1;
     	}
     	int conditionPoint = result.getCurrentPoint();
-    	//Éú³ÉÑ­»·ÌåµÄ´úÂë
+    	//ç”Ÿæˆå¾ªç¯ä½“çš„ä»£ç 
     	aCompile.createInstructionSetPrivate(result,forStack,node.getChildren()[1],false);
     	
     	int selfAddPoint = result.getCurrentPoint()+1;
-    	//Éú³É×ÔÔö´úÂëÖ¸Áî
+    	//ç”Ÿæˆè‡ªå¢ä»£ç æŒ‡ä»¤
     	if(conditionNode.getChildren()!= null &&(
     			conditionNode.getChildren().length == 2 || conditionNode.getChildren().length == 3
     			)){
     		aCompile.createInstructionSetPrivate(result,forStack,conditionNode.getChildren()[nodePoint],false);
     	}
-    	//Ôö¼ÓÒ»¸öÎŞÌõ¼şÌø×ª
+    	//å¢åŠ ä¸€ä¸ªæ— æ¡ä»¶è·³è½¬
     	InstructionGoTo reStartGoto = new InstructionGoTo(loopStartPoint - (result.getCurrentPoint() + 1));
     	result.addInstruction(reStartGoto); 
     	
-    	//ĞŞ¸ÄÌõ¼şÅĞ¶ÏµÄÌø×ªÎ»ÖÃ
+    	//ä¿®æ”¹æ¡ä»¶åˆ¤æ–­çš„è·³è½¬ä½ç½®
     	if(conditionInstruction != null){
     	   conditionInstruction.setOffset( result.getCurrentPoint() - conditionPoint + 1);
     	}
     	
-    	//ĞŞ¸ÄBreakºÍContinueÖ¸ÁîµÄÌø×ªÎ»ÖÃ,Ñ­»·³ö¶Ñ
+    	//ä¿®æ”¹Breakå’ŒContinueæŒ‡ä»¤çš„è·³è½¬ä½ç½®,å¾ªç¯å‡ºå †
     	ForRelBreakContinue rel =  forStack.pop();
     	for(InstructionGoTo item:rel.breakList){
     		item.setOffset(result.getCurrentPoint() -  item.getOffset()) ;
@@ -81,7 +81,7 @@ public class ForInstructionFactory extends  InstructionFactory {
     		item.setOffset(selfAddPoint -  item.getOffset() - 1);
     	}    	
     	
-    	//Éú³É×÷ÓÃÓò½áÊøÖ¸Áî
+    	//ç”Ÿæˆä½œç”¨åŸŸç»“æŸæŒ‡ä»¤
 	    result.addInstruction(new InstructionCloseNewArea());
 
         return false;

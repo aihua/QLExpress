@@ -3,15 +3,15 @@ package com.ql.util.express.parse;
 
 public class KeyWordDefine4Java {
 	public String[] splitWord={
-			 "~","&","|","<<", ">>",//Î»²Ù×÷ 
-			 "+", "-","*", "/", "%","++", "--",//ËÄÔòÔËËã£º
-			 ".",",",":",";","(", ")", "{", "}", "[", "]","?",//·Ö¸ô·ûºÅ
-			 "!","<", ">", "<=", ">=", "==","!=","&&","||",//BooleanÔËËã·ûºÅ
+			 "~","&","|","<<", ">>",//ä½æ“ä½œ 
+			 "+", "-","*", "/", "%","++", "--",//å››åˆ™è¿ç®—ï¼š
+			 ".",",",":",";","(", ")", "{", "}", "[", "]","?",//åˆ†éš”ç¬¦å·
+			 "!","<", ">", "<=", ">=", "==","!=","&&","||",//Booleanè¿ç®—ç¬¦å·
 			 "=","/**","**/"
 	};
 	public  String[] keyWords = new String[] {
 			 "mod","nor","in",
-			 "for", "if", "then", "else", "exportAlias", "alias",
+			 "for", "if","when", "then", "else", "exportAlias", "alias",
 			 "break", "continue", "return", "macro", "function" ,
 			 "def","exportDef", "new","array","anonymousNewArray",
 			 "like","class","VClass",
@@ -110,10 +110,10 @@ public class KeyWordDefine4Java {
 				
 				"STAT_SEMICOLON:TYPE=STATEMENT,DEFINE=;~|(EXPRESS$(EOF|;)~#STAT_SEMICOLON)",
 				
-				"STAT_IFELSE:TYPE=STATEMENT,DEFINE=if^$EXPRESS$then$(STAT_BLOCK|STATEMENT|EXPRESS)$else$(STAT_BLOCK|STATEMENT)",
-				"STAT_IF:TYPE=STATEMENT,    DEFINE=if^$EXPRESS$then$(STAT_BLOCK|STATEMENT)",
-				"STAT_IFELSE_JAVA:TYPE=STATEMENT,DEFINE=if^$CHILD_EXPRESS$(STAT_BLOCK|STATEMENT|EXPRESS)$else$(STAT_BLOCK|STATEMENT)",
-				"STAT_IF_JAVA:TYPE=STATEMENT,    DEFINE=if^$CHILD_EXPRESS$(STAT_BLOCK|STATEMENT)",
+				"STAT_IFELSE:TYPE=STATEMENT,DEFINE=(if|when->if)^$EXPRESS$then$(STAT_BLOCK|STATEMENT|EXPRESS)$else$(STAT_BLOCK|STATEMENT)",
+				"STAT_IF:TYPE=STATEMENT,    DEFINE=(if|when->if)^$EXPRESS$then$(STAT_BLOCK|STATEMENT)",
+				"STAT_IFELSE_JAVA:TYPE=STATEMENT,DEFINE=(if|when->if)^$CHILD_EXPRESS$(STAT_BLOCK|STATEMENT|EXPRESS)$else$(STAT_BLOCK|STATEMENT)",
+				"STAT_IF_JAVA:TYPE=STATEMENT,    DEFINE=(if|when->if)^$CHILD_EXPRESS$(STAT_BLOCK|STATEMENT)",
 				
 				"PARAMETER_DEFINE:TYPE=STATEMENT,DEFINE=LEFT_BRACKET->CHILD_EXPRESS^$(RIGHT_BRACKET~|(VAR_DEFINE$(,~$VAR_DEFINE)*$RIGHT_BRACKET~))",
 				
@@ -139,7 +139,7 @@ public class KeyWordDefine4Java {
 			{"[],STAT_SEMICOLON,STAT_BLOCK,FUNCTION_DEFINE,CHILD_EXPRESS","com.ql.util.express.instruction.BlockInstructionFactory"},
 			{"def","com.ql.util.express.instruction.DefineInstructionFactory"},
 			{"NEW_OBJECT,NEW_ARRAY,anonymousNewArray","com.ql.util.express.instruction.NewInstructionFactory"},
-			{"FIELD_CALL","com.ql.util.express.instruction.OperatorInstructionFactory"},
+			{"FIELD_CALL","com.ql.util.express.instruction.FieldCallInstructionFactory"},
 			{"METHOD_CALL","com.ql.util.express.instruction.MethodCallInstructionFactory"},
 			{"cast","com.ql.util.express.instruction.CastInstructionFactory"},
 			{"break","com.ql.util.express.instruction.BreakInstructionFactory"},

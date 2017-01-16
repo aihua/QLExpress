@@ -11,14 +11,14 @@ public class ForFlowFunctionTest {
 
 	@Test
 	public void testABC() throws Exception {
-		String express = "for(i=0;i<1;i=i+1){" + "´òÓ¡(70)"
-				+ "}´òÓ¡(70); return 10";
+		String express = "for(i=0;i<1;i=i+1){" + "æ‰“å°(70)"
+				+ "}æ‰“å°(70); return 10";
 		ExpressRunner runner = new ExpressRunner(false,true);
-		runner.addFunctionOfServiceMethod("´òÓ¡", System.out, "println",
+		runner.addFunctionOfServiceMethod("æ‰“å°", System.out, "println",
 				new String[] { "int" }, null);
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		Object r = runner.execute(express, context, null, false, true);
-		Assert.assertTrue("forÑ­»·ºóÃæ¸ú×ÅÒ»¸öº¯ÊıµÄÊ±ºò´íÎó", r.toString().equals("10"));
+		Assert.assertTrue("forå¾ªç¯åé¢è·Ÿç€ä¸€ä¸ªå‡½æ•°çš„æ—¶å€™é”™è¯¯", r.toString().equals("10"));
 	}
 
 }

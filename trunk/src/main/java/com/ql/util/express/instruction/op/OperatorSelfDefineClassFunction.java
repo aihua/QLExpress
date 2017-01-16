@@ -3,13 +3,11 @@ package com.ql.util.express.instruction.op;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import com.ql.util.express.ExpressUtil;
-import com.ql.util.express.InstructionSetContext;
-import com.ql.util.express.OperateData;
+import com.ql.util.express.*;
 import com.ql.util.express.instruction.OperateDataCacheManager;
 
 /**
- * 用户自定义的函数操作
+ * 鐢ㄦ埛鑷畾涔夌殑鍑芥暟鎿嶄綔
  * @author qhlhl2010@gmail.com
  *
  */
@@ -19,14 +17,15 @@ public class OperatorSelfDefineClassFunction extends OperatorBase implements Can
   Class<?>[] parameterClasses ;
   Class<?> operClass;
   Object operInstance;
-  Method method;
+  transient Method method;
   boolean isReturnVoid;
+  boolean maybeDynamicParams;
 
   public OperatorSelfDefineClassFunction(String aOperName,String aClassName, String aFunctionName,
           Class<?>[] aParameterClassTypes,String[] aParameterDesc,String[] aParameterAnnotation,String aErrorInfo) throws Exception {
 		if (errorInfo != null && errorInfo.trim().length() == 0) {
 			errorInfo = null;
-		} 
+		}
 		this.name = aOperName;
 	    this.errorInfo = aErrorInfo;
 	    this.functionName = aFunctionName;
@@ -40,13 +39,14 @@ public class OperatorSelfDefineClassFunction extends OperatorBase implements Can
 	    operClass = ExpressUtil.getJavaClass(aClassName);
 	    method = operClass.getMethod(functionName,parameterClasses);
 	    this.isReturnVoid = method.getReturnType().equals(void.class);
+        this.maybeDynamicParams = DynamicParamsUtil.maybeDynamicParams(parameterClasses);
   }
 
   public OperatorSelfDefineClassFunction(String aOperName,String aClassName, String aFunctionName,
                          String[] aParameterTypes,String[] aParameterDesc,String[] aParameterAnnotation,String aErrorInfo) throws Exception {
 	if (errorInfo != null && errorInfo.trim().length() == 0) {
 			errorInfo = null;
-	} 
+	}
 	this.name = aOperName;
     this.errorInfo = aErrorInfo;
     this.functionName = aFunctionName;
@@ -59,6 +59,7 @@ public class OperatorSelfDefineClassFunction extends OperatorBase implements Can
     }
     operClass = ExpressUtil.getJavaClass(aClassName);
     method = operClass.getMethod(functionName,parameterClasses);
+    this.maybeDynamicParams = DynamicParamsUtil.maybeDynamicParams(parameterClasses);
   }
 
 	public OperatorBase cloneMe(String opName, String errorInfo)
@@ -69,23 +70,16 @@ public class OperatorSelfDefineClassFunction extends OperatorBase implements Can
 				this.operDataAnnotation, errorInfo);
 		return result;
 	}
-  public OperateData executeInner(InstructionSetContext context, OperateData[] list) throws
-      Exception {
-      if(this.parameterClasses.length != list.length){
-        throw new Exception("定义的参数长度与运行期传入的参数长度不一致");
-      }
-      Object[] parameres = new Object[list.length];
-      for(int i=0;i<list.length;i++){
-    		parameres[i] = list[i].getObject(context);
-      }
+  public OperateData executeInner(InstructionSetContext context, ArraySwap list) throws Exception {
+      Object[] parameres = DynamicParamsUtil.transferDynamicParams(context, list, parameterClasses,this.maybeDynamicParams);
       Object obj = null;
-      if( Modifier.isStatic(this.method.getModifiers())){
-         obj = this.method.invoke(null,ExpressUtil.transferArray(parameres,parameterClasses));
+      if( Modifier.isStatic(this.getMethod().getModifiers())){
+         obj = this.getMethod().invoke(null,ExpressUtil.transferArray(parameres,parameterClasses));
       }else{
 		  if(operInstance==null){
 			  operInstance =  operClass.newInstance();
 		  }
-    	 obj = this.method.invoke(operInstance,ExpressUtil.transferArray(parameres,parameterClasses));
+    	 obj = this.getMethod().invoke(operInstance,ExpressUtil.transferArray(parameres,parameterClasses));
       }
 
       if(obj != null){
@@ -94,8 +88,17 @@ public class OperatorSelfDefineClassFunction extends OperatorBase implements Can
       if(this.isReturnVoid == true){
     	  return OperateDataCacheManager.fetchOperateDataAttr("null", void.class);
       }else{
-    	  return OperateDataCacheManager.fetchOperateDataAttr("null", null);  
+    	  return OperateDataCacheManager.fetchOperateDataAttr("null", null);
       }
+  }
+  
+  private Method getMethod() throws NoSuchMethodException {
+      
+      if(this.method!=null){
+          return this.method;
+      }
+      this.method = operClass.getMethod(functionName,parameterClasses);
+      return this.method;
   }
 
 

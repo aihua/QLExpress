@@ -19,7 +19,7 @@ public class NodeTypeManager implements INodeTypeManager {
 		protected String[][] instructionFacotryMapping;
 	    protected Map<String,NodeType> nodeTypes = new HashMap<String,NodeType>();	
 	    
-	    //ËùÓĞµÄº¯Êı¶¨Òå
+	    //æ‰€æœ‰çš„å‡½æ•°å®šä¹‰
 	    protected Map<String,String> functions = new HashMap<String,String>();
 	    
 	    public NodeTypeManager() {
@@ -45,7 +45,7 @@ public class NodeTypeManager implements INodeTypeManager {
 	    }
 	    
 		public void initial() {
-			//´´½¨ËùÓĞµÄ¹Ø¼ü×Ö
+			//åˆ›å»ºæ‰€æœ‰çš„å…³é”®å­—
 			NodeType[] tempKeyWordNodeTypes = new NodeType[splitWord.length + keyWords.length];
 			for (int i = 0; i < splitWord.length; i++) {
 				tempKeyWordNodeTypes[i] = this.createNodeType(splitWord[i] + ":TYPE=KEYWORD");
@@ -53,22 +53,22 @@ public class NodeTypeManager implements INodeTypeManager {
 			for (int i = 0 ; i < keyWords.length; i++) {
 				tempKeyWordNodeTypes[i + splitWord.length] = this.createNodeType(keyWords[i] + ":TYPE=KEYWORD");
 			}
-			// ³õÊ¼»¯ËùÓĞµÄÀàĞÍĞÅÏ¢£¬
+			// åˆå§‹åŒ–æ‰€æœ‰çš„ç±»å‹ä¿¡æ¯ï¼Œ
 			for (int i = 0; i < tempKeyWordNodeTypes.length; i++) {
 				tempKeyWordNodeTypes[i].initial();
 			}
 			
-			// ´´½¨ËùÓĞµÄÀàĞÍĞÅÏ¢£¬µ«²»ÄÜ³õÊ¼»¯
+			// åˆ›å»ºæ‰€æœ‰çš„ç±»å‹ä¿¡æ¯ï¼Œä½†ä¸èƒ½åˆå§‹åŒ–
 			NodeType[] nodeTypes = new NodeType[nodeTypeDefines.length];
 			for (int i = 0; i < nodeTypeDefines.length; i++) {
 				nodeTypes[i] = this.createNodeType(nodeTypeDefines[i]);
 			}
-			// ³õÊ¼»¯ËùÓĞµÄÀàĞÍĞÅÏ¢£¬
+			// åˆå§‹åŒ–æ‰€æœ‰çš„ç±»å‹ä¿¡æ¯ï¼Œ
 			for (int i = 0; i < nodeTypes.length; i++) {
 				nodeTypes[i].initial();
 			}
 			
-			//³õÊ¼»¯Ö¸ÁîFacotry
+			//åˆå§‹åŒ–æŒ‡ä»¤Facotry
 		if (this.instructionFacotryMapping != null) {
 			for (String[] list : this.instructionFacotryMapping) {
 				for (String s : list[0].split(",")) {
@@ -79,24 +79,24 @@ public class NodeTypeManager implements INodeTypeManager {
 	}
 	    
 	/**
-	 * ´´½¨½ÚµãÀàĞÍ£¬ĞèÒª×¢ÒâµÄÊÇ²»ÄÜ³õÊ¼»¯£¬±ØĞëËùÓĞµÄÀàĞÍ¶¼´´½¨Íê³Éºó²ÅÄÜµ÷ÓÃ³õÊ¼»¯·½·¨
+	 * åˆ›å»ºèŠ‚ç‚¹ç±»å‹ï¼Œéœ€è¦æ³¨æ„çš„æ˜¯ä¸èƒ½åˆå§‹åŒ–ï¼Œå¿…é¡»æ‰€æœ‰çš„ç±»å‹éƒ½åˆ›å»ºå®Œæˆåæ‰èƒ½è°ƒç”¨åˆå§‹åŒ–æ–¹æ³•
 	 * @param aDefineStr
 	 * @return
 	 */
 	public NodeType createNodeType(String aDefineStr){		
-		int index = aDefineStr.indexOf(":",1);//±ÜÃâ¶Ô²Ù×÷·ûºÅ":"µÄ´íÎó´¦Àí
+		int index = aDefineStr.indexOf(":",1);//é¿å…å¯¹æ“ä½œç¬¦å·":"çš„é”™è¯¯å¤„ç†
 		String name = aDefineStr.substring(0,index).trim();
 		NodeType define = nodeTypes.get(name);
 		if(define != null ){
-			log.warn("½ÚµãÀàĞÍ¶¨ÒåÖØ¸´:"+name+" ¶¨Òå1="+define.getDefineStr() + " ¶¨Òå2=" + aDefineStr);
-			throw new RuntimeException("½ÚµãÀàĞÍ¶¨ÒåÖØ¸´:"+name+" ¶¨Òå1="+define.getDefineStr() + " ¶¨Òå2=" + aDefineStr);
+			log.warn("èŠ‚ç‚¹ç±»å‹å®šä¹‰é‡å¤:"+name+" å®šä¹‰1="+define.getDefineStr() + " å®šä¹‰2=" + aDefineStr);
+			throw new RuntimeException("èŠ‚ç‚¹ç±»å‹å®šä¹‰é‡å¤:"+name+" å®šä¹‰1="+define.getDefineStr() + " å®šä¹‰2=" + aDefineStr);
 		}
 		define = new NodeType(this,name,aDefineStr);
 		nodeTypes.put(name, define);
 		return define;
 	}
 	/**
-	 * ¸ù¾İÀàĞÍÃû³Æ²éÕÒ½ÚµãÀàĞÍ
+	 * æ ¹æ®ç±»å‹åç§°æŸ¥æ‰¾èŠ‚ç‚¹ç±»å‹
 	 * @param name
 	 * @return
 	 */
@@ -104,7 +104,7 @@ public class NodeTypeManager implements INodeTypeManager {
 	public NodeType findNodeType(String name){		
 		NodeType result = nodeTypes.get(name);
 		if(result == null){
-			throw new RuntimeException("Ã»ÓĞ¶¨ÒåµÄ½ÚµãÀàĞÍ£º" + name);
+			throw new RuntimeException("æ²¡æœ‰å®šä¹‰çš„èŠ‚ç‚¹ç±»å‹ï¼š" + name);
 		}
 		while(result.getRealNodeType() != null){
 			result = result.getRealNodeType();
@@ -113,7 +113,7 @@ public class NodeTypeManager implements INodeTypeManager {
 	}
 	
 	/**
-	 * Ôö¼Ó¹Ø¼ü×Ö£¬µ«ÊÇÓÃÊµ¼ÊµÄÀàĞÍ´úÌæ£¬ÀıÈç :"Èç¹û"->"if"
+	 * å¢åŠ å…³é”®å­—ï¼Œä½†æ˜¯ç”¨å®é™…çš„ç±»å‹ä»£æ›¿ï¼Œä¾‹å¦‚ :"å¦‚æœ"->"if"
 	 * @param keyWordName
 	 * @param realName
 	 */
@@ -123,7 +123,7 @@ public class NodeTypeManager implements INodeTypeManager {
 	}
 	
 	/**
-	 * Ôö¼ÓĞÂµÄ²Ù×÷·ûºÅ£¬ÆäÓÅÏÈ¼¶±ğ£¬ÒÔ¼°Óï·¨¹ØÏµÓë²ÎÕÕµÄ²Ù×÷·ûºÅÒ»ÖÂ
+	 * å¢åŠ æ–°çš„æ“ä½œç¬¦å·ï¼Œå…¶ä¼˜å…ˆçº§åˆ«ï¼Œä»¥åŠè¯­æ³•å…³ç³»ä¸å‚ç…§çš„æ“ä½œç¬¦å·ä¸€è‡´
 	 * @param operName
 	 * @param refOperName
 	 * @throws Exception 
@@ -143,7 +143,7 @@ public class NodeTypeManager implements INodeTypeManager {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ´æÔÚ½ÚµãÀàĞÍ¶¨Òå
+	 * åˆ¤æ–­æ˜¯å¦å­˜åœ¨èŠ‚ç‚¹ç±»å‹å®šä¹‰
 	 * @param name
 	 * @return
 	 */

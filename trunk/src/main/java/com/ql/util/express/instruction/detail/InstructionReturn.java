@@ -11,7 +11,7 @@ public class InstructionReturn extends Instruction{
 		this.haveReturnValue = aHaveReturnValue;
 	}
 	public void execute(RunEnvironment environment,List<String> errorList)throws Exception{
-		//Ä¿Ç°µÄÄ£Ê½£¬²»ĞèÒªÖ´ĞĞÈÎºÎ²Ù×÷
+		//ç›®å‰çš„æ¨¡å¼ï¼Œä¸éœ€è¦æ‰§è¡Œä»»ä½•æ“ä½œ
 		if(environment.isTrace() && log.isDebugEnabled()){
 			log.debug(this);
 		}
@@ -20,7 +20,7 @@ public class InstructionReturn extends Instruction{
 		}else{
 		   environment.quitExpress();
 		}
-		environment.programPointAddOne();
+		environment.gotoLastWhenReturn();
 	}
 	public String toString(){
 		if(this.haveReturnValue){

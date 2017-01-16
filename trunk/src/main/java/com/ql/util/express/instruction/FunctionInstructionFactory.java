@@ -13,7 +13,7 @@ public class FunctionInstructionFactory extends InstructionFactory {
 			throws Exception {		
     	ExpressNode[] children = node.getChildren();
     	if(children.length != 3){
-    		throw new Exception("funciton ²Ù×÷·ûĞèÒª3¸ö²Ù×÷Êı " );
+    		throw new Exception("funciton æ“ä½œç¬¦éœ€è¦3ä¸ªæ“ä½œæ•° " );
     	}
 		String functionName =children[0].getValue();
     	ExpressNode[] varDefines = children[1].getChildren();
@@ -29,7 +29,7 @@ public class FunctionInstructionFactory extends InstructionFactory {
     	
     	while(point<varDefines.length){
     		if(varDefines[point].isTypeEqualsOrChild("def") == false){
-    		  throw new Exception("functionµÄ²ÎÊı¶¨Òå´íÎó," + varDefines[point] + "²»ÊÇÒ»¸öClass");
+    		  throw new Exception("functionçš„å‚æ•°å®šä¹‰é”™è¯¯," + varDefines[point] + "ä¸æ˜¯ä¸€ä¸ªClass");
     		}
     		Class<?> varClass = (Class<?>)varDefines[point].getChildren()[0].getObjectValue();
     		String varName = varDefines[point].getChildren()[1].getValue();    		

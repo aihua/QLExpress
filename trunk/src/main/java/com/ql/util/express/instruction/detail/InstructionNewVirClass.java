@@ -2,6 +2,7 @@ package com.ql.util.express.instruction.detail;
 
 import java.util.List;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.RunEnvironment;
 import com.ql.util.express.instruction.opdata.OperateDataAttr;
@@ -19,28 +20,38 @@ public class InstructionNewVirClass extends Instruction {
 
 	public void execute(RunEnvironment environment, List<String> errorList)
 			throws Exception {
-		OperateData[] parameters = environment.popArray(
+		ArraySwap parameters = environment.popArray(
 				environment.getContext(), this.opDataNumber);
 		if (environment.isTrace() && log.isDebugEnabled()) {
 			String str = "new VClass(";
+			OperateData p;
 			for (int i = 0; i < parameters.length; i++) {
+				p = parameters.get(i);
 				if (i > 0) {
 					str = str + ",";
 				}
-				if (parameters[i] instanceof OperateDataAttr) {
-					str = str + parameters[i] + ":"
-							+ parameters[i].getObject(environment.getContext());
+				if (p instanceof OperateDataAttr) {
+					str = str + p + ":"
+							+ p.getObject(environment.getContext());
 				} else {
-					str = str + parameters[i];
+					str = str + p;
 				}
 			}
 			str = str + ")";
 			log.debug(str);
 		}
+		
+		
+		//因为会影响堆栈，要先把对象拷贝出来
+		OperateData[] list = new OperateData[parameters.length];
+		for(int i = 0;i <list.length;i++){			
+			list[i] = parameters.get(i);
+		}
+		
 		OperateDataVirClass result = new OperateDataVirClass(className);
 		environment.push(result);
 		environment.programPointAddOne();
-		result.initialInstance(environment.getContext(), parameters, errorList,
+		result.initialInstance(environment.getContext(), list, errorList,
 				environment.isTrace(), this.log);
 	}
 

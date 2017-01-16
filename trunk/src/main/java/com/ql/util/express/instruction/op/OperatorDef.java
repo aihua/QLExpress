@@ -1,5 +1,6 @@
 package com.ql.util.express.instruction.op;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.instruction.OperateDataCacheManager;
@@ -16,9 +17,9 @@ public class OperatorDef extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 	
-	public OperateData executeInner(InstructionSetContext context, OperateData[] list) throws Exception {
-		Object type = list[0].getObject(context);
-		String varName = (String)list[1].getObject(context);	
+	public OperateData executeInner(InstructionSetContext context, ArraySwap list) throws Exception {
+		Object type = list.get(0).getObject(context);
+		String varName = (String)list.get(1).getObject(context);	
 		Class<?> tmpClass = null;
 		if(type instanceof Class ){
 			tmpClass = (Class<?>) type;

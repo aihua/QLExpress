@@ -10,14 +10,14 @@ import com.ql.util.express.ExpressUtil;
 public class IsAssignableTest {
 	@Test
 	public void testABC() throws Exception {
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(boolean.class, Boolean.class) == true);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(char.class, java.lang.Character.class) == true);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(long.class, int.class) == true);		
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(Long.class, int.class) == true);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(Long.class, Integer.class) == true);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(java.util.List.class,java.util.AbstractList.class) == true);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(java.util.List.class,java.util.AbstractList.class) == ExpressUtil.isAssignableOld(java.util.List.class,java.util.AbstractList.class));
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»ÅĞ¶Ï´íÎó",ExpressUtil.isAssignable(long.class, int.class) == ExpressUtil.isAssignableOld(long.class, int.class));
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(boolean.class, Boolean.class) == true);
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(char.class, java.lang.Character.class) == true);
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(long.class, int.class) == true);		
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(Long.class, int.class) == true);
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(Long.class, Integer.class) == true);
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(java.util.List.class,java.util.AbstractList.class) == true);
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(java.util.List.class,java.util.AbstractList.class) == ExpressUtil.isAssignableOld(java.util.List.class,java.util.AbstractList.class));
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢åˆ¤æ–­é”™è¯¯",ExpressUtil.isAssignable(long.class, int.class) == ExpressUtil.isAssignableOld(long.class, int.class));
 
 		int index = ExpressUtil.findMostSpecificSignature(new Class[]{Integer.class},
 				new Class[][]{{Integer.class},{int.class}});
@@ -32,14 +32,14 @@ public class IsAssignableTest {
 		
 		Object r = runner.execute(express, context, null, false, true);
 		System.out.println(r);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»´íÎó£º",r.toString().equalsIgnoreCase("toString-int:100"));
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢é”™è¯¯ï¼š",r.toString().equalsIgnoreCase("toString-int:100"));
 		
 		context = new DefaultContext<String, Object>();
 		express = "bean.testLong(p)";
 		context.put("bean",new BeanExample());
 		context.put("p",100L);
 		r = runner.execute(express, context, null, false, true);
-		Assert.assertTrue("Êı¾İÀàĞÍ×ª»»´íÎó£º",r.toString().equalsIgnoreCase("toString-long:100"));
+		Assert.assertTrue("æ•°æ®ç±»å‹è½¬æ¢é”™è¯¯ï¼š",r.toString().equalsIgnoreCase("toString-long:100"));
 
 	}
 }

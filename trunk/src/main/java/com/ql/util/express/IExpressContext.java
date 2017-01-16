@@ -1,22 +1,22 @@
 package com.ql.util.express;
 
 /**
- * ±í´ïÊ½¼ÆËãµÄÊı¾İ×¢Èë½Ó¿Ú
+ * è¡¨è¾¾å¼è®¡ç®—çš„æ•°æ®æ³¨å…¥æ¥å£
  * @author qhlhl2010@gmail.com
  *
  */
 public interface IExpressContext<K,V> {
 /**
- * ¸ù¾İÃû³Æ´ÓÊôĞÔÁĞ±íÖĞÌáÈ¡ÊôĞÔÖµ¡£Èç¹û±í´ïÊ½ÖĞÓÃµ½ÁËSpringµÄ¶ÔÏó£¬Ò²ÊÇÍ¨¹ı´Ë·½·¨»ñÈ¡
- * @param name ÊôĞÔÃû³Æ
+ * æ ¹æ®åç§°ä»å±æ€§åˆ—è¡¨ä¸­æå–å±æ€§å€¼ã€‚å¦‚æœè¡¨è¾¾å¼ä¸­ç”¨åˆ°äº†Springçš„å¯¹è±¡ï¼Œä¹Ÿæ˜¯é€šè¿‡æ­¤æ–¹æ³•è·å–
+ * @param name å±æ€§åç§°
  * @return
  * @throws Exception
  */
 	public V get(Object key);
  /**
-  * ±í´ïÊ½¼ÆËãµÄ½á¹û¿ÉÒÔÉèÖÃ»Øµ÷ÓÃÏµÍ³£¬ÀıÈç  userId = 3 + 4
-  * @param name ÊôĞÔÃû³Æ
-  * @param object ÊôĞÔÖµ
+  * è¡¨è¾¾å¼è®¡ç®—çš„ç»“æœå¯ä»¥è®¾ç½®å›è°ƒç”¨ç³»ç»Ÿï¼Œä¾‹å¦‚  userId = 3 + 4
+  * @param name å±æ€§åç§°
+  * @param object å±æ€§å€¼
   * @throws Exception
   */
 	public V put(K name, V object);

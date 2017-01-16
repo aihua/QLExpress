@@ -13,7 +13,7 @@ public class OperatorPrint extends Operator {
 	}
 	public Object executeInner(Object[] list) throws Exception {
 		if (list.length != 1 ){
-			throw new Exception("²Ù×÷ÊıÒì³£,ÓĞÇÒÖ»ÄÜÓĞÒ»¸ö²Ù×÷Êı");
+			throw new Exception("æ“ä½œæ•°å¼‚å¸¸,æœ‰ä¸”åªèƒ½æœ‰ä¸€ä¸ªæ“ä½œæ•°");
 		}
         System.out.print(list[0]);
         return null;

@@ -14,30 +14,30 @@ public class ExpressRemoteCacheTest {
 	public void testcache(){
 		ExpressRunner runner =new ExpressRunner();		
 		ExpressRemoteCacheRunner cacheRunner = new LocalExpressCacheRunner(runner);
-		cacheRunner.loadCache("¼Ó·¨¼ÆËã", "a+b");
-		cacheRunner.loadCache("¼õ·¨¼ÆËã", "a-b");
+		cacheRunner.loadCache("åŠ æ³•è®¡ç®—", "a+b");
+		cacheRunner.loadCache("å‡æ³•è®¡ç®—", "a-b");
 		
 		
 		IExpressContext<String, Object> context = new DefaultContext<String, Object>();
 		context.put("a", 1);
 		context.put("b", 2);
 		
-		if(cacheRunner.getCache("¼Ó·¨¼ÆËã")!=null){
-			Object result = cacheRunner.execute("¼Ó·¨¼ÆËã", context, null, false, true, null);
-			Assert.assertTrue("¼Ó·¨¼ÆËã", result.toString().equalsIgnoreCase("3"));		
+		if(cacheRunner.getCache("åŠ æ³•è®¡ç®—")!=null){
+			Object result = cacheRunner.execute("åŠ æ³•è®¡ç®—", context, null, false, true, null);
+			Assert.assertTrue("åŠ æ³•è®¡ç®—", result.toString().equalsIgnoreCase("3"));		
 			System.out.println(result);
 		}
-		if(cacheRunner.getCache("¼Ó·¨¼ÆËã")!=null){
-			Object result = cacheRunner.execute("¼õ·¨¼ÆËã", context, null, false, true, null);
-			Assert.assertTrue("¼õ·¨¼ÆËã", result.toString().equalsIgnoreCase("-1"));
+		if(cacheRunner.getCache("åŠ æ³•è®¡ç®—")!=null){
+			Object result = cacheRunner.execute("å‡æ³•è®¡ç®—", context, null, false, true, null);
+			Assert.assertTrue("å‡æ³•è®¡ç®—", result.toString().equalsIgnoreCase("-1"));
 			System.out.println(result);
 		}
-		if(cacheRunner.getCache("³Ë·¨¼ÆËã")!=null){
-			Object result = cacheRunner.execute("³Ë·¨¼ÆËã", context, null, false, true, null);
-			Assert.assertTrue("³Ë·¨¼ÆËã", result.toString().equalsIgnoreCase("2"));
+		if(cacheRunner.getCache("ä¹˜æ³•è®¡ç®—")!=null){
+			Object result = cacheRunner.execute("ä¹˜æ³•è®¡ç®—", context, null, false, true, null);
+			Assert.assertTrue("ä¹˜æ³•è®¡ç®—", result.toString().equalsIgnoreCase("2"));
 			System.out.println(result);
 		}else{
-			System.out.println("Ã»ÓĞ¶¨Òå³Ë·¨¼ÆËãÆ÷.");
+			System.out.println("æ²¡æœ‰å®šä¹‰ä¹˜æ³•è®¡ç®—å™¨.");
 		}
 	}
 

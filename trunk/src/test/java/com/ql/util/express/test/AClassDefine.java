@@ -23,33 +23,33 @@ public class AClassDefine {
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		runner.loadMutilExpress("ClassTest", express);
 
-		Object r = runner.executeByExpressName(new String[] { "ClassTest" }, context,
+		Object r = runner.executeByExpressName("ClassTest", context,
 				null, false, false, null);
-		Assert.assertTrue("VClassµÄ×÷ÓÃÓò´íÎó", r.toString().equalsIgnoreCase("300"));
+		Assert.assertTrue("VClassçš„ä½œç”¨åŸŸé”™è¯¯", r.toString().equalsIgnoreCase("300"));
 	}
 	@Test
 	public void testABC() throws Exception {
 		String expressDefine = 
 			"class ABC(com.ql.util.express.test.BeanExample bean,String name){"
-				+ "ĞÕÃû= name;"
-				+ "¼ÆÊıÆ÷ = new InnerClass();"
-				+ "ÕûÊıÖµ:bean.intValue;"
-				+ "¸¡µãÖµ:bean.doubleValue;"
-				+ "¹şÏ£Öµ:{bean.hashCode();};"
-				+ "function add(int a,int b){return a + b + ÕûÊıÖµ + ¼ÆÊıÆ÷.¼ÆÊı;};"
+				+ "å§“å= name;"
+				+ "è®¡æ•°å™¨ = new InnerClass();"
+				+ "æ•´æ•°å€¼:bean.intValue;"
+				+ "æµ®ç‚¹å€¼:bean.doubleValue;"
+				+ "å“ˆå¸Œå€¼:{bean.hashCode();};"
+				+ "function add(int a,int b){return a + b + æ•´æ•°å€¼ + è®¡æ•°å™¨.è®¡æ•°;};"
 				+ "class InnerClass(){" +
-						"int ¼ÆÊı =200;" +
+						"int è®¡æ•° =200;" +
 						"};"
 				+ "};" ;
 		String express = 
 				 "ABC example = new ABC(new com.ql.util.express.test.BeanExample(),'xuannan');"
 				+ "ABC example2 = new ABC(new com.ql.util.express.test.BeanExample(),'xuanyu');"
-				+ " example.ÕûÊıÖµ =100;"
-				+ " example2.ÕûÊıÖµ =200;"
-				+ " example.¸¡µãÖµ= 99.99;"
-				+ " example2.¸¡µãÖµ= 11.11;"
-				+ " example.¸¡µãÖµ = example.¸¡µãÖµ + example.ÕûÊıÖµ;"
-				+ " result = example.add(10,20) +'--'+ example2.add(10,20) +'--'+  example.ĞÕÃû +'--'+ example2.ĞÕÃû +'--'+ example.¸¡µãÖµ +'--' + example2.¸¡µãÖµ ;"
+				+ " example.æ•´æ•°å€¼ =100;"
+				+ " example2.æ•´æ•°å€¼ =200;"
+				+ " example.æµ®ç‚¹å€¼= 99.99;"
+				+ " example2.æµ®ç‚¹å€¼= 11.11;"
+				+ " example.æµ®ç‚¹å€¼ = example.æµ®ç‚¹å€¼ + example.æ•´æ•°å€¼;"
+				+ " result = example.add(10,20) +'--'+ example2.add(10,20) +'--'+  example.å§“å +'--'+ example2.å§“å +'--'+ example.æµ®ç‚¹å€¼ +'--' + example2.æµ®ç‚¹å€¼ ;"
 				+ " println result;"
 				+ " return result ;"
 				+ "";
@@ -57,9 +57,9 @@ public class AClassDefine {
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		runner.loadMutilExpress("",expressDefine);
 		runner.loadMutilExpress("ClassTest", express);
-		Object r = runner.executeByExpressName(new String[] { "ClassTest" }, context,
+		Object r = runner.executeByExpressName("ClassTest", context,
 				null, false, false, null);
-		Assert.assertTrue("VClassµÄ×÷ÓÃÓò´íÎó", r.toString().equalsIgnoreCase("330--430--xuannan--xuanyu--199.99--11.11"));
+		Assert.assertTrue("VClassçš„ä½œç”¨åŸŸé”™è¯¯", r.toString().equalsIgnoreCase("330--430--xuannan--xuanyu--199.99--11.11"));
 
 	}
 }

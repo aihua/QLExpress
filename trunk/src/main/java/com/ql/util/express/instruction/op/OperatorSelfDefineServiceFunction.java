@@ -2,13 +2,11 @@ package com.ql.util.express.instruction.op;
 
 import java.lang.reflect.Method;
 
-import com.ql.util.express.ExpressUtil;
-import com.ql.util.express.InstructionSetContext;
-import com.ql.util.express.OperateData;
+import com.ql.util.express.*;
 import com.ql.util.express.instruction.OperateDataCacheManager;
 
 /**
- * 用户自定义的服务函数操作
+ * 鐢ㄦ埛鑷畾涔夌殑鏈嶅姟鍑芥暟鎿嶄綔
  * @author qhlhl2010@gmail.com
  *
  */
@@ -17,15 +15,16 @@ public class OperatorSelfDefineServiceFunction extends OperatorBase implements C
   String functionName;
   String[] parameterTypes;
   Class<?>[] parameterClasses ;
-  Method method;
+  transient Method method;
   boolean isReturnVoid;
+  boolean maybeDynamicParams;
   
 	public OperatorSelfDefineServiceFunction(String aOperName,
 			Object aServiceObject, String aFunctionName,
 			Class<?>[] aParameterClassTypes,String[] aParameterDesc,String[] aParameterAnnotation, String aErrorInfo) throws Exception {
 		if (errorInfo != null && errorInfo.trim().length() == 0) {
 			errorInfo = null;
-		} 
+		}
 		this.name = aOperName;
 		this.errorInfo = aErrorInfo;
 		this.serviceObject = aServiceObject;
@@ -40,6 +39,7 @@ public class OperatorSelfDefineServiceFunction extends OperatorBase implements C
 		Class<?> operClass = serviceObject.getClass();
 		method = operClass.getMethod(functionName, parameterClasses);
 		this.isReturnVoid = method.getReturnType().equals(void.class);
+		this.maybeDynamicParams = DynamicParamsUtil.maybeDynamicParams(parameterClasses);
 	}
   
   public OperatorSelfDefineServiceFunction(String aOperName,Object aServiceObject, String aFunctionName,
@@ -47,7 +47,7 @@ public class OperatorSelfDefineServiceFunction extends OperatorBase implements C
     
 	if (errorInfo != null && errorInfo.trim().length() == 0) {
 			errorInfo = null;
-	}  
+	}
 	this.name = aOperName;
     this.errorInfo = aErrorInfo;
     this.serviceObject = aServiceObject;
@@ -61,7 +61,7 @@ public class OperatorSelfDefineServiceFunction extends OperatorBase implements C
     }
     Class<?> operClass = serviceObject.getClass();
     method = operClass.getMethod(functionName,parameterClasses);
-   
+	this.maybeDynamicParams = DynamicParamsUtil.maybeDynamicParams(parameterClasses);
   }
 
 	public OperatorBase cloneMe(String opName, String errorInfo)
@@ -71,24 +71,26 @@ public class OperatorSelfDefineServiceFunction extends OperatorBase implements C
 				this.operDataDesc, this.operDataAnnotation, errorInfo);
 		return result;
 	}
-  public OperateData executeInner(InstructionSetContext context, OperateData[] list) throws
-      Exception {
-      if(this.parameterClasses.length != list.length){
-        throw new Exception("定义的参数长度与运行期传入的参数长度不一致");
-      }
-      Object[] parameres = new Object[list.length];
-      for(int i=0;i<list.length;i++){
-        parameres[i] = list[i].getObject(context);
-      }
-
-      Object obj = this.method.invoke(this.serviceObject,ExpressUtil.transferArray(parameres,parameterClasses));
+  public OperateData executeInner(InstructionSetContext context, ArraySwap list) throws Exception {
+      Object[] parameres =  DynamicParamsUtil.transferDynamicParams(context, list, parameterClasses,this.maybeDynamicParams);
+      Object obj = this.getMethod().invoke(this.serviceObject,ExpressUtil.transferArray(parameres,parameterClasses));
       if(obj != null){
          return OperateDataCacheManager.fetchOperateData(obj,obj.getClass());
       }
       if(this.isReturnVoid == true){
     	  return OperateDataCacheManager.fetchOperateDataAttr("null", void.class);
       }else{
-    	  return OperateDataCacheManager.fetchOperateDataAttr("null", null);  
+    	  return OperateDataCacheManager.fetchOperateDataAttr("null", null);
       }
   }
+    
+    private Method getMethod() throws NoSuchMethodException {
+        
+        if(this.method!=null){
+            return this.method;
+        }
+        Class<?> operClass = serviceObject.getClass();
+        this.method = operClass.getMethod(functionName, parameterClasses);
+        return this.method;
+    }
 }

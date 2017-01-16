@@ -9,24 +9,24 @@ import com.ql.util.express.match.INodeType;
 
 public class ExpressNode implements IDataNode{
 	/**
-	 * ½ÚµãÀàĞÍ
+	 * èŠ‚ç‚¹ç±»å‹
 	 */
 	private NodeType nodeType;
 	
 	private NodeType treeType;
 	/**
-	 * ½ÚµãÖµ
+	 * èŠ‚ç‚¹å€¼
 	 */
 	private String value;
 	
 	/**
-	 * ½ÚµãÔ­Ê¼Öµ
+	 * èŠ‚ç‚¹åŸå§‹å€¼
 	 */
 	private String orgiValue;
 	
 	private Object objectValue;
 	/**
-	 * ¸¸½Úµã
+	 * çˆ¶èŠ‚ç‚¹
 	 */
 	private ExpressNode parent;
 	private List<ExpressNode> leftChildren;
@@ -34,11 +34,11 @@ public class ExpressNode implements IDataNode{
 	private boolean isSplitStatement = false;
 	
 	/**
-	 * ĞĞºÅ
+	 * è¡Œå·
 	 */
 	private int line;
 	/**
-	 * ÁĞºÅ
+	 * åˆ—å·
 	 */
 	private int col;
 	
@@ -47,7 +47,7 @@ public class ExpressNode implements IDataNode{
 	}
 	public ExpressNode(NodeType aType,String aValue,String aOrgiValue,Object aObjectValue,NodeType aTreeType,int aLine,int aCol) throws Exception{
 		if(aType == null){
-			throw new Exception(aValue + " Ã»ÓĞÕÒµ½¶ÔÓ¦µÄ½ÚµãÀàĞÍ");
+			throw new Exception(aValue + " æ²¡æœ‰æ‰¾åˆ°å¯¹åº”çš„èŠ‚ç‚¹ç±»å‹");
 		}
 		this.nodeType = aType;
 		this.treeType = aTreeType;
@@ -103,7 +103,7 @@ public class ExpressNode implements IDataNode{
 		if(this.treeType != null && this.treeType.getInstructionFactory() != null){
 			return this.treeType.getInstructionFactory();
 		}
-		throw new RuntimeException("Ã»ÓĞ¶¨Òå½ÚµãµÄÖ¸ÁîInstructionFactoryĞÅÏ¢£º" + this.nodeType.getName()+ (this.treeType == null?"":" »òÕß "  +this.treeType.getName()) );
+		throw new RuntimeException("æ²¡æœ‰å®šä¹‰èŠ‚ç‚¹çš„æŒ‡ä»¤InstructionFactoryä¿¡æ¯ï¼š" + this.nodeType.getName()+ (this.treeType == null?"":" æˆ–è€… "  +this.treeType.getName()) );
 	}
 	
 	public String getOrgiValue() {

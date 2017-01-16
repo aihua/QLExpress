@@ -17,14 +17,14 @@ public class InstructionLoadAttr extends Instruction{
     }
 	public void execute(RunEnvironment environment,List<String> errorList)throws Exception{
 		Object o = environment.getContext().getSymbol(this.attrName);
-		if(o != null && o instanceof InstructionSet){//ÊÇº¯Êı£¬ÔòÖ´ĞĞ
+		if(o != null && o instanceof InstructionSet){//æ˜¯å‡½æ•°ï¼Œåˆ™æ‰§è¡Œ
 			if(environment.isTrace() && log.isDebugEnabled()){
-				log.debug("Ö¸Áî×ª»»£º LoadAttr -- >CallMacro ");						
+				log.debug("æŒ‡ä»¤è½¬æ¢ï¼š LoadAttr -- >CallMacro ");						
 			}
 			InstructionCallMacro macro = new InstructionCallMacro(this.attrName);
 			macro.setLog(this.log);
 			macro.execute(environment, errorList);
-			//×¢Òâ£¬´Ë´¦²»ÄÜÔÚÔö¼ÓÖ¸Áî£¬ÒòÎªÔÚInstructionCallMacroÒÑ¾­µ÷ÓÃ environment.programPointAddOne();
+			//æ³¨æ„ï¼Œæ­¤å¤„ä¸èƒ½åœ¨å¢åŠ æŒ‡ä»¤ï¼Œå› ä¸ºåœ¨InstructionCallMacroå·²ç»è°ƒç”¨ environment.programPointAddOne();
 		}else{
 			if(environment.isTrace() && log.isDebugEnabled()){
 				log.debug(this +":" + ((OperateDataAttr)o).getObject(environment.getContext()));						

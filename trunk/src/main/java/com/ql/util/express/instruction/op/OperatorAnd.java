@@ -3,7 +3,7 @@ package com.ql.util.express.instruction.op;
 import com.ql.util.express.Operator;
 
 /**
- * ´¦Àí And,Or,&&,||²Ù×÷
+ * å¤„ç† And,Or,&&,||æ“ä½œ
  */
 
 public class OperatorAnd extends Operator {
@@ -31,7 +31,7 @@ public class OperatorAnd extends Operator {
 	    }else if(o1 instanceof Boolean){
         	r1 = ((Boolean) o1).booleanValue();
         }else{
-        	String msg = "Ã»ÓĞ¶¨ÒåÀàĞÍ" + o1 + "ºÍ" + o2 + " µÄ " + this.name + "²Ù×÷";
+        	String msg = "æ²¡æœ‰å®šä¹‰ç±»å‹" + o1 + "å’Œ" + o2 + " çš„ " + this.name + "æ“ä½œ";
 			throw new Exception(msg);
         }
         if(o2 == null){
@@ -39,7 +39,7 @@ public class OperatorAnd extends Operator {
         }else  if(o2 instanceof Boolean){
         	r2 = ((Boolean) o2).booleanValue();
         }else{
-        	String msg = "Ã»ÓĞ¶¨ÒåÀàĞÍ" + o1 + "ºÍ" + o2 + " µÄ " + this.name + "²Ù×÷";
+        	String msg = "æ²¡æœ‰å®šä¹‰ç±»å‹" + o1 + "å’Œ" + o2 + " çš„ " + this.name + "æ“ä½œ";
 			throw new Exception(msg);
         }
         boolean result = r1 && r2;

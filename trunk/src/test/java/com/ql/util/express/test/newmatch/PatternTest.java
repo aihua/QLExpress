@@ -31,18 +31,18 @@ public class PatternTest {
 		};
 		NodeTypeManager manager = new NodeTypeManager(new KeyWordDefine4Java());
 		if( manager.findNodeType("OP_LIST").isContainerChild(manager.findNodeType("*")) ==false){
-			 throw new Exception("寻找儿子失败");
+			 throw new Exception("瀵绘壘鍎垮瓙澶辫触");
 		}
 		ExpressParse parse = new ExpressParse(manager,null,false);
 		for(String[] row : defines){
 			Word[] words = WordSplit.parse(manager.splitWord,row[1]);
-//			System.out.println("单词分解结果:" + WordSplit.getPrintInfo(words,","));  
+//			System.out.println("鍗曡瘝鍒嗚В缁撴灉:" + WordSplit.getPrintInfo(words,","));  
 			List<ExpressNode> tempList = parse.transferWord2ExpressNode(null,words,null,true);
-			System.out.println("单词分析结果:" + ExpressParse.printInfo(tempList,","));
+			System.out.println("鍗曡瘝鍒嗘瀽缁撴灉:" + ExpressParse.printInfo(tempList,","));
 			QLPatternNode pattern = manager.findNodeType(row[0]).getPatternNode();
 			QLMatchResult result =QLPattern.findMatchStatement(manager, pattern, tempList, 0);
 			if(result == null){
-				throw new Exception("没有正确的匹配：" + row[0] + ":" + row[1]);
+				throw new Exception("娌℃湁姝ｇ‘鐨勫尮閰嶏細" + row[0] + ":" + row[1]);
 			}
 			System.out.println(result);
 		}

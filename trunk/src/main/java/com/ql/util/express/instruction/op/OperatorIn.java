@@ -19,11 +19,11 @@ public class OperatorIn extends Operator {
 	public Object executeInner(Object[] list) throws Exception {
 		Object obj = list[0];
 		if (obj == null) {
-			// ¶ÔÏóÎª¿Õ£¬²»ÄÜÖ´ĞĞ·½·¨
-			String msg = "¶ÔÏóÎª¿Õ£¬²»ÄÜÖ´ĞĞ·½·¨:";
+			// å¯¹è±¡ä¸ºç©ºï¼Œä¸èƒ½æ‰§è¡Œæ–¹æ³•
+			String msg = "å¯¹è±¡ä¸ºç©ºï¼Œä¸èƒ½æ‰§è¡Œæ–¹æ³•:";
 			throw new Exception(msg + this.name);
 		} else if (((obj instanceof Number) || (obj instanceof String)) == false) {
-			String msg = "¶ÔÏóÀàĞÍ²»Æ¥Åä£¬Ö»ÓĞÊı×ÖºÍ×Ö·û´®ÀàĞÍ²Å²ÅÄÜÖ´ĞĞ in ²Ù×÷,µ±Ç°Êı¾İÀàĞÍÊÇ:";
+			String msg = "å¯¹è±¡ç±»å‹ä¸åŒ¹é…ï¼Œåªæœ‰æ•°å­—å’Œå­—ç¬¦ä¸²ç±»å‹æ‰æ‰èƒ½æ‰§è¡Œ in æ“ä½œ,å½“å‰æ•°æ®ç±»å‹æ˜¯:";
 			throw new Exception(msg + obj.getClass().getName());
 		} else if(list.length == 2 && (list[1].getClass().isArray() || list[1] instanceof List)){
 			       if(obj.equals(list[1]) == true){

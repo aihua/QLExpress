@@ -10,7 +10,7 @@ import com.ql.util.express.ExpressRunner;
 import com.ql.util.express.IExpressContext;
 
 /**
- * ¶ÌÂ·Âß¼­²âÊÔÀà
+ * çŸ­è·¯é€»è¾‘æµ‹è¯•ç±»
  * @author tianqiao
  *
  */
@@ -19,8 +19,8 @@ public class ShortCircuitLogicTest {
 	private ExpressRunner runner = new ExpressRunner();
 	
 	public void initial() throws Exception{
-		runner.addOperatorWithAlias("Ğ¡ÓÚ","<","$1 Ğ¡ÓÚ $2 ²»Âú×ãÆÚÍû");
-		runner.addOperatorWithAlias("´óÓÚ",">","$1 ´óÓÚ $2 ²»Âú×ãÆÚÍû");
+		runner.addOperatorWithAlias("å°äº","<","$1 å°äº $2 ä¸æ»¡è¶³æœŸæœ›");
+		runner.addOperatorWithAlias("å¤§äº",">","$1 å¤§äº $2 ä¸æ»¡è¶³æœŸæœ›");
 	}
 	
 	public boolean calculateLogicTest(String expression,IExpressContext<String,Object> expressContext,List<String> errorInfo) throws Exception {			
@@ -32,19 +32,19 @@ public class ShortCircuitLogicTest {
 	}	
 	
 	/**
-	 * ²âÊÔ·Ç¶ÌÂ·Âß¼­,²¢ÇÒÊä³ö³ö´íĞÅÏ¢
+	 * æµ‹è¯•éçŸ­è·¯é€»è¾‘,å¹¶ä¸”è¾“å‡ºå‡ºé”™ä¿¡æ¯
 	 * @throws Exception
 	 */
 	@Test
 	public void testShortCircuit() throws Exception {
 		runner.setShortCircuit(true);
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();	
-		expressContext.put("Î¥¹æÌìÊı", 100);
-		expressContext.put("Ğé¼Ù½»Ò×¿Û·Ö", 11);
+		expressContext.put("è¿è§„å¤©æ•°", 100);
+		expressContext.put("è™šå‡äº¤æ˜“æ‰£åˆ†", 11);
 		expressContext.put("VIP", false);
 		List<String> errorInfo = new ArrayList<String>();
 		initial();
-		String expression ="2 Ğ¡ÓÚ 1 and (Î¥¹æÌìÊı Ğ¡ÓÚ 90 or Ğé¼Ù½»Ò×¿Û·Ö Ğ¡ÓÚ 12)";
+		String expression ="2 å°äº 1 and (è¿è§„å¤©æ•° å°äº 90 or è™šå‡äº¤æ˜“æ‰£åˆ† å°äº 12)";
 		boolean result = calculateLogicTest(expression, expressContext, errorInfo);
 		if(result){
 			System.out.println("result is success!");
@@ -58,19 +58,19 @@ public class ShortCircuitLogicTest {
 	}
 	
 	/**
-	 * ²âÊÔ·Ç¶ÌÂ·Âß¼­,²¢ÇÒÊä³ö³ö´íĞÅÏ¢
+	 * æµ‹è¯•éçŸ­è·¯é€»è¾‘,å¹¶ä¸”è¾“å‡ºå‡ºé”™ä¿¡æ¯
 	 * @throws Exception
 	 */
 	@Test
 	public void testNoShortCircuit() throws Exception {
 		runner.setShortCircuit(false);
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();	
-		expressContext.put("Î¥¹æÌìÊı", 100);
-		expressContext.put("Ğé¼Ù½»Ò×¿Û·Ö", 11);
+		expressContext.put("è¿è§„å¤©æ•°", 100);
+		expressContext.put("è™šå‡äº¤æ˜“æ‰£åˆ†", 11);
 		expressContext.put("VIP", false);
 		List<String> errorInfo = new ArrayList<String>();
 		initial();
-		String expression ="2 Ğ¡ÓÚ 1 and (Î¥¹æÌìÊı Ğ¡ÓÚ 90 or Ğé¼Ù½»Ò×¿Û·Ö Ğ¡ÓÚ 12)";
+		String expression ="2 å°äº 1 and (è¿è§„å¤©æ•° å°äº 90 or è™šå‡äº¤æ˜“æ‰£åˆ† å°äº 12)";
 		boolean result = calculateLogicTest(expression, expressContext, errorInfo);
 		if(result){
 			System.out.println("result is success!");

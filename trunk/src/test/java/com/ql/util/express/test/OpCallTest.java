@@ -14,18 +14,18 @@ public class OpCallTest {
 			ExpressRunner runner = new ExpressRunner(false, true);
 			runner.addOperator("@love", new LoveOperator("@love"));	
 			runner.loadMutilExpress(null, "function abc(String s){println(s)}");
-			runner.addOperatorWithAlias("´òÓ¡","println",null);
+			runner.addOperatorWithAlias("æ‰“å°","println",null);
 			runner.addFunctionOfClassMethod("isVIP", BeanExample.class.getName(),
 					"isVIP", new Class[]{String.class},"");
-			runner.addOperatorWithAlias("ÊÇ·ñVIP","isVIP","Ç×°®µÄ$1,Äã»¹²»ÊÇVIPÓÃ»§");
+			runner.addOperatorWithAlias("æ˜¯å¦VIP","isVIP","äº²çˆ±çš„$1,ä½ è¿˜ä¸æ˜¯VIPç”¨æˆ·");
 			
 			String[][] expressTest = new String[][] {
 					{"println \"ssssss\"","null"},
 					{"println (\"ssssss\")","null"},
 					{"abc (\"bbbbbbbb\")","null"},
-					{"´òÓ¡ (\"º¯Êı±ğÃû²âÊÔ\")","null"},
-					{"isVIP (\"ĞşÄÑ\")","false"},
-					{"ÊÇ·ñVIP (\"ĞşÄÑ\")","false"},
+					{"æ‰“å° (\"å‡½æ•°åˆ«åæµ‹è¯•\")","null"},
+					{"isVIP (\"ç„éš¾\")","false"},
+					{"æ˜¯å¦VIP (\"ç„éš¾\")","false"},
 					};
 			IExpressContext<String, Object> expressContext = new ExpressContextExample(
 					null);
@@ -42,13 +42,13 @@ public class OpCallTest {
 						|| result != null
 						&& expressTest[point][1]
 								.equalsIgnoreCase(result.toString()) == false) {
-					throw new Exception("´¦Àí´íÎó,¼ÆËã½á¹ûÓëÔ¤ÆÚµÄ²»Æ¥Åä:" + expressStr + " = "
-							+ result + "µ«ÊÇÆÚÍûÖµÊÇ£º" + expressTest[point][1]);
+					throw new Exception("å¤„ç†é”™è¯¯,è®¡ç®—ç»“æœä¸é¢„æœŸçš„ä¸åŒ¹é…:" + expressStr + " = "
+							+ result + "ä½†æ˜¯æœŸæœ›å€¼æ˜¯ï¼š" + expressTest[point][1]);
 				}
 				System.out.println("Example " + point + " : " + expressStr + " =  "
 						+ result);
 				if (errorList.size() > 0) {
-					System.out.println("\t\tÏµÍ³Êä³öµÄ´íÎóÌáÊ¾ĞÅÏ¢:" + errorList);
+					System.out.println("\t\tç³»ç»Ÿè¾“å‡ºçš„é”™è¯¯æç¤ºä¿¡æ¯:" + errorList);
 				}
 			}
 		}

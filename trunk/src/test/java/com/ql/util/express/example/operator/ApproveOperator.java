@@ -10,14 +10,14 @@ public class ApproveOperator extends Operator{
 
 	public Object executeInner(Object[] list) throws Exception {
 		if(this.operater == 1){
-		  System.out.println(list[0] + "ÉóÅú:½ğ¶î:" + list[1]);
+		  System.out.println(list[0] + "å®¡æ‰¹:é‡‘é¢:" + list[1]);
 		  if(((Integer)list[1]) > 6000)
 		  	return false;
 		}
 		else if(this.operater == 2)
-			System.out.println("±¨ÏúÈë¿¨:½ğ¶î:"+list[0]);
+			System.out.println("æŠ¥é”€å…¥å¡:é‡‘é¢:"+list[0]);
 		else
-			System.out.println("ÖØÌî:ÉêÇëÈË:"+list[0]);
+			System.out.println("é‡å¡«:ç”³è¯·äºº:"+list[0]);
 		return true;
 	}
 

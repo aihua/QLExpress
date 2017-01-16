@@ -1,14 +1,14 @@
-function ÉóÅúÍ¨¹ı(String a,int b){
-  System.out.println(a + "ÉóÅú:½ğ¶î:" + b);
+function å®¡æ‰¹é€šè¿‡(String a,int b){
+  System.out.println(a + "å®¡æ‰¹:é‡‘é¢:" + b);
   if(b > 6000)
     return false;
   return true;
 }
 
-function ±¨ÏúÈëÕË(int a){
-  System.out.println("±¨ÏúÈë¿¨:½ğ¶î:"+a);
+function æŠ¥é”€å…¥è´¦(int a){
+  System.out.println("æŠ¥é”€å…¥å¡:é‡‘é¢:"+a);
 }
 
-function ´ò»ØĞŞ¸Ä(String a){
-  System.out.println("ÖØÌî:ÉêÇëÈË:"+a);
+function æ‰“å›ä¿®æ”¹(String a){
+  System.out.println("é‡å¡«:ç”³è¯·äºº:"+a);
 }

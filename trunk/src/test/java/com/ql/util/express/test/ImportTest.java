@@ -11,12 +11,12 @@ public class ImportTest {
 	public void testImport() throws Exception{	
 		String express ="import java.math.*;" +
 				"import com.ql.util.express.test.BeanExample;" +
-				"abc = new BeanExample(\"张三\").unionName(\"李四\") ;" +
+				"abc = new BeanExample(\"寮犱笁\").unionName(\"鏉庡洓\") ;" +
 				"return new BigInteger(\"1000\");";
 		ExpressRunner runner = new ExpressRunner(false,true);
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();	
 		Object r = runner.execute(express,context, null, false,true);
-		Assert.assertTrue("import 实现错误",r.toString().equals("1000"));
+		Assert.assertTrue("import 瀹炵幇閿欒",r.toString().equals("1000"));
 		System.out.println(r);
 		System.out.println(context);		
 	}

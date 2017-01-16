@@ -3,7 +3,7 @@ package com.ql.util.express;
 import java.io.Serializable;
 
 /**
- * Êä³ö¸øÆäËüÖ¸Áî¹²ÏíÊ¹ÓÃµÄ¶ÔÏó
+ * è¾“å‡ºç»™å…¶å®ƒæŒ‡ä»¤å…±äº«ä½¿ç”¨çš„å¯¹è±¡
  * @author xuannan
  *
  */
@@ -16,7 +16,7 @@ public class ExportItem implements Serializable{
 	String globeName;
 	String name;
 	String type;//def,alias
-	String desc;//ÀàÃû»òÕß±ğÃû
+	String desc;//ç±»åæˆ–è€…åˆ«å
 	public ExportItem(String aName,String aType,String aDesc){
 		this.globeName = aName;
 		this.name = aName;

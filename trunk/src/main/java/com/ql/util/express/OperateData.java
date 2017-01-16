@@ -2,7 +2,7 @@ package com.ql.util.express;
 
 
 /**
- * Êı¾İÀàĞÍ¶¨Òå
+ * æ•°æ®ç±»å‹å®šä¹‰
  * @author qhlhl2010@gmail.com
  *
  */
@@ -17,7 +17,7 @@ public class OperateData implements java.io.Serializable {
 		this.dataObject = obj;
 	}
 	/**
-	 * ¸ø¶ÔÏó»º´æ½Ó¿ÚÊ¹ÓÃ
+	 * ç»™å¯¹è±¡ç¼“å­˜æ¥å£ä½¿ç”¨
 	 * @param obj
 	 * @param aType
 	 */
@@ -30,7 +30,7 @@ public class OperateData implements java.io.Serializable {
 		this.type = null;
 	}
     public Class<?> getDefineType(){
-    	throw new RuntimeException(this.getClass().getName() + "±ØĞëÊµÏÖ·½·¨:getDefineType");
+    	throw new RuntimeException(this.getClass().getName() + "å¿…é¡»å®ç°æ–¹æ³•:getDefineType");
     }
     public Class<?> getOrgiType(){
     	return this.type;
@@ -48,7 +48,7 @@ public class OperateData implements java.io.Serializable {
 
 	public final Object getObject(InstructionSetContext context) throws Exception {
     	if(this.type != null && this.type.equals(void.class)){
-    		throw new Exception("void ²»ÄÜ²ÎÓëÈÎºÎ²Ù×÷ÔËËã,Çë¼ì²éÊ¹ÓÃÔÚ±í´ïÊ½ÖĞÊ¹ÓÃÁËÃ»ÓĞ·µ»ØÖµµÄº¯Êı,»òÕß·ÖÖ§²»ÍêÕûµÄifÓï¾ä");
+    		throw new Exception("void ä¸èƒ½å‚ä¸ä»»ä½•æ“ä½œè¿ç®—,è¯·æ£€æŸ¥ä½¿ç”¨åœ¨è¡¨è¾¾å¼ä¸­ä½¿ç”¨äº†æ²¡æœ‰è¿”å›å€¼çš„å‡½æ•°,æˆ–è€…åˆ†æ”¯ä¸å®Œæ•´çš„ifè¯­å¥");
     	}
 		return getObjectInner(context);
 	}
@@ -56,11 +56,11 @@ public class OperateData implements java.io.Serializable {
     	return this.dataObject;
     }
     public void setObject(InstructionSetContext parent, Object object) throws Exception {
-		throw new RuntimeException("±ØĞëÔÚ×ÓÀàÖĞÊµÏÖ´Ë·½·¨");
+		throw new RuntimeException("å¿…é¡»åœ¨å­ç±»ä¸­å®ç°æ­¤æ–¹æ³•");
 	}
 	public String toJavaCode(){		
 		if(this.getClass().equals(OperateData.class) == false){
-			throw new RuntimeException(this.getClass().getName() + "Ã»ÓĞÊµÏÖ£ºtoJavaCode()");
+			throw new RuntimeException(this.getClass().getName() + "æ²¡æœ‰å®ç°ï¼štoJavaCode()");
 		}
 		String result ="new " + OperateData.class.getName() +"(";
 		if(String.class.equals(this.type)){

@@ -20,7 +20,7 @@ public class ExpressParse {
 	NodeTypeManager nodeTypeManager;
 	IExpressResourceLoader expressResourceLoader;
 	/**
-	 * ÊÇ·ñĞèÒª¸ß¾«¶È¼ÆËã
+	 * æ˜¯å¦éœ€è¦é«˜ç²¾åº¦è®¡ç®—
 	 */
 	private boolean isPrecise = false;
 	public ExpressParse(NodeTypeManager aNodeTypeManager,IExpressResourceLoader aLoader,boolean aIsPrecise){
@@ -58,7 +58,7 @@ public class ExpressParse {
 	    return result.toArray(new Word[0]);
 	}
 	/**
-	 * ½øĞĞµ¥´ÊÀàĞÍ·ÖÎö
+	 * è¿›è¡Œå•è¯ç±»å‹åˆ†æ
 	 * @param words
 	 * @return
 	 * @throws Exception
@@ -71,7 +71,7 @@ public class ExpressParse {
 		ExpressPackage  tmpImportPackage = null;
 		if(dealJavaClass==true){
 			tmpImportPackage = new ExpressPackage(aRootExpressPackage);  
-		    //ÏÈ´¦Àíimport£¬import±ØĞë·ÅÔÚÎÄ¼şµÄ×î¿ªÊ¼£¬±ØĞëÒÔ;½áÊø
+		    //å…ˆå¤„ç†importï¼Œimportå¿…é¡»æ”¾åœ¨æ–‡ä»¶çš„æœ€å¼€å§‹ï¼Œå¿…é¡»ä»¥;ç»“æŸ
 		    boolean isImport = false;
 		    StringBuffer importName = new StringBuffer();
 		    while(point <wordObjects.length ){
@@ -101,7 +101,7 @@ public class ExpressParse {
 		  char firstChar = tempWord.charAt(0);
 		  char lastChar = tempWord.substring(tempWord.length() - 1).toLowerCase().charAt(0);		  
 		  if(firstChar >='0' && firstChar<='9'){
-			  if(result.size() >0){//¶Ô ¸ººÅ½øĞĞÌØÊâ´¦Àí
+			  if(result.size() >0){//å¯¹ è´Ÿå·è¿›è¡Œç‰¹æ®Šå¤„ç†
 				  if(result.get(result.size() -1).getValue().equals("-")){
 					  if(result.size() == 1 
 						 || result.size() >=2 
@@ -157,7 +157,7 @@ public class ExpressParse {
 			  point = point + 1;
 		  }else if(firstChar =='"'){
 			  if(lastChar !='"' || tempWord.length() <2){
-				  throw new Exception("Ã»ÓĞ¹Ø±ÕµÄ×Ö·û´®£º" + tempWord);
+				  throw new Exception("æ²¡æœ‰å…³é—­çš„å­—ç¬¦ä¸²ï¼š" + tempWord);
 			  }
 			  tempWord = tempWord.substring(1,tempWord.length() -1);
 			  tempType =nodeTypeManager.findNodeType("CONST_STRING");
@@ -166,12 +166,12 @@ public class ExpressParse {
 			  point = point + 1;
 		  }else if(firstChar =='\''){
 			  if(lastChar !='\'' || tempWord.length() <2){
-				  throw new Exception("Ã»ÓĞ¹Ø±ÕµÄ×Ö·û£º" + tempWord);
+				  throw new Exception("æ²¡æœ‰å…³é—­çš„å­—ç¬¦ï¼š" + tempWord);
 			  }
 			  tempWord = tempWord.substring(1,tempWord.length() -1);
 			  
 			  treeNodeType = nodeTypeManager.findNodeType("CONST");
-			  if(tempWord.length() == 1){ //×ª»»Îª×Ö·û´®
+			  if(tempWord.length() == 1){ //è½¬æ¢ä¸ºå­—ç¬¦ä¸²
 				  tempType =nodeTypeManager.findNodeType("CONST_CHAR");
 				  objectValue = tempWord.charAt(0);
 			  }else{
@@ -188,7 +188,7 @@ public class ExpressParse {
 		  }else {
 				tempType = nodeTypeManager.isExistNodeTypeDefine(tempWord);
 				if(tempType != null && tempType.getKind() != NodeTypeKind.KEYWORD){
-					//²»ÊÇ¹Ø¼ü×Ö
+					//ä¸æ˜¯å…³é”®å­—
 					tempType = null;
 				}
 				if (tempType == null) {
@@ -291,7 +291,7 @@ public class ExpressParse {
 		}    	
     }
     /**
-     * ÌáÈ¡×Ô¶¨ÒåµÄClass
+     * æå–è‡ªå®šä¹‰çš„Class
      * @param words
      * @return
      */
@@ -305,15 +305,15 @@ public class ExpressParse {
 	public ExpressNode parse(ExpressPackage rootExpressPackage,String express,boolean isTrace,Map<String,String> selfDefineClass) throws Exception{
 		Word[] words = WordSplit.parse(this.nodeTypeManager.splitWord,express);
 		if(isTrace == true && log.isDebugEnabled()){
-			log.debug("Ö´ĞĞµÄ±í´ïÊ½:" + express);	
-			log.debug("µ¥´Ê·Ö½â½á¹û:" + WordSplit.getPrintInfo(words,","));  
+			log.debug("æ‰§è¡Œçš„è¡¨è¾¾å¼:" + express);	
+			log.debug("å•è¯åˆ†è§£ç»“æœ:" + WordSplit.getPrintInfo(words,","));  
 		}
 		words = this.dealInclude(words);
 		if(isTrace == true && log.isDebugEnabled()){
-			log.debug("Ô¤´¦Àíºó½á¹û:" + WordSplit.getPrintInfo(words,","));  
+			log.debug("é¢„å¤„ç†åç»“æœ:" + WordSplit.getPrintInfo(words,","));  
 		}
 		
-		//ÌáÈ¡×Ô¶¨ÒåClass
+		//æå–è‡ªå®šä¹‰Class
 		if(selfDefineClass == null){
 			selfDefineClass = new HashMap<String,String>();
 		}
@@ -321,28 +321,28 @@ public class ExpressParse {
 		
     	List<ExpressNode> tempList = this.transferWord2ExpressNode(rootExpressPackage,words,selfDefineClass,true);
     	if(isTrace == true && log.isDebugEnabled()){
-    		log.debug("µ¥´Ê·ÖÎö½á¹û:" + printInfo(tempList,","));
+    		log.debug("å•è¯åˆ†æç»“æœ:" + printInfo(tempList,","));
     	}
     	
 
 		QLMatchResult result = QLPattern.findMatchStatement(this.nodeTypeManager, this.nodeTypeManager
 						.findNodeType("PROGRAM").getPatternNode(), tempList,0);
 		if(result == null){
-			throw new Exception("Óï·¨Æ¥ÅäÊ§°Ü");
+			throw new Exception("è¯­æ³•åŒ¹é…å¤±è´¥");
 		}
 		if(result.getMatchLastIndex() < tempList.size()){
 			int maxPoint = result.getMatchLastIndex();
 			ExpressNode tempNode = tempList.get(maxPoint);
-			throw new Exception("»¹ÓĞµ¥´ÊÃ»ÓĞÍê³ÉÓï·¨Æ¥Åä£º" + result.getMatchLastIndex() +"["+ tempNode.getValue() + ":line=" + tempNode.getLine() + ",col=" + tempNode.getCol() +"] Ö®ºóµÄµ¥´Ê \n" + express);
+			throw new Exception("è¿˜æœ‰å•è¯æ²¡æœ‰å®Œæˆè¯­æ³•åŒ¹é…ï¼š" + result.getMatchLastIndex() +"["+ tempNode.getValue() + ":line=" + tempNode.getLine() + ",col=" + tempNode.getCol() +"] ä¹‹åçš„å•è¯ \n" + express);
 		}
 		result.getMatchs().get(0).buildExpressNodeTree();
 		ExpressNode root =(ExpressNode)result.getMatchs().get(0).getRef();
 		
-		//ÎªÁËÉú³É´úÂëÊ±ºò½øĞĞÅĞ¶Ï£¬ĞèÒªÉèÖÃÃ¿¸ö½ÚµãµÄ¸¸Ç×
+		//ä¸ºäº†ç”Ÿæˆä»£ç æ—¶å€™è¿›è¡Œåˆ¤æ–­ï¼Œéœ€è¦è®¾ç½®æ¯ä¸ªèŠ‚ç‚¹çš„çˆ¶äº²
     	resetParent(root,null);
     	
     	if(isTrace == true && log.isDebugEnabled()){
-    		log.debug("×îºóµÄÓï·¨Ê÷:" );
+    		log.debug("æœ€åçš„è¯­æ³•æ ‘:" );
     		printTreeNode(root,1);
     	}
 		return root;

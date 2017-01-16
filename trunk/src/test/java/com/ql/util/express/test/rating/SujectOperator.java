@@ -2,11 +2,12 @@ package com.ql.util.express.test.rating;
 
 import java.util.Map;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.Operator;
 /**
- * ¿ÆÄ¿²Ù×÷·ûºÅ
+ * ç§‘ç›®æ“ä½œç¬¦å·
  * @author xuannan
  *
  */
@@ -22,22 +23,23 @@ class SujectOperator extends Operator {
 
 	@SuppressWarnings("rawtypes")
 	public OperateData executeInner(InstructionSetContext context,
-			OperateData[] list) throws Exception {
+			ArraySwap list) throws Exception {
 		if (list.length != 2) {
-			throw new Exception("¿ÆÄ¿²Ù×÷µÄ²ÎÊı±ØĞë°üÀ¨£º¿ÆÄ¿Ö÷ÌåIDºÍ¿ÆÄ¿Ãû³Æ");
+			throw new Exception("ç§‘ç›®æ“ä½œçš„å‚æ•°å¿…é¡»åŒ…æ‹¬ï¼šç§‘ç›®ä¸»ä½“IDå’Œç§‘ç›®åç§°");
 		}
-		Object userId =  list[0].getObject(context) ;
-		Object subjectId =   list[1].getObject(context);
+		Object userId =  list.get(0).getObject(context) ;
+		Object subjectId =   list.get(1).getObject(context);
 		if(userId == null || subjectId == null){
-			throw new Exception("¿ÆÄ¿Ö÷ÌåIDºÍ¿ÆÄ¿Ãû³Æ²»ÄÜÎªnull");
+			throw new Exception("ç§‘ç›®ä¸»ä½“IDå’Œç§‘ç›®åç§°ä¸èƒ½ä¸ºnull");
 		}
-		OperateData result = new OperateDataSubject((Map)context.get("·ÑÓÃ¿ÆÄ¿"),userId,subjectId);
+		OperateData result = new OperateDataSubject((Map)context.get("è´¹ç”¨ç§‘ç›®"),userId,subjectId);
 		return result;
 	}
 
 	@Override
 	public Object executeInner(Object[] list) throws Exception {
-		 throw new Exception("²»ĞèÒªÊµÏÖµÄ·½·¨");
+		new Exception("ä¸éœ€è¦å®ç°çš„æ–¹æ³•").printStackTrace();
+		 throw new Exception("ä¸éœ€è¦å®ç°çš„æ–¹æ³•");
 	}
 }
 @SuppressWarnings("rawtypes")

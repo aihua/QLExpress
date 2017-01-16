@@ -3,7 +3,7 @@ package com.ql.util.express;
 import java.math.BigDecimal;
 
 /**
- * Êı×ÖÔËĞĞº¯Êı¼¯ºÏ
+ * æ•°å­—è¿è¡Œå‡½æ•°é›†åˆ
  * @author qhlhl2010@gmail.com
  *
  */
@@ -30,7 +30,7 @@ public class OperatorOfNumber {
 	}
 
 	/**
-	 * »ñÈ¡Êı¾İÀàĞÍ¾«¶ÈË³Ğò
+	 * è·å–æ•°æ®ç±»å‹ç²¾åº¦é¡ºåº
 	 * @param aClass
 	 * @return
 	 */
@@ -42,10 +42,10 @@ public class OperatorOfNumber {
     	if(aClass == Float.class || aClass == float.class) return NumberType.NUMBER_TYPE_FLOAT;
     	if(aClass == Double.class || aClass == double.class) return NumberType.NUMBER_TYPE_DOUBLE;
     	if(aClass == BigDecimal.class) return NumberType.NUMBER_TYPE_BIGDECIMAL;
-    	throw new RuntimeException("²»ÄÜ´¦ÀíµÄÊı¾İÀàĞÍ£º" + aClass.getName());
+    	throw new RuntimeException("ä¸èƒ½å¤„ç†çš„æ•°æ®ç±»å‹ï¼š" + aClass.getName());
     }
 	/**
-	 * ½øĞĞÊı¾İÀàĞÍ×ª»»
+	 * è¿›è¡Œæ•°æ®ç±»å‹è½¬æ¢
 	 * @param value
 	 * @param type
 	 * @return
@@ -68,27 +68,27 @@ public class OperatorOfNumber {
 			} else if (type.equals(BigDecimal.class)) {
 				return new BigDecimal(value.toString());
 			}else{
-				throw new RuntimeException("Ã»ÓĞ´¦ÀíµÄÊı¾İÀàĞÍ£º" + type.getName());
+				throw new RuntimeException("æ²¡æœ‰å¤„ç†çš„æ•°æ®ç±»å‹ï¼š" + type.getName());
 			}
 		} else {
 			if (type.equals(byte.class) || type.equals(Byte.class)) {
 				if(((BigDecimal)value).scale() >0 ){
-					throw new RuntimeException("ÓĞĞ¡ÊıÎ»£¬²»ÄÜ×ª»¯Îª£º"+ type.getName());
+					throw new RuntimeException("æœ‰å°æ•°ä½ï¼Œä¸èƒ½è½¬åŒ–ä¸ºï¼š"+ type.getName());
 				}
 				return ((Number) value).byteValue();
 			} else if (type.equals(short.class) || type.equals(Short.class)) {
 				if(((BigDecimal)value).scale() >0 ){
-					throw new RuntimeException("ÓĞĞ¡ÊıÎ»£¬²»ÄÜ×ª»¯Îª£º"+ type.getName());
+					throw new RuntimeException("æœ‰å°æ•°ä½ï¼Œä¸èƒ½è½¬åŒ–ä¸ºï¼š"+ type.getName());
 				}
 				return ((Number) value).shortValue();
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				if(((BigDecimal)value).scale() >0 ){
-					throw new RuntimeException("ÓĞĞ¡ÊıÎ»£¬²»ÄÜ×ª»¯Îª£º"+ type.getName());
+					throw new RuntimeException("æœ‰å°æ•°ä½ï¼Œä¸èƒ½è½¬åŒ–ä¸ºï¼š"+ type.getName());
 				}
 				return ((Number) value).intValue();
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				if(((BigDecimal)value).scale() >0 ){
-					throw new RuntimeException("ÓĞĞ¡ÊıÎ»£¬²»ÄÜ×ª»¯Îª£º"+ type.getName());
+					throw new RuntimeException("æœ‰å°æ•°ä½ï¼Œä¸èƒ½è½¬åŒ–ä¸ºï¼š"+ type.getName());
 				}
 				return ((Number) value).longValue();
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
@@ -97,7 +97,7 @@ public class OperatorOfNumber {
 					|| type.equals(Double.class)) {
 				return ((Number) value).doubleValue();
 			}else{
-				throw new RuntimeException("Ã»ÓĞ´¦ÀíµÄÊı¾İÀàĞÍ£º" + type.getName());
+				throw new RuntimeException("æ²¡æœ‰å¤„ç†çš„æ•°æ®ç±»å‹ï¼š" + type.getName());
 			}	
 		}
 	}
@@ -152,7 +152,7 @@ public class OperatorOfNumber {
 			BigDecimal o2 = new BigDecimal(op2.toString());
 			return o1.compareTo(o2);
 		}
-		throw new RuntimeException("±È½Ï²Ù×÷´íÎó:op1=" + op1.toString() +",op2=" + op2.toString());
+		throw new RuntimeException("æ¯”è¾ƒæ“ä½œé”™è¯¯:op1=" + op1.toString() +",op2=" + op2.toString());
 
 	}
 	public static Object add(Object op1, Object op2,boolean isPrecise) throws Exception {
@@ -200,7 +200,7 @@ class NormalNumberOperator {
 
 	
 	/**
-	 * ÆÕÍ¨µÄ¼Ó·¨ÔËËã	
+	 * æ™®é€šçš„åŠ æ³•è¿ç®—	
 	 * @param op1
 	 * @param op2
 	 * @return
@@ -217,7 +217,7 @@ class NormalNumberOperator {
 		if(type == NumberType.NUMBER_TYPE_FLOAT) return op1.floatValue() + op2.floatValue();
 		if(type == NumberType.NUMBER_TYPE_DOUBLE) return op1.doubleValue() + op2.doubleValue();
 		if(type == NumberType.NUMBER_TYPE_BIGDECIMAL) return new BigDecimal(op1.toString()).add(new BigDecimal(op2.toString()));		
-		throw new Exception("²»Ö§³ÖµÄ¶ÔÏóÖ´ĞĞÁË\"+\"²Ù×÷");
+		throw new Exception("ä¸æ”¯æŒçš„å¯¹è±¡æ‰§è¡Œäº†\"+\"æ“ä½œ");
 	}
 
 
@@ -233,7 +233,7 @@ class NormalNumberOperator {
 			if(type == NumberType.NUMBER_TYPE_FLOAT) return op1.floatValue() - op2.floatValue();
 			if(type == NumberType.NUMBER_TYPE_DOUBLE) return op1.doubleValue() - op2.doubleValue();
 			if(type == NumberType.NUMBER_TYPE_BIGDECIMAL) return new BigDecimal(op1.toString()).subtract(new BigDecimal(op2.toString()));
-			throw new Exception("²»Ö§³ÖµÄ¶ÔÏóÖ´ĞĞÁË\"-\"²Ù×÷");
+			throw new Exception("ä¸æ”¯æŒçš„å¯¹è±¡æ‰§è¡Œäº†\"-\"æ“ä½œ");
 	    }
 
 	    public static Number multiplyNormal(Number op1,Number op2) throws Exception {
@@ -247,7 +247,7 @@ class NormalNumberOperator {
 			if(type == NumberType.NUMBER_TYPE_FLOAT) return op1.floatValue() * op2.floatValue();
 			if(type == NumberType.NUMBER_TYPE_DOUBLE) return op1.doubleValue() * op2.doubleValue();
 			if(type == NumberType.NUMBER_TYPE_BIGDECIMAL) return new BigDecimal(op1.toString()).multiply(new BigDecimal(op2.toString()));
-			throw new Exception("²»Ö§³ÖµÄ¶ÔÏóÖ´ĞĞÁË\"*\"²Ù×÷");
+			throw new Exception("ä¸æ”¯æŒçš„å¯¹è±¡æ‰§è¡Œäº†\"*\"æ“ä½œ");
 	    }
 	   public static Number divideNormal(Number op1,Number op2) throws Exception{
 			int type1 = OperatorOfNumber.getSeq(op1.getClass());
@@ -260,7 +260,7 @@ class NormalNumberOperator {
 			if(type == NumberType.NUMBER_TYPE_FLOAT) return op1.floatValue() / op2.floatValue();
 			if(type == NumberType.NUMBER_TYPE_DOUBLE) return op1.doubleValue() / op2.doubleValue();
 			if(type == NumberType.NUMBER_TYPE_BIGDECIMAL) return new BigDecimal(op1.toString()).divide(new BigDecimal(op2.toString()), BigDecimal.ROUND_HALF_UP);
-			throw new Exception("²»Ö§³ÖµÄ¶ÔÏóÖ´ĞĞÁË\"/\"²Ù×÷");
+			throw new Exception("ä¸æ”¯æŒçš„å¯¹è±¡æ‰§è¡Œäº†\"/\"æ“ä½œ");
 	    }
 
 
@@ -272,12 +272,12 @@ class NormalNumberOperator {
 			if(type == NumberType.NUMBER_TYPE_SHORT) return op1.shortValue() % op2.shortValue();
 			if(type == NumberType.NUMBER_TYPE_INT) return op1.intValue() % op2.intValue();
 			if(type == NumberType.NUMBER_TYPE_LONG) return op1.longValue() % op2.longValue();
-			throw new Exception("²»Ö§³ÖµÄ¶ÔÏóÖ´ĞĞÁË\"mod\"²Ù×÷");
+			throw new Exception("ä¸æ”¯æŒçš„å¯¹è±¡æ‰§è¡Œäº†\"mod\"æ“ä½œ");
      }
 }
 
 /**
- * ¸ß¾«¶È¼ÆËã
+ * é«˜ç²¾åº¦è®¡ç®—
  * @author xuannan
  */
 class PreciseNumberOperator {

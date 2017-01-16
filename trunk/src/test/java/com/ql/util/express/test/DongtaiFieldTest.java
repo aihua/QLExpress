@@ -18,21 +18,21 @@ public class DongtaiFieldTest {
 	private static final Log log = LogFactory.getLog(DongtaiFieldTest.class);
 	@Test
 	public void testField() throws Exception{
-		String express ="String ÓÃ»§ = \"ÕÅÈı\";" +
-				"·ÑÓÃ.ÓÃ»§  = 100;" +
-				"ÓÃ»§ = \"ÀîËÄ\";" +
-				"·ÑÓÃ.ÓÃ»§  = 200;";
+		String express ="String ç”¨æˆ· = \"å¼ ä¸‰\";" +
+				"è´¹ç”¨.ç”¨æˆ·  = 100;" +
+				"ç”¨æˆ· = \"æå››\";" +
+				"è´¹ç”¨.ç”¨æˆ·  = 200;";
 		
 		ExpressRunner runner = new ExpressRunner(false,true);
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		Map<String,Object> fee = new HashMap<String,Object>();
-		context.put("·ÑÓÃ",fee);
+		context.put("è´¹ç”¨",fee);
 		InstructionSet set = runner.parseInstructionSet(express);
-		InstructionSetRunner.executeOuter(runner,new InstructionSet[]{set},null, context, null, true, false,null, true);
+		InstructionSetRunner.executeOuter(runner,set,null, context, null, true, false,null, true);
 		runner.execute(express, context, null, false, true);
-		System.out.println(context.get("·ÑÓÃ"));
-		Assert.assertTrue("¶¯Ì¬ÊôĞÔ´íÎó",fee.get("ÕÅÈı").toString().equals("100"));
-		Assert.assertTrue("¶¯Ì¬ÊôĞÔ´íÎó",fee.get("ÀîËÄ").toString().equals("200"));
+		System.out.println(context.get("è´¹ç”¨"));
+		Assert.assertTrue("åŠ¨æ€å±æ€§é”™è¯¯",fee.get("å¼ ä¸‰").toString().equals("100"));
+		Assert.assertTrue("åŠ¨æ€å±æ€§é”™è¯¯",fee.get("æå››").toString().equals("200"));
 	}
 	@Test
 	public void testLoadFromFile() throws Exception{	

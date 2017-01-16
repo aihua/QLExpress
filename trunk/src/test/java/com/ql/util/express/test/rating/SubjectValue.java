@@ -1,7 +1,7 @@
 package com.ql.util.express.test.rating;
 
 /**
- * 科目数据
+ * 绉戠洰鏁版嵁
  * @author xuannan
  *
  */
@@ -10,6 +10,6 @@ public class SubjectValue {
   public Object subjectId;
   public double value;
   public String toString(){
-	  return "科目[" + userId + "," + subjectId +"] = " + value;
+	  return "绉戠洰[" + userId + "," + subjectId +"] = " + value;
   }
 }

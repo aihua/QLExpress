@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 
 /**
- * Ô¶³Ì»º´æ¶ÔÏó
+ * è¿œç¨‹ç¼“å­˜å¯¹è±¡
  * @author tianqiao
  *
  */
@@ -23,7 +23,7 @@ public abstract class ExpressRemoteCacheRunner {
 			cache.setInstructionSet(instructionSet);
 			this.putCache(expressName, cache);
 		} catch (Exception e) {
-			throw new RuntimeException("½âÎöÖ¸Áî²¢»º´æ¹ı³Ì³öÏÖ´íÎó.",e);
+			throw new RuntimeException("è§£ææŒ‡ä»¤å¹¶ç¼“å­˜è¿‡ç¨‹å‡ºç°é”™è¯¯.",e);
 		}		
 	}
 	
@@ -33,27 +33,27 @@ public abstract class ExpressRemoteCacheRunner {
 		try {
 			CacheObject cache = (CacheObject) this.getCache(name);
 			if(cache==null){
-				throw new RuntimeException("Î´»ñÈ¡µ½»º´æ¶ÔÏó.");
+				throw new RuntimeException("æœªè·å–åˆ°ç¼“å­˜å¯¹è±¡.");
 			}
-			return getExpressRunner().execute(new InstructionSet[] {cache.getInstructionSet()}, context, errorList, isTrace, isCatchException, aLog);
+			return getExpressRunner().execute(cache.getInstructionSet(), context, errorList, isTrace, isCatchException, aLog);
 		} catch (Exception e) {
-			throw new RuntimeException("»ñÈ¡»º´æĞÅÏ¢£¬²¢ÇÒÖ´ĞĞÖ¸Áî¼¯³öÏÖ´íÎó.",e);
+			throw new RuntimeException("è·å–ç¼“å­˜ä¿¡æ¯ï¼Œå¹¶ä¸”æ‰§è¡ŒæŒ‡ä»¤é›†å‡ºç°é”™è¯¯.",e);
 		}		
 	}
 	
 	/**
-	 * »ñÈ¡Ö´ĞĞÆ÷ExpressRunner
+	 * è·å–æ‰§è¡Œå™¨ExpressRunner
 	 * @return
 	 */
 	public  abstract ExpressRunner getExpressRunner();
 	/**
-	 * »ñÈ¡»º´æ¶ÔÏó
+	 * è·å–ç¼“å­˜å¯¹è±¡
 	 * @param key
 	 * @return
 	 */
 	public abstract Object getCache(String key);
 	/**
-	 * ·ÅÖÃ»º´æµÄ¶ÔÏó
+	 * æ”¾ç½®ç¼“å­˜çš„å¯¹è±¡
 	 * @param key
 	 * @param object
 	 */

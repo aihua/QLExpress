@@ -16,11 +16,11 @@ public class CastInstructionFactory  extends InstructionFactory{
 		OperatorBase op = aCompile.getOperatorFactory().newInstance(node);
 		ExpressNode[] children = node.getChildren();
 		if(children.length ==0){
-			throw new Exception("À©Õ¹ÀàĞÍ²»´æÔÚ");
+			throw new Exception("æ‰©å±•ç±»å‹ä¸å­˜åœ¨");
 		}else if(children.length > 2) {
-			throw new Exception("À©Õ¹²Ù×÷Ö»ÄÜÓĞÒ»¸öÀàĞÍÎªClassµÄ²Ù×÷Êı");
+			throw new Exception("æ‰©å±•æ“ä½œåªèƒ½æœ‰ä¸€ä¸ªç±»å‹ä¸ºClassçš„æ“ä½œæ•°");
 		}else if(children[0].getNodeType().isEqualsOrChild("CONST_CLASS") == false){
-			throw new Exception("À©Õ¹²Ù×÷Ö»ÄÜÓĞÒ»¸öÀàĞÍÎªClassµÄ²Ù×÷Êı,µ±Ç°µÄÊı¾İÀàĞÍÊÇ£º" + children[0].getNodeType().getName());
+			throw new Exception("æ‰©å±•æ“ä½œåªèƒ½æœ‰ä¸€ä¸ªç±»å‹ä¸ºClassçš„æ“ä½œæ•°,å½“å‰çš„æ•°æ®ç±»å‹æ˜¯ï¼š" + children[0].getNodeType().getName());
 		}
 		
 		for(int i =0;i < children.length;i++){

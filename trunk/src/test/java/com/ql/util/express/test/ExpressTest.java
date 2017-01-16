@@ -15,12 +15,12 @@ public class ExpressTest {
 		String express = "10 * 10 + 1 + 2 * 3 + 5 * 2";
 		ExpressRunner runner = new ExpressRunner();
 		Object r = runner.execute(express,null, null, false,false);
-		Assert.assertTrue("±í´ïÊ½¼ÆËã", r.toString().equalsIgnoreCase("117"));
-		System.out.println("±í´ïÊ½¼ÆËã£º" + express + " = " + r);
+		Assert.assertTrue("è¡¨è¾¾å¼è®¡ç®—", r.toString().equalsIgnoreCase("117"));
+		System.out.println("è¡¨è¾¾å¼è®¡ç®—ï¼š" + express + " = " + r);
 	}
 
 	@org.junit.Test
-	public void tes10000´Î() throws Exception{
+	public void tes10000æ¬¡() throws Exception{
 		ExpressRunner runner = new ExpressRunner();
 		String express = "10 * 10 + 1 + 2 * 3 + 5 * 2";
 		int num = 100000;
@@ -29,7 +29,7 @@ public class ExpressTest {
 		for(int i = 0;i< num;i++){
 			runner.execute(express,null, null, true,false);
 		}
-		System.out.println("Ö´ĞĞ" + num +"´Î\""+ express +"\" ºÄÊ±£º"
+		System.out.println("æ‰§è¡Œ" + num +"æ¬¡\""+ express +"\" è€—æ—¶ï¼š"
 				+ (System.currentTimeMillis() - start));
 	}
 
@@ -37,49 +37,50 @@ public class ExpressTest {
 	public void testExpress() throws Exception{
 		ExpressRunner runner = new ExpressRunner();
 		
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-		runner.addOperatorWithAlias("Ôò", "then",null);
-		runner.addOperatorWithAlias("·ñÔò", "else",null);
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+		runner.addOperatorWithAlias("åˆ™", "then",null);
+		runner.addOperatorWithAlias("å¦åˆ™", "else",null);
 
 		runner.addOperator("love", new LoveOperator("love"));
-		runner.addOperatorWithAlias("ÊôÓÚ", "in", "ÓÃ»§$1²»ÔÚÔÊĞíµÄ·¶Î§");
-		runner.addOperatorWithAlias("myand", "and", "ÓÃ»§$1²»ÔÚÔÊĞíµÄ·¶Î§");
-		runner.addFunction("ÀÛ¼Ó", new GroupOperator("ÀÛ¼Ó"));
+		runner.addOperatorWithAlias("å±äº", "in", "ç”¨æˆ·$1ä¸åœ¨å…è®¸çš„èŒƒå›´");
+		runner.addOperatorWithAlias("myand", "and", "ç”¨æˆ·$1ä¸åœ¨å…è®¸çš„èŒƒå›´");
+		runner.addFunction("ç´¯åŠ ", new GroupOperator("ç´¯åŠ "));
 		runner.addFunction("group", new GroupOperator("group"));
 		runner.addFunctionOfClassMethod("isVIP", BeanExample.class.getName(),
-				"isVIP", new String[] { "String" }, "$1²»ÊÇVIPÓÃ»§");
-		runner.addFunctionOfClassMethod("È¡¾ø¶ÔÖµ", Math.class.getName(), "abs",
+				"isVIP", new String[] { "String" }, "$1ä¸æ˜¯VIPç”¨æˆ·");
+		runner.addFunctionOfClassMethod("å–ç»å¯¹å€¼", Math.class.getName(), "abs",
 				new String[] { "double" }, null);
-		runner.addFunctionOfClassMethod("È¡¾ø¶ÔÖµTWO", Math.class.getName(), "abs",
+		runner.addFunctionOfClassMethod("å–ç»å¯¹å€¼TWO", Math.class.getName(), "abs",
 				new Class[] { double.class }, null);
-		runner.addFunctionOfClassMethod("×ª»»Îª´óĞ´", BeanExample.class.getName(),
+		runner.addFunctionOfClassMethod("è½¬æ¢ä¸ºå¤§å†™", BeanExample.class.getName(),
 				"upper", new String[] { "String" }, null);		
 		runner.addFunctionOfClassMethod("testLong", BeanExample.class.getName(),
 				"testLong", new String[] { "long" }, null);		
 		String[][] expressTest = new String[][] {
 				{ "isVIP(\"qh\") ; isVIP(\"xuannan\"); return isVIP(\"qh\") ;", "false" },				
-				{ "Èç¹û  ÈıĞÇÂô¼Ò  Ôò  'a' love 'b'  ·ñÔò   'b' love 'd' ", "b{a}b" },
+				{ "å¦‚æœ  ä¸‰æ˜Ÿå–å®¶  åˆ™  'a' love 'b'  å¦åˆ™   'b' love 'd' ", "b{a}b" },
+				{ "when  ä¸‰æ˜Ÿå–å®¶  then  'a' love 'b'  å¦åˆ™   'b' love 'd' ", "b{a}b" },
 				{"int defVar = 100; defVar = defVar + 100;", "200"},
 				{"int a=0; if false then a = 5 else  a=10+1 ; return a ","11"},
 				{ " 3+ (1==2?4:3) +8","14"},
-				{ " Èç¹û  (true) Ôò {2+2;} ·ñÔò {20 + 20;} ","4"},
+				{ " å¦‚æœ  (true) åˆ™ {2+2;} å¦åˆ™ {20 + 20;} ","4"},
 				{"'AAAAAAA' +'-' + \"\" +'' + \"B\"","AAAAAAA-B"},
 				{ "System.out.println(\"ss\")", "null" },
-				{"unionName = new com.ql.util.express.test.BeanExample(\"ÕÅÈı\").unionName(\"ÀîËÄ\")",
-						"ÕÅÈı-ÀîËÄ" }, 
+				{"unionName = new com.ql.util.express.test.BeanExample(\"å¼ ä¸‰\").unionName(\"æå››\")",
+						"å¼ ä¸‰-æå››" }, 
 						{ "group(2,3,4)", "9" },
-						{ "È¡¾ø¶ÔÖµ(-5.0)", "5.0" },
-						{ "È¡¾ø¶ÔÖµTWO(-10.0)", "10.0" },
+						{ "å–ç»å¯¹å€¼(-5.0)", "5.0" },
+						{ "å–ç»å¯¹å€¼TWO(-10.0)", "10.0" },
 				{ "max(2,3,4,10)", "10" },
 				{"max(2,-1)","2"},
-				{ "max(3,2) + ×ª»»Îª´óĞ´(\"abc\")", "3ABC" },
+				{ "max(3,2) + è½¬æ¢ä¸ºå¤§å†™(\"abc\")", "3ABC" },
 				{ "c = 1000 + 2000", "3000" },
-				{ "b = ÀÛ¼Ó(1,2,3)+ÀÛ¼Ó(4,5,6)", "21" },
-				{ "ÈıĞÇÂô¼Ò and Ïû±£ÓÃ»§ ", "true" },
+				{ "b = ç´¯åŠ (1,2,3)+ç´¯åŠ (4,5,6)", "21" },
+				{ "ä¸‰æ˜Ÿå–å®¶ and æ¶ˆä¿ç”¨æˆ· ", "true" },
 				{ "new String(\"12345\").length()" ,"5"},
 				{ "'a' love 'b' love 'c' love 'd'", "d{c{b{a}b}c}d" },
 				{ "10 * (10 + 1) + 2 * (3 + 5) * 2", "142" },
-				{ "( 2  ÊôÓÚ (4,3,5)) or isVIP(\"qhlhl2010@gmail.com\") or  isVIP(\"qhlhl2010@gmail.com\")", "false" },
+				{ "( 2  å±äº (4,3,5)) or isVIP(\"qhlhl2010@gmail.com\") or  isVIP(\"qhlhl2010@gmail.com\")", "false" },
 				{" 1!=1 and isVIP(\"qhlhl2010@gmail.com\")","false"},
 				{" 1==1 or isVIP(\"qhlhl2010@gmail.com\") ","true"},
 				{ "abc == 1", "true" },
@@ -121,11 +122,11 @@ public class ExpressTest {
 					|| result != null
 					&& expressTest[point][1].equalsIgnoreCase(result							
 							.toString()) == false) {
-				throw new Exception("´¦Àí´íÎó,¼ÆËã½á¹ûÓëÔ¤ÆÚµÄ²»Æ¥Åä:" + expressStr + " = " + result + "µ«ÊÇÆÚÍûÖµÊÇ£º" + expressTest[point][1]);
+				throw new Exception("å¤„ç†é”™è¯¯,è®¡ç®—ç»“æœä¸é¢„æœŸçš„ä¸åŒ¹é…:" + expressStr + " = " + result + "ä½†æ˜¯æœŸæœ›å€¼æ˜¯ï¼š" + expressTest[point][1]);
 			}
 			System.out.println("Example " + point + " : " + expressStr + " =  " + result);
 			if(errorList.size() > 0){
-			   System.out.println("\t\tÏµÍ³Êä³öµÄ´íÎóÌáÊ¾ĞÅÏ¢:" + errorList);
+			   System.out.println("\t\tç³»ç»Ÿè¾“å‡ºçš„é”™è¯¯æç¤ºä¿¡æ¯:" + errorList);
 			}
 		}
 		System.out.println(expressContext);

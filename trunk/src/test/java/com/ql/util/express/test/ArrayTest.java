@@ -22,7 +22,7 @@ public class ArrayTest {
 		int[][] r = (int[][]) runner.execute(express, context, null, false,
 				true);
 		System.out.println(r[0][1]);
-		Assert.assertTrue("Êı×é²Ù×÷ÊµÏÖ´íÎó", r[0][1] == 22);
+		Assert.assertTrue("æ•°ç»„æ“ä½œå®ç°é”™è¯¯", r[0][1] == 22);
 	}
 
 	@Test
@@ -55,13 +55,13 @@ public class ArrayTest {
 					|| result != null
 					&& expressTest[point][1]
 							.equalsIgnoreCase(result.toString()) == false) {
-				throw new Exception("´¦Àí´íÎó,¼ÆËã½á¹ûÓëÔ¤ÆÚµÄ²»Æ¥Åä:" + expressStr + " = "
-						+ result + "µ«ÊÇÆÚÍûÖµÊÇ£º" + expressTest[point][1]);
+				throw new Exception("å¤„ç†é”™è¯¯,è®¡ç®—ç»“æœä¸é¢„æœŸçš„ä¸åŒ¹é…:" + expressStr + " = "
+						+ result + "ä½†æ˜¯æœŸæœ›å€¼æ˜¯ï¼š" + expressTest[point][1]);
 			}
 			System.out.println("Example " + point + " : " + expressStr + " =  "
 					+ result);
 			if (errorList.size() > 0) {
-				System.out.println("\t\tÏµÍ³Êä³öµÄ´íÎóÌáÊ¾ĞÅÏ¢:" + errorList);
+				System.out.println("\t\tç³»ç»Ÿè¾“å‡ºçš„é”™è¯¯æç¤ºä¿¡æ¯:" + errorList);
 			}
 		}
 		System.out.println(expressContext);

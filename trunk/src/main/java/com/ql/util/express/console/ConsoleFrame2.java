@@ -113,22 +113,22 @@ public class ConsoleFrame2
     contentPane.setPreferredSize(new Dimension(500, 400));
     jButton1.addActionListener(new ConsoleFrame_jButton1_actionAdapter2(this));
     jPanelResult.setLayout(borderLayout3);
-    jLabelScript.setText("ÔËÐÐ½Å±¾");
-    jLabelResult.setText("ÔËÐÐ½á¹û");
-    jLabelContext.setText("½Å±¾ÉÏÏÂÎÄ");
+    jLabelScript.setText("è¿è¡Œè„šæœ¬");
+    jLabelResult.setText("è¿è¡Œç»“æžœ");
+    jLabelContext.setText("è„šæœ¬ä¸Šä¸‹æ–‡");
     jPanelScript.setLayout(borderLayout4);
     jPanelContext.setLayout(borderLayout5);
     jMenuBar1.add(jMenuFile);
     jMenuFile.add(jMenuFileExit);
     setJMenuBar(jMenuBar1);
     jButton1.setIcon(image1);
-    jButton1.setToolTipText("Ö´ÐÐ");
+    jButton1.setToolTipText("æ‰§è¡Œ");
     jToolBar.add(jButton1);
     contentPane.add(statusBar, BorderLayout.SOUTH);
     contentPane.add(jSplitPaneMain, java.awt.BorderLayout.CENTER);
-    jTabbedPaneContent.add(jPaneRunner, "Ö´ÐÐ´úÂë");
-    jTabbedPaneContent.add(jPanelHelp, "¹Ø¼ü×Ö");
-    jTabbedPaneContent.add(jPanel3, "°ïÖú");
+    jTabbedPaneContent.add(jPaneRunner, "æ‰§è¡Œä»£ç ");
+    jTabbedPaneContent.add(jPanelHelp, "å…³é”®å­—");
+    jTabbedPaneContent.add(jPanel3, "å¸®åŠ©");
     jPaneRunner.add(jSplitPaneRun, java.awt.BorderLayout.CENTER);
     jScrollPaneTree.getViewport().add(this.jTreeFileSelect);
     jScrollPaneContext.getViewport().add(jTextAreaContext);
@@ -187,11 +187,11 @@ public void jButton1_actionPerformed(ActionEvent e) {
 	      context.putAll(tempMap);
 	      r = runner.execute(script, context, null,false,true);
 	      writer.write("QL>\n" +
-				"-------------------Ô­Ê¼Ö´ÐÐ½Å±¾--------------------------------\n" +
+				"-------------------åŽŸå§‹æ‰§è¡Œè„šæœ¬--------------------------------\n" +
 				script +  "\n" +
-				"-------------------½Å±¾ÔËÐÐ½á¹û--------------------------------\n" +
+				"-------------------è„šæœ¬è¿è¡Œç»“æžœ--------------------------------\n" +
 				r +"\n" +
-				"-------------------ÔËÐÐºóÉÏÏÂÎÄ--------------------------------\n" +
+				"-------------------è¿è¡ŒåŽä¸Šä¸‹æ–‡--------------------------------\n" +
 				context
 				+ "\nQL>");
 	} catch (Exception e1) {

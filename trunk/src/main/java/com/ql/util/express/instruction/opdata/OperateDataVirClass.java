@@ -12,17 +12,17 @@ import com.ql.util.express.instruction.OperateDataCacheManager;
 
 
 /**
- * ĞéÄâClassµÄÄÚ´æ¶ÔÏó
+ * è™šæ‹ŸClassçš„å†…å­˜å¯¹è±¡
  * @author xuannan
  *
  */
 public class OperateDataVirClass extends OperateDataAttr{
     /**
-     * ĞéÄâClassµÄÊı¾İÉÏÏÂÎÄ
+     * è™šæ‹ŸClassçš„æ•°æ®ä¸Šä¸‹æ–‡
      */
     InstructionSetContext context;     
     /**
-     * ĞéÄâÀàµÄÖ¸Áî¼¯ºÏ
+     * è™šæ‹Ÿç±»çš„æŒ‡ä»¤é›†åˆ
      */
     InstructionSet virClassInstructionSet;
     
@@ -39,24 +39,24 @@ public class OperateDataVirClass extends OperateDataAttr{
 				parent.getExpressRunner(),parent,parent.getExpressLoader(),parent.isSupportDynamicFieldName());
 		Object functionSet = parent.getSymbol(this.name);		
 		if (functionSet == null || functionSet instanceof InstructionSet == false) {
-			throw new Exception("Ã»ÓĞÕÒµ½×Ô¶¨Òå¶ÔÏó\"" + this.name + "\"");
+			throw new Exception("æ²¡æœ‰æ‰¾åˆ°è‡ªå®šä¹‰å¯¹è±¡\"" + this.name + "\"");
 		}
 		this.virClassInstructionSet = (InstructionSet)functionSet;
 		
 		OperateDataLocalVar[] vars = virClassInstructionSet.getParameters();
 		for(int i=0;i<vars.length;i++){
-			//×¢Òâ´Ë´¦±ØĞënew Ò»¸öĞÂµÄ¶ÔÏó£¬·ñÔò¾Í»áÔÚ¶à´Îµ÷ÓÃµÄÊ±ºòµ¼ÖÂÊı¾İ³åÍ»
+			//æ³¨æ„æ­¤å¤„å¿…é¡»new ä¸€ä¸ªæ–°çš„å¯¹è±¡ï¼Œå¦åˆ™å°±ä¼šåœ¨å¤šæ¬¡è°ƒç”¨çš„æ—¶å€™å¯¼è‡´æ•°æ®å†²çª
 			OperateDataLocalVar var = OperateDataCacheManager.fetchOperateDataLocalVar(vars[i].getName(),vars[i].getOrgiType());
 			this.context.addSymbol(var.getName(), var);
 			var.setObject(context, parameters[i].getObject(parent));
 		}
-		InstructionSetRunner.execute(new InstructionSet[]{(InstructionSet)virClassInstructionSet},
+		InstructionSetRunner.execute((InstructionSet)virClassInstructionSet,
 				context,errorList,aIsTrace,false,false,log);
 	}
 	public OperateData callSelfFunction(String functionName,OperateData[] parameters) throws Exception{
 		Object function = this.context.getSymbol(functionName);
 		if (function == null || function instanceof InstructionSet == false) {
-			throw new Exception("ÔÚVClass:"+ this.name +"ÖĞÃ»ÓĞ¶¨Òåº¯Êı\"" + functionName + "\"");
+			throw new Exception("åœ¨VClass:"+ this.name +"ä¸­æ²¡æœ‰å®šä¹‰å‡½æ•°\"" + functionName + "\"");
 		}
 		InstructionSet functionSet = (InstructionSet)function;
 		
@@ -65,12 +65,12 @@ public class OperateDataVirClass extends OperateDataAttr{
 				this.context.isSupportDynamicFieldName());
 		OperateDataLocalVar[] vars = functionSet.getParameters();
 		for(int i=0;i<vars.length;i++){
-			//×¢Òâ´Ë´¦±ØĞënew Ò»¸öĞÂµÄ¶ÔÏó£¬·ñÔò¾Í»áÔÚ¶à´Îµ÷ÓÃµÄÊ±ºòµ¼ÖÂÊı¾İ³åÍ»
+			//æ³¨æ„æ­¤å¤„å¿…é¡»new ä¸€ä¸ªæ–°çš„å¯¹è±¡ï¼Œå¦åˆ™å°±ä¼šåœ¨å¤šæ¬¡è°ƒç”¨çš„æ—¶å€™å¯¼è‡´æ•°æ®å†²çª
 			OperateDataLocalVar var = OperateDataCacheManager.fetchOperateDataLocalVar(vars[i].getName(),vars[i].getOrgiType());
 			tempContext.addSymbol(var.getName(), var);
 			var.setObject(tempContext, parameters[i].getObject(this.context));
 		}
-		Object result =InstructionSetRunner.execute(new InstructionSet[]{(InstructionSet)functionSet},
+		Object result =InstructionSetRunner.execute((InstructionSet)functionSet,
 				tempContext,null,this.isTrace,false,true,this.log);
 		return OperateDataCacheManager.fetchOperateData(result,null);
 	}
@@ -78,15 +78,15 @@ public class OperateDataVirClass extends OperateDataAttr{
 		Object o = this.context.findAliasOrDefSymbol(name.toString());
 		if(o == null){
 			return null;
-		}else if(o instanceof OperateData){//±äÁ¿¶¨Òå
+		}else if(o instanceof OperateData){//å˜é‡å®šä¹‰
 			return ((OperateData)o).getObject(context);
-		}else if( o instanceof InstructionSet){//ºê¶¨Òå
+		}else if( o instanceof InstructionSet){//å®å®šä¹‰
 			InstructionSetContext tempContext = OperateDataCacheManager.fetchInstructionSetContext(
 					true,this.context.getExpressRunner(),this.context,this.context.getExpressLoader(),
 					this.context.isSupportDynamicFieldName());
 			Object result =InstructionSetRunner.execute(
 					this.context.getExpressRunner(),
-					new InstructionSet[]{(InstructionSet)o},
+					(InstructionSet)o,
 					this.context.getExpressLoader(),
 					tempContext, 
 					null,
@@ -99,7 +99,7 @@ public class OperateDataVirClass extends OperateDataAttr{
 			    return result;
 			}			
 		}else{
-			throw new Exception("²»Ö§³ÖµÄÊı¾İÀàĞÍ:" + o.getClass().getName());
+			throw new Exception("ä¸æ”¯æŒçš„æ•°æ®ç±»å‹:" + o.getClass().getName());
 		}
 	}
 	public void setValue(String name,Object value) throws Exception{
@@ -107,7 +107,7 @@ public class OperateDataVirClass extends OperateDataAttr{
 		if(o instanceof OperateData){
 			((OperateData)o).setObject(context,value);
 		}else{
-			throw new Exception("²»Ö§³ÖµÄÊı¾İÀàĞÍ:" + o.getClass().getName());
+			throw new Exception("ä¸æ”¯æŒçš„æ•°æ®ç±»å‹:" + o.getClass().getName());
 		}
 	}
 	public Class<?> getValueType(Object name) throws Exception{
@@ -115,7 +115,7 @@ public class OperateDataVirClass extends OperateDataAttr{
 		if(o instanceof OperateData){
 			return ((OperateData)o).getType(context);
 		}else{
-			throw new Exception("²»Ö§³ÖµÄÊı¾İÀàĞÍ:" + o.getClass().getName());
+			throw new Exception("ä¸æ”¯æŒçš„æ•°æ®ç±»å‹:" + o.getClass().getName());
 		}
 	}
 	public Object getObjectInner(InstructionSetContext context) {
@@ -127,7 +127,7 @@ public class OperateDataVirClass extends OperateDataAttr{
 	}
 
 	public void setObject(InstructionSetContext parent, Object object) {
-			throw new RuntimeException("²»Ö§³ÖµÄ·½·¨");
+			throw new RuntimeException("ä¸æ”¯æŒçš„æ–¹æ³•");
 	}
 	
     public String toString(){

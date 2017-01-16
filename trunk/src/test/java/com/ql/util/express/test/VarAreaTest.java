@@ -10,44 +10,44 @@ public class VarAreaTest {
 	public void testVarArea1() throws Exception{
 		String express =
 				" qh = 1; " +
-				"Èç¹û ( false)  Ôò {" +
+				"å¦‚æœ ( false)  åˆ™ {" +
 				"  3 + (3) + (4 + 1)" +
-				" }·ñÔò{" +
+				" }å¦åˆ™{" +
 				" qh = 3;" +
 				" qh = qh + 100;" +
 				"}; " +
 				"qh = qh + 1;";
 		ExpressRunner runner = new ExpressRunner();
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-		runner.addOperatorWithAlias("Ôò", "then",null);
-		runner.addOperatorWithAlias("·ñÔò", "else",null);
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+		runner.addOperatorWithAlias("åˆ™", "then",null);
+		runner.addOperatorWithAlias("å¦åˆ™", "else",null);
 		Object r = runner.execute(express,context, null, false,false);
 		System.out.println(r);
 		System.out.println(context);
-		Assert.assertTrue("±äÁ¿¶¨Òå×÷ÓÃÓò´íÎó", context.get("qh").toString().equals("104"));
+		Assert.assertTrue("å˜é‡å®šä¹‰ä½œç”¨åŸŸé”™è¯¯", context.get("qh").toString().equals("104"));
 		
 	}	
 	@org.junit.Test
 	public void testVarArea2() throws Exception{
 		String express =
 				" qh = 1; " +
-				"Èç¹û ( false)  Ôò {" +
+				"å¦‚æœ ( false)  åˆ™ {" +
 				"  3 + (3) + (4 + 1)" +
-				" }·ñÔò{" +
+				" }å¦åˆ™{" +
 				" int qh = 3;" +
 				" qh = qh + 100;" +
 				"}; " +
 				"qh = qh + 1;";
 		ExpressRunner runner = new ExpressRunner();
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-		runner.addOperatorWithAlias("Ôò", "then",null);
-		runner.addOperatorWithAlias("·ñÔò", "else",null);
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+		runner.addOperatorWithAlias("åˆ™", "then",null);
+		runner.addOperatorWithAlias("å¦åˆ™", "else",null);
 		Object r = runner.execute(express,context, null, false,false);
 		System.out.println(r);
 		System.out.println(context);
-		Assert.assertTrue("±äÁ¿¶¨Òå×÷ÓÃÓò´íÎó", context.get("qh").toString().equals("2"));
+		Assert.assertTrue("å˜é‡å®šä¹‰ä½œç”¨åŸŸé”™è¯¯", context.get("qh").toString().equals("2"));
 		
 	}		
 }

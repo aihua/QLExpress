@@ -7,20 +7,25 @@ import com.ql.util.express.instruction.OperateDataCacheManager;
 
 public class InstructionSetContext  implements IExpressContext<String,Object> {
 	/*
-	 * Ã»ÓĞÖªµÀÊı¾İÀàĞÍµÄ±äÁ¿¶¨ÒåÊÇ·ñ´«µİµ½×îÍâ²ãµÄContext
+	 * æ²¡æœ‰çŸ¥é“æ•°æ®ç±»å‹çš„å˜é‡å®šä¹‰æ˜¯å¦ä¼ é€’åˆ°æœ€å¤–å±‚çš„Context
 	 */
 	private boolean isExpandToParent = true;
 	
 	private IExpressContext<String,Object> parent = null;
 	private Map<String,Object> content;
 	/**
-	 * ·ûºÅ±í
+	 * ç¬¦å·è¡¨
 	 */
-	private Map<String,Object> symbolTable;
+	private Map<String,Object> symbolTable =new HashMap<String,Object>();
 	
 	private ExpressLoader expressLoader;
 	
 	private boolean isSupportDynamicFieldName = false;
+
+	public ExpressRunner getRunner() {
+		return runner;
+	}
+
 	private ExpressRunner runner;
 	
 	public InstructionSetContext(boolean aIsExpandToParent,ExpressRunner aRunner,IExpressContext<String,Object> aParent,ExpressLoader aExpressLoader,boolean aIsSupportDynamicFieldName){
@@ -37,10 +42,11 @@ public class InstructionSetContext  implements IExpressContext<String,Object> {
     	isExpandToParent = true;    	
     	parent = null;
     	content = null;
-    	symbolTable = null;
     	expressLoader = null;    	
     	isSupportDynamicFieldName = false;
-    	runner = null;   	
+    	runner = null;   
+    	symbolTable.clear();
+    	
     }
 	public void exportSymbol(String varName,Object aliasNameObject) throws Exception{
 		if( this.parent != null && this.parent instanceof InstructionSetContext){
@@ -50,13 +56,13 @@ public class InstructionSetContext  implements IExpressContext<String,Object> {
 		}
 	}
 	public void addSymbol(String varName,Object aliasNameObject) throws Exception{
-		if(this.symbolTable == null){
-			this.symbolTable = new HashMap<String,Object>();
-		}
 		if(this.symbolTable.containsKey(varName)){
-			throw new Exception("±äÁ¿" + varName + "ÒÑ¾­´æÔÚ£¬²»ÄÜÖØ¸´¶¨Òå£¬Ò²²»ÄÜÔÙ´Óº¯ÊıÄÚ²¿ exprot ");
+			throw new Exception("å˜é‡" + varName + "å·²ç»å­˜åœ¨ï¼Œä¸èƒ½é‡å¤å®šä¹‰ï¼Œä¹Ÿä¸èƒ½å†ä»å‡½æ•°å†…éƒ¨ exprot ");
 		}
 		this.symbolTable.put(varName,aliasNameObject);
+	}
+	public void addSymbol(Map<String,Object> aliasNameObjects) throws Exception{
+		this.symbolTable.putAll(aliasNameObjects);
 	}
 	
 	public void setSupportDynamicFieldName(boolean isSupportDynamicFieldName) {
@@ -69,10 +75,7 @@ public class InstructionSetContext  implements IExpressContext<String,Object> {
 		return this.runner;
 	}
 	public Object findAliasOrDefSymbol(String varName)throws Exception{
-		Object result = null;
-		if(this.symbolTable != null){
-			result = this.symbolTable.get(varName);
-		}
+		Object result =  this.symbolTable.get(varName);
 		if(result == null){
 			if( this.parent != null && this.parent instanceof InstructionSetContext){
 			    result = ((InstructionSetContext)this.parent).findAliasOrDefSymbol(varName);
@@ -83,10 +86,7 @@ public class InstructionSetContext  implements IExpressContext<String,Object> {
 		return result;		
 	}
 	public Object getSymbol(String varName) throws Exception{
-		Object result = null;
-		if(this.symbolTable != null){
-			result = this.symbolTable.get(varName);
-		}
+		Object result = this.symbolTable.get(varName);
 		if( result == null && this.expressLoader != null){
 			result = this.expressLoader.getInstructionSet(varName);
 		}
@@ -129,7 +129,7 @@ public class InstructionSetContext  implements IExpressContext<String,Object> {
 		}else if(this.parent != null){
 			return this.parent.put(key,value);
 		}else{
-			throw new RuntimeException("Ã»ÓĞ¶¨Òå¾Ö²¿±äÁ¿£º" + key +",¶øÇÒÃ»ÓĞÈ«¾ÖÉÏÏÂÎÄ");
+			throw new RuntimeException("æ²¡æœ‰å®šä¹‰å±€éƒ¨å˜é‡ï¼š" + key +",è€Œä¸”æ²¡æœ‰å…¨å±€ä¸Šä¸‹æ–‡");
 		}
 	}
 

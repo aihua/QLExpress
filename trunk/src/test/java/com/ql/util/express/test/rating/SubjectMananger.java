@@ -17,7 +17,7 @@ public class SubjectMananger  extends HashMap {
 		return userSubject;		
 	}
 	public Object  put(String userName, Object userSubject){
-		throw new RuntimeException("不运行的方法");
+		throw new RuntimeException("涓嶈繍琛岀殑鏂规硶");
 	}
 	public List<SubjectValue> getSubjectValues(){
 		List<SubjectValue> result = new ArrayList<SubjectValue>();

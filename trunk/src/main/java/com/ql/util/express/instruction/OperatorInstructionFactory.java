@@ -40,10 +40,10 @@ class OperatorInstructionFactory  extends InstructionFactory{
 			}else if(node.isTypeEqualsOrChild("def") || node.isTypeEqualsOrChild("alias")){
 				returnVal = true;
 			}else if(node.isTypeEqualsOrChild("exportDef")){
-				//Ìí¼Ó¶ÔÍâµÄ±äÁ¿ÉùÃ÷
-				result.addExportDef(new ExportItem(children[1].toString(),ExportItem.TYPE_DEF,"»¹Ã»ÓĞÊµÏÖ"));
+				//æ·»åŠ å¯¹å¤–çš„å˜é‡å£°æ˜
+				result.addExportDef(new ExportItem(children[1].toString(),ExportItem.TYPE_DEF,"è¿˜æ²¡æœ‰å®ç°"));
 			}else if(node.isTypeEqualsOrChild("exportAlias")){
-				result.addExportDef(new ExportItem(children[0].toString(),ExportItem.TYPE_ALIAS,"»¹Ã»ÓĞÊµÏÖ"));
+				result.addExportDef(new ExportItem(children[0].toString(),ExportItem.TYPE_ALIAS,"è¿˜æ²¡æœ‰å®ç°"));
 			}
 		}
 		return returnVal;

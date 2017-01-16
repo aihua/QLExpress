@@ -28,7 +28,7 @@ public class OperateDataCacheManager {
 		m_OperateDataObjectCache.get().push(aRunner);
 	}
 	public static IOperateDataCache getOperateDataCache(){
-		return m_OperateDataObjectCache.get().getOperateDataCache();
+		return m_OperateDataObjectCache.get().cache;
 	}
 	public static OperateData fetchOperateData(Object obj, Class<?> aType) {
 		return getOperateDataCache().fetchOperateData(obj, aType);

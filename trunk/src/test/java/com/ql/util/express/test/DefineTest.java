@@ -17,8 +17,8 @@ public class DefineTest {
 		ExpressRunner runner = new ExpressRunner(false,true);	
 		context.put("qh",100);
 		Object r = runner.execute(express,context, null, false,false);
-		Assert.assertTrue("±í´ïÊ½±äÁ¿×÷ÓÃÓò´íÎó", r.toString().equalsIgnoreCase("1"));
-		Assert.assertTrue("±í´ïÊ½±äÁ¿×÷ÓÃÓò´íÎó", context.get("qh").toString().equalsIgnoreCase("100"));
+		Assert.assertTrue("è¡¨è¾¾å¼å˜é‡ä½œç”¨åŸŸé”™è¯¯", r.toString().equalsIgnoreCase("1"));
+		Assert.assertTrue("è¡¨è¾¾å¼å˜é‡ä½œç”¨åŸŸé”™è¯¯", context.get("qh").toString().equalsIgnoreCase("100"));
 	}		
 	
 	@org.junit.Test
@@ -28,52 +28,52 @@ public class DefineTest {
 		ExpressRunner runner = new ExpressRunner();
 		context.put("qh",100);
 		Object r = runner.execute(express,context, null, false,false);
-		Assert.assertTrue("±í´ïÊ½±äÁ¿×÷ÓÃÓò´íÎó", r.toString().equalsIgnoreCase("2"));
-		Assert.assertTrue("±í´ïÊ½±äÁ¿×÷ÓÃÓò´íÎó", context.get("qh").toString().equalsIgnoreCase("2"));
+		Assert.assertTrue("è¡¨è¾¾å¼å˜é‡ä½œç”¨åŸŸé”™è¯¯", r.toString().equalsIgnoreCase("2"));
+		Assert.assertTrue("è¡¨è¾¾å¼å˜é‡ä½œç”¨åŸŸé”™è¯¯", context.get("qh").toString().equalsIgnoreCase("2"));
 	}
 	@org.junit.Test
 	public void testAlias() throws Exception {
-		String express = " ¶¨Òå±ğÃû qh example.child; "
-				+ "{¶¨Òå±ğÃû qh example.child.a;" + " qh =qh + \"-ssss\";" + "};"
+		String express = " å®šä¹‰åˆ«å qh example.child; "
+				+ "{å®šä¹‰åˆ«å qh example.child.a;" + " qh =qh + \"-ssss\";" + "};"
 				+ " qh.a = qh.a +\"-qh\";" + " return example.child.a";
 		ExpressRunner runner = new ExpressRunner();
-		runner.addOperatorWithAlias("¶¨Òå±ğÃû", "alias", null);
+		runner.addOperatorWithAlias("å®šä¹‰åˆ«å", "alias", null);
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		context.put("example", new BeanExample());
-		runner.addOperatorWithAlias("Èç¹û", "if", null);
-		runner.addOperatorWithAlias("Ôò", "then", null);
-		runner.addOperatorWithAlias("·ñÔò", "else", null);
+		runner.addOperatorWithAlias("å¦‚æœ", "if", null);
+		runner.addOperatorWithAlias("åˆ™", "then", null);
+		runner.addOperatorWithAlias("å¦åˆ™", "else", null);
 		Object r = runner.execute(express,context, null, false,false);
-		Assert.assertTrue("±ğÃûÊµÏÖ ´íÎó", r.toString().equalsIgnoreCase("qh-ssss-qh"));
-		Assert.assertTrue("±ğÃûÊµÏÖ ´íÎó", ((BeanExample) context.get("example")).child.a.toString().equalsIgnoreCase("qh-ssss-qh"));
+		Assert.assertTrue("åˆ«åå®ç° é”™è¯¯", r.toString().equalsIgnoreCase("qh-ssss-qh"));
+		Assert.assertTrue("åˆ«åå®ç° é”™è¯¯", ((BeanExample) context.get("example")).child.a.toString().equalsIgnoreCase("qh-ssss-qh"));
 	}
 	@org.junit.Test
 	public void testMacro() throws Exception{
-		String express ="¶¨Òåºê  ³Í·£   {bean.unionName(name)}; ³Í·£; return  ³Í·£";
+		String express ="å®šä¹‰å®  æƒ©ç½š   {bean.unionName(name)}; æƒ©ç½š; return  æƒ©ç½š";
 		ExpressRunner runner = new ExpressRunner();
-		runner.addOperatorWithAlias("¶¨Òåºê", "macro", null);
+		runner.addOperatorWithAlias("å®šä¹‰å®", "macro", null);
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();		
 		context.put("bean", new BeanExample("qhlhl2010@gmail.com"));
 		context.put("name","xuannn");
 		Object r = runner.execute(express,context, null, false,false);
-		Assert.assertTrue("±ğÃûºê ´íÎó", r.toString().equalsIgnoreCase("qhlhl2010@gmail.com-xuannn"));
+		Assert.assertTrue("åˆ«åå® é”™è¯¯", r.toString().equalsIgnoreCase("qhlhl2010@gmail.com-xuannn"));
 		System.out.println(r);
 	}	
 	@Test
-	public void test_×Ô¶¨Òåº¯Êı() throws Exception{		
-		String express ="¶¨Òåº¯Êı  µİ¹é(int a){" +
+	public void test_è‡ªå®šä¹‰å‡½æ•°() throws Exception{		
+		String express ="å®šä¹‰å‡½æ•°  é€’å½’(int a){" +
 				" if(a == 1)then{ " +
 				"   return 1;" +
 				"  }else{ " +
-				"     return µİ¹é(a - 1) *  a;" +
+				"     return é€’å½’(a - 1) *  a;" +
 				"  } " +
 				"}; " +
-				"µİ¹é(10);";
+				"é€’å½’(10);";
 		ExpressRunner runner = new ExpressRunner();
-		runner.addOperatorWithAlias("¶¨Òåº¯Êı", "function",null);
+		runner.addOperatorWithAlias("å®šä¹‰å‡½æ•°", "function",null);
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();		
 		Object r = runner.execute(express,context, null, true,false);
-		Assert.assertTrue("×Ô¶¨Òåº¯Êı ´íÎó", r.toString().equals("3628800"));
+		Assert.assertTrue("è‡ªå®šä¹‰å‡½æ•° é”™è¯¯", r.toString().equals("3628800"));
 	}	
 	@org.junit.Test
 	public void testProperty() throws Exception{
@@ -84,73 +84,33 @@ public class DefineTest {
 				"return map.name;";
 		ExpressRunner runner = new ExpressRunner();
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();
-		context.put("example", new BeanExample("ÕÅÈı"));
+		context.put("example", new BeanExample("å¼ ä¸‰"));
 		context.put("map",new HashMap<String,Object>());
 		runner.addFunctionOfClassMethod("isVIP", BeanExample.class.getName(),
-				"isVIP", new String[] { "String" }, "$1²»ÊÇVIPÓÃ»§");
+				"isVIP", new String[] { "String" }, "$1ä¸æ˜¯VIPç”¨æˆ·");
 		Object r = runner.execute(express,context, null, false,false);
-		Assert.assertTrue("ÊôĞÔ²Ù×÷´íÎó", r.toString().equalsIgnoreCase("ffff"));
-		Assert.assertTrue("ÊôĞÔ²Ù×÷´íÎó", ((BeanExample)context.get("example")).child.a.toString().equalsIgnoreCase("ssssssss"));		
+		Assert.assertTrue("å±æ€§æ“ä½œé”™è¯¯", r.toString().equalsIgnoreCase("ffff"));
+		Assert.assertTrue("å±æ€§æ“ä½œé”™è¯¯", ((BeanExample)context.get("example")).child.a.toString().equalsIgnoreCase("ssssssss"));		
 	}	
+
 	@org.junit.Test
-	public void testÅúÁ¿Ö´ĞĞÖ¸Áî() throws Exception{
-		ExpressRunner runner = new ExpressRunner();
-		runner.addOperatorWithAlias("¶¨Òåºê", "macro", null);
-		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();		
-		context.put("bean", new BeanExample("qhlhl2010@gmail.com"));
-		context.put("name","xuannn");
-		InstructionSet[] sets =  new InstructionSet[]{
-				runner.parseInstructionSet("int qh = 1;"),
-				runner.parseInstructionSet("qh = qh + 10;"),
-				runner.parseInstructionSet("¶¨Òåºê  ³Í·£   {qh = qh + 100 };"),
-				runner.parseInstructionSet("³Í·£;"),
-				runner.parseInstructionSet("qh = qh + 1000;"),
-		};
-		Object r = runner.execute(sets, context, null, true,false,null);
-//		 public Object execute(InstructionSet[] instructionSets,ExpressLoader loader,IExpressContext context,
-//				  List errorList,FuncitonCacheManager aFunctionCacheMananger,boolean isTrace,boolean isCatchException,
-//					Log aLog);
-		Assert.assertTrue("±ğÃûÊµÏÖ ´íÎó", r.toString().equalsIgnoreCase("1111"));
-//		System.out.println(r);
-//		System.out.println(context);
-	}	
-	@org.junit.Test
-	public void testµ÷ÓÃÆäËû½Å±¾() throws Exception{
-		ExpressRunner runner = new ExpressRunner();
-		runner.addOperatorWithAlias("¶¨Òåºê", "macro", null);
-		runner.loadMutilExpress("¶¨Òå", "int qh = 100;");
-		runner.loadMutilExpress("ÀÛ¼Ó", "qh = qh + 100;");
-		runner.loadMutilExpress("Ö´ĞĞ", "ÀÛ¼Ó;ÀÛ¼Ó;");
-		runner.loadMutilExpress("·µ»Ø", "return qh;");
-		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();		
-		context.put("bean", new BeanExample("qhlhl2010@gmail.com"));
-		context.put("name","xuannn");
-		Object r = runner.executeByExpressName(new String[]{
-				"¶¨Òå","Ö´ĞĞ","Ö´ĞĞ","·µ»Ø"			
-		}, context, null,  true,false,null);
-		
-		System.out.println(r);
-		Assert.assertTrue("±ğÃûÊµÏÖ ´íÎó", r.toString().equalsIgnoreCase("500"));
-	
-	}	
-	@org.junit.Test
-	public  void test_Ñ­»·() throws Exception{
+	public  void test_å¾ªç¯() throws Exception{
 		long s = System.currentTimeMillis();
-		String express ="qh = 0; Ñ­»·(int i = 1;  i<=10;i = i + 1){ if(i > 5) then{ ÖÕÖ¹;}; " +
-				"Ñ­»·(int j=0;j<10;j= j+1){  " +
+		String express ="qh = 0; å¾ªç¯(int i = 1;  i<=10;i = i + 1){ if(i > 5) then{ ç»ˆæ­¢;}; " +
+				"å¾ªç¯(int j=0;j<10;j= j+1){  " +
 				"    if(j > 5)then{" +
-				"       ÖÕÖ¹;" +
+				"       ç»ˆæ­¢;" +
 				"    }; " +
 				"    qh = qh + j;" +
-				//"   ´òÓ¡(i +\":\" + j+ \":\" +qh);"+
+				//"   æ‰“å°(i +\":\" + j+ \":\" +qh);"+
 				" };  " +
 				"};" +
 				"return qh;";
 		ExpressRunner runner = new ExpressRunner();		
-		runner.addOperatorWithAlias("Ñ­»·", "for",null);
-		runner.addOperatorWithAlias("¼ÌĞø", "continue",null);
-		runner.addOperatorWithAlias("ÖÕÖ¹", "break",null);
-		runner.addFunctionOfServiceMethod("´òÓ¡", System.out, "println", new String[]{Object.class.getName()}, null);
+		runner.addOperatorWithAlias("å¾ªç¯", "for",null);
+		runner.addOperatorWithAlias("ç»§ç»­", "continue",null);
+		runner.addOperatorWithAlias("ç»ˆæ­¢", "break",null);
+		runner.addFunctionOfServiceMethod("æ‰“å°", System.out, "println", new String[]{Object.class.getName()}, null);
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();		
 		context.put("bean", new BeanExample("qhlhl2010@gmail.com"));
 		context.put("name","xuannn");		
@@ -158,13 +118,13 @@ public class DefineTest {
 		s = System.currentTimeMillis();
 		Object r = runner.execute(express,context, null, false,false);
 
-		System.out.println("±àÒëºÄÊ±£º" + (System.currentTimeMillis() - s));
+		System.out.println("ç¼–è¯‘è€—æ—¶ï¼š" + (System.currentTimeMillis() - s));
 		
 		for(int i=0;i<count;i++){
 			r = runner.execute(express,context, null, false,false);
-			Assert.assertTrue("Ñ­»·´¦Àí´íÎó", r.toString().equals("75"));
+			Assert.assertTrue("å¾ªç¯å¤„ç†é”™è¯¯", r.toString().equals("75"));
 		}
-		System.out.println("Ö´ĞĞºÄÊ±£º" + (System.currentTimeMillis() - s));		
+		System.out.println("æ‰§è¡Œè€—æ—¶ï¼š" + (System.currentTimeMillis() - s));		
 		System.out.println(context);	
 	}	
 }

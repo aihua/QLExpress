@@ -2,6 +2,8 @@ package com.ql.util.express.instruction.opdata;
 
 import com.ql.util.express.ExpressUtil;
 import com.ql.util.express.InstructionSetContext;
+import com.ql.util.express.parse.AppendingClassFieldManager;
+import com.ql.util.express.parse.AppendingClassMethodManager;
 
 public class OperateDataField extends OperateDataAttr {
 	Object fieldObject;
@@ -10,7 +12,7 @@ public class OperateDataField extends OperateDataAttr {
 	public OperateDataField(Object aFieldObject,String aFieldName) {
 		super(null,null);
 		if(aFieldObject == null){
-		   this.name = "Ã»ÓĞ³õÊ¼»¯µÄField";	
+		   this.name = "æ²¡æœ‰åˆå§‹åŒ–çš„Field";	
 		}else{
 		   this.name = aFieldObject.getClass().getName() + "." + aFieldName;
 		}
@@ -59,7 +61,16 @@ public class OperateDataField extends OperateDataAttr {
 		}
     }
 	public Object getObjectInner(InstructionSetContext context) throws Exception {
-		//Èç¹ûÄÜÕÒµ½aFieldNameµÄ¶¨Òå,ÔòÔÙ´ÎÔËËã
+
+		AppendingClassFieldManager appendingClassFieldManager = context.getExpressRunner().getAppendingClassFieldManager();
+
+		if(appendingClassFieldManager!=null) {
+			AppendingClassFieldManager.AppendingField appendingField = appendingClassFieldManager.getAppendingClassField(this.fieldObject, this.orgiFieldName);
+			if (appendingField != null) {
+				return appendingClassFieldManager.invoke(appendingField, context, this.fieldObject, null);
+			}
+		}
+		//å¦‚æœèƒ½æ‰¾åˆ°aFieldNameçš„å®šä¹‰,åˆ™å†æ¬¡è¿ç®—
 		if(this.fieldObject instanceof OperateDataVirClass){
 			return ((OperateDataVirClass)this.fieldObject).getValue(transferFieldName(context,this.orgiFieldName));
 		}else{
@@ -68,6 +79,14 @@ public class OperateDataField extends OperateDataAttr {
 	}
     
 	public Class<?> getType(InstructionSetContext context) throws Exception {
+		AppendingClassFieldManager appendingClassFieldManager = context.getExpressRunner().getAppendingClassFieldManager();
+
+		if(appendingClassFieldManager!=null) {
+			AppendingClassFieldManager.AppendingField appendingField = appendingClassFieldManager.getAppendingClassField(this.fieldObject, this.orgiFieldName);
+			if (appendingField != null) {
+				return appendingField.returnType;
+			}
+		}
 		if(this.fieldObject instanceof OperateDataVirClass){
 			return ((OperateDataVirClass)this.fieldObject).getValueType(transferFieldName(context,this.orgiFieldName));
 		}else{

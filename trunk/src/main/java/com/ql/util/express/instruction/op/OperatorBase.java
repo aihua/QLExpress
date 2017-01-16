@@ -1,10 +1,10 @@
 /**
  *
  * <p>Title:Operator </p>
- * <p>Description:±í´ïÊ½¼ÆËãµÄÔËËã·ûºÅ </p>
+ * <p>Description:è¡¨è¾¾å¼è®¡ç®—çš„è¿ç®—ç¬¦å· </p>
  * <p>Copyright: Copyright (c) 2001</p>
  * <p>Company: </p>
- * @author Ç½»Ô
+ * @author å¢™è¾‰
  * @version 1.0
  */
 
@@ -12,13 +12,14 @@ package com.ql.util.express.instruction.op;
 
 import java.util.List;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.ExpressUtil;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.instruction.opdata.OperateDataAttr;
 
 /**
- * ²Ù×÷·ûºÅ¶¨Òå
+ * æ“ä½œç¬¦å·å®šä¹‰
  * 
  * @author qhlhl2010@gmail.com
  * 
@@ -32,37 +33,39 @@ public abstract class OperatorBase implements java.io.Serializable {
 
 	protected String errorInfo;
 	/**
-	 * ÊÇ·ñĞèÒª¸ß¾«¶È¼ÆËã
+	 * æ˜¯å¦éœ€è¦é«˜ç²¾åº¦è®¡ç®—
 	 */
 	protected boolean isPrecise = false;
 	/**
-	 * ²Ù×÷ÊıÃèÊö
+	 * æ“ä½œæ•°æè¿°
 	 */
 	protected String[] operDataDesc;
 	/**
-	 * ²Ù×÷ÊıµÄÆäËü¶¨Òå
+	 * æ“ä½œæ•°çš„å…¶å®ƒå®šä¹‰
 	 */
 	protected String[] operDataAnnotation;
-	public Object[] toObjectList(InstructionSetContext  parent, OperateData[] list)
+	public Object[] toObjectList(InstructionSetContext  parent, ArraySwap list)
 			throws Exception {
 		if (list == null) {
 			return new Object[0];
 		}
 		Object[] result = new Object[list.length];
+		OperateData p;
 		for (int i = 0; i < list.length; i++) {
-			if(list[i] instanceof OperateDataAttr){
-				result[i] = ((OperateDataAttr) list[i]).getName()+":"+list[i].getObject(parent);
+			p = list.get(i);
+			if(p instanceof OperateDataAttr){
+				result[i] = ((OperateDataAttr) p).getName()+":"+p.getObject(parent);
 			}else{
-				result[i] = list[i].getObject(parent);
+				result[i] = p.getObject(parent);
 			}
 		}
 		return result;
 	}	
 	public OperateData execute(InstructionSetContext  context,
-			OperateData[] list, List<String> errorList) throws Exception {
+			ArraySwap list, List<String> errorList) throws Exception {
 		OperateData result = null;
 		result = this.executeInner(context, list);
-		//Êä³ö´íÎóĞÅÏ¢
+		//è¾“å‡ºé”™è¯¯ä¿¡æ¯
 		if (errorList != null && this.errorInfo != null && result != null) {
 			Object obj = result.getObject(context);
 			if (    obj != null
@@ -84,7 +87,7 @@ public abstract class OperatorBase implements java.io.Serializable {
     		return this.name;
     	}
     }
-	public abstract OperateData executeInner(InstructionSetContext  parent, OperateData[] list) throws Exception;
+	public abstract OperateData executeInner(InstructionSetContext  parent, ArraySwap list) throws Exception;
 
 	public String[] getOperDataDesc(){
 		return this.operDataDesc;
@@ -137,8 +140,8 @@ class OperatorFunction extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 
-	public OperateData executeInner(InstructionSetContext context, OperateData[] list) throws Exception {
-		throw new Exception("»¹Ã»ÓĞÊµÏÖ");
+	public OperateData executeInner(InstructionSetContext context, ArraySwap list) throws Exception {
+		throw new Exception("è¿˜æ²¡æœ‰å®ç°");
 	}
 }
 
@@ -151,12 +154,12 @@ class OperatorReturn extends OperatorBase{
 		this.aliasName = aAliasName;
 		this.errorInfo = aErrorInfo;
 	}
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
 		return executeInner(parent);
 	}
 
 	public OperateData executeInner(InstructionSetContext parent) throws Exception {
-		throw new Exception("return ÊÇÍ¨¹ıÌØÊâÖ¸ÁîÀ´ÊµÏÖµÄ£¬²»ÄÜÖ§³Ö´Ë·½·¨");
+		throw new Exception("return æ˜¯é€šè¿‡ç‰¹æ®ŠæŒ‡ä»¤æ¥å®ç°çš„ï¼Œä¸èƒ½æ”¯æŒæ­¤æ–¹æ³•");
 	}	
 }
 class OperatorCall extends OperatorBase{
@@ -168,8 +171,8 @@ class OperatorCall extends OperatorBase{
 		this.aliasName = aAliasName;
 		this.errorInfo = aErrorInfo;
 	}
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		throw new Exception("call ÊÇÍ¨¹ıÌØÊâÖ¸ÁîÀ´ÊµÏÖµÄ£¬²»ÄÜÖ§³Ö´Ë·½·¨");
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		throw new Exception("call æ˜¯é€šè¿‡ç‰¹æ®ŠæŒ‡ä»¤æ¥å®ç°çš„ï¼Œä¸èƒ½æ”¯æŒæ­¤æ–¹æ³•");
 	}	
 }
 
@@ -182,8 +185,8 @@ class OperatorBreak extends OperatorBase{
 		this.aliasName = aAliasName;
 		this.errorInfo = aErrorInfo;
 	}
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		throw new Exception("OperatorBreak ÊÇÍ¨¹ıÌØÊâÖ¸ÁîÀ´ÊµÏÖµÄ£¬²»ÄÜÖ§³Ö´Ë·½·¨");
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		throw new Exception("OperatorBreak æ˜¯é€šè¿‡ç‰¹æ®ŠæŒ‡ä»¤æ¥å®ç°çš„ï¼Œä¸èƒ½æ”¯æŒæ­¤æ–¹æ³•");
 	}	
 }
 class OperatorContinue extends OperatorBase{
@@ -195,8 +198,8 @@ class OperatorContinue extends OperatorBase{
 		this.aliasName = aAliasName;
 		this.errorInfo = aErrorInfo;
 	}
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		throw new Exception("OperatorContinue ÊÇÍ¨¹ıÌØÊâÖ¸ÁîÀ´ÊµÏÖµÄ£¬²»ÄÜÖ§³Ö´Ë·½·¨");
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		throw new Exception("OperatorContinue æ˜¯é€šè¿‡ç‰¹æ®ŠæŒ‡ä»¤æ¥å®ç°çš„ï¼Œä¸èƒ½æ”¯æŒæ­¤æ–¹æ³•");
 	}	
 }
 
@@ -211,8 +214,8 @@ class OperatorFor extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 	
-	public  OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		throw new Exception("cache ÊÇÍ¨¹ıÌØÊâÖ¸ÁîÀ´ÊµÏÖµÄ£¬²»ÄÜÖ§³Ö´Ë·½·¨");
+	public  OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		throw new Exception("cache æ˜¯é€šè¿‡ç‰¹æ®ŠæŒ‡ä»¤æ¥å®ç°çš„ï¼Œä¸èƒ½æ”¯æŒæ­¤æ–¹æ³•");
 	}
 
 }

@@ -9,7 +9,7 @@ import com.ql.util.express.instruction.OperateDataCacheManager;
 public class InstructionGoToWithCondition extends Instruction{
 	private static final long serialVersionUID = -4817805156872407837L;
 	/**
-	 * 跳转指令的偏移量
+	 * 璺宠浆鎸囦护鐨勫亸绉婚噺
 	 */
     int offset;
     boolean condition;
@@ -37,7 +37,7 @@ public class InstructionGoToWithCondition extends Instruction{
 		}else if(o instanceof Boolean){
 			r = ((Boolean)o).booleanValue();
 		}else{
-			throw new Exception("指令错误:" + o + " 不是Boolean");
+			throw new Exception("鎸囦护閿欒:" + o + " 涓嶆槸Boolean");
 		}
 		if (r == this.condition) {
 			if (environment.isTrace() && log.isDebugEnabled()) {

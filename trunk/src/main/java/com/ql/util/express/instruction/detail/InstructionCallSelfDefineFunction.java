@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSet;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.InstructionSetRunner;
@@ -21,25 +22,35 @@ public class InstructionCallSelfDefineFunction extends Instruction{
 	  this.functionName = name;
 	  this.opDataNumber =aOpDataNumber;
 	}
-	
+
+	public String getFunctionName() {
+		return functionName;
+	}
+
+	public int getOpDataNumber() {
+		return opDataNumber;
+	}
+
 	public void execute(RunEnvironment environment, List<String> errorList)
 			throws Exception {
-			OperateData[] parameters = environment.popArray(
+			ArraySwap parameters = environment.popArray(
 					environment.getContext(), this.opDataNumber);
 			if (environment.isTrace() && log.isDebugEnabled()) {
 				String str = this.functionName + "(";
+				OperateData p;
 				for (int i = 0; i < parameters.length; i++) {
+					p = parameters.get(i);
 					if (i > 0) {
 						str = str + ",";
 					}
-					if (parameters[i] instanceof OperateDataAttr) {
+					if (p instanceof OperateDataAttr) {
 						str = str
-								+ parameters[i]
+								+ p
 								+ ":"
-								+ parameters[i].getObject(environment
+								+ p.getObject(environment
 										.getContext());
 					} else {
-						str = str + parameters[i];
+						str = str + p;
 					}
 				}
 				str = str + ")";
@@ -48,8 +59,8 @@ public class InstructionCallSelfDefineFunction extends Instruction{
 
 			Object function = environment.getContext().getSymbol(functionName);
 			if (function == null || function instanceof InstructionSet == false) {
-				throw new Exception("ÔÚRunnerµÄ²Ù×÷·û¶¨ÒåºÍ×Ô¶¨Òåº¯ÊıÖĞ¶¼Ã»ÓĞÕÒµ½\""
-						+ this.functionName + "\"µÄ¶¨Òå");
+				throw new Exception("åœ¨Runnerçš„æ“ä½œç¬¦å®šä¹‰å’Œè‡ªå®šä¹‰å‡½æ•°ä¸­éƒ½æ²¡æœ‰æ‰¾åˆ°\""
+						+ this.functionName + "\"çš„å®šä¹‰");
 			}
 			InstructionSet functionSet = (InstructionSet)function;
 			OperateData result = InstructionCallSelfDefineFunction
@@ -59,17 +70,17 @@ public class InstructionCallSelfDefineFunction extends Instruction{
 			environment.programPointAddOne();
 	}	
 	public static OperateData executeSelfFunction(RunEnvironment environment,InstructionSet functionSet,
-			OperateData[] parameters,List<String> errorList,Log log)throws Exception{	
+			ArraySwap parameters,List<String> errorList,Log log)throws Exception{	
 		InstructionSetContext  context = OperateDataCacheManager.fetchInstructionSetContext (
 				true,environment.getContext().getExpressRunner(),environment.getContext(),environment.getContext().getExpressLoader(),environment.getContext().isSupportDynamicFieldName());
 		OperateDataLocalVar[] vars = functionSet.getParameters();
 		for(int i=0;i<vars.length;i++){
-			//×¢Òâ´Ë´¦±ØĞënew Ò»¸öĞÂµÄ¶ÔÏó£¬·ñÔò¾Í»áÔÚ¶à´Îµ÷ÓÃµÄÊ±ºòµ¼ÖÂÊı¾İ³åÍ»
+			//æ³¨æ„æ­¤å¤„å¿…é¡»new ä¸€ä¸ªæ–°çš„å¯¹è±¡ï¼Œå¦åˆ™å°±ä¼šåœ¨å¤šæ¬¡è°ƒç”¨çš„æ—¶å€™å¯¼è‡´æ•°æ®å†²çª
 			OperateDataLocalVar var = OperateDataCacheManager.fetchOperateDataLocalVar(vars[i].getName(),vars[i].getOrgiType());
 			context.addSymbol(var.getName(), var);
-			var.setObject(context, parameters[i].getObject(environment.getContext()));
+			var.setObject(context, parameters.get(i).getObject(environment.getContext()));
 		}
-		Object result =InstructionSetRunner.execute(new InstructionSet[]{(InstructionSet)functionSet},
+		Object result =InstructionSetRunner.execute((InstructionSet)functionSet,
 				context,errorList,environment.isTrace(),false,true,log);
 		return OperateDataCacheManager.fetchOperateData(result,null);
 	}

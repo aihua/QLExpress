@@ -7,7 +7,7 @@ import com.ql.util.express.RunEnvironment;
 public class InstructionGoTo extends Instruction{
 	private static final long serialVersionUID = 198094562177756098L;
 	/**
-	 * 跳转指令的偏移量
+	 * 璺宠浆鎸囦护鐨勫亸绉婚噺
 	 */
     int offset;
 	public String name;

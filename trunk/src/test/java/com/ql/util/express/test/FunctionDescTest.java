@@ -12,7 +12,7 @@ public class FunctionDescTest {
 		ExpressRunner runner = new ExpressRunner();
 		DefaultContext<String, Object>  context = new DefaultContext<String, Object>();
 		runner.addFunctionOfClassMethod("isVIP", BeanExample.class.getName(),
-				"isVIP", new String[] { "String" },new String[]{"ÓÃ»§Ãû³Æ"},new String[]{"UserName"},"$1²»ÊÇVIPÓÃ»§");
+				"isVIP", new String[] { "String" },new String[]{"ç”¨æˆ·åç§°"},new String[]{"UserName"},"$1ä¸æ˜¯VIPç”¨æˆ·");
 		OperatorBase op = runner.getFunciton("isVIP");
 		System.out.println(op.getOperDataDesc());
 		System.out.println(op.getOperDataAnnotaion());
@@ -24,7 +24,7 @@ public class FunctionDescTest {
 				BeanExample.class.getName(), "isVIPTwo",  new String[] { "String" }, null,null,null));
 		Object r2 = runner.execute(express,context, null, false,false);
 		System.out.println(r2);
-//		Assert.assertTrue("ÊôĞÔ²Ù×÷´íÎó", r.toString().equalsIgnoreCase("ffff"));
-//		Assert.assertTrue("ÊôĞÔ²Ù×÷´íÎó", ((BeanExample)context.get("example")).child.a.toString().equalsIgnoreCase("ssssssss"));		
+//		Assert.assertTrue("å±æ€§æ“ä½œé”™è¯¯", r.toString().equalsIgnoreCase("ffff"));
+//		Assert.assertTrue("å±æ€§æ“ä½œé”™è¯¯", ((BeanExample)context.get("example")).child.a.toString().equalsIgnoreCase("ssssssss"));		
 	}	
 }

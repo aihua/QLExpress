@@ -16,6 +16,6 @@ public class CallWithNullParameterTest {
 		Object r =  runner.execute(express, context, null, false,
 				true);
 		System.out.println(r);
-		Assert.assertTrue("数组操作实现错误", r.toString().equalsIgnoreCase("toString-LongObject:null"));
+		Assert.assertTrue("鏁扮粍鎿嶄綔瀹炵幇閿欒", r.toString().equalsIgnoreCase("toString-LongObject:null"));
 	}
 }

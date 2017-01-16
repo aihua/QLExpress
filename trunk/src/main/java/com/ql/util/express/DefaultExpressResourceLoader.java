@@ -10,7 +10,7 @@ public class DefaultExpressResourceLoader implements IExpressResourceLoader {
 		InputStream in = Thread.currentThread().getContextClassLoader()
 				.getResourceAsStream(expressName);
 		if (in == null) {
-			throw new Exception("不能找到表达式文件：" + expressName);
+			throw new Exception("涓嶈兘鎵惧埌琛ㄨ揪寮忔枃浠讹細" + expressName);
 		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		StringBuilder builder = new StringBuilder();

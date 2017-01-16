@@ -3,6 +3,7 @@ package com.ql.util.express.instruction.op;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.instruction.OperateDataCacheManager;
@@ -18,10 +19,10 @@ public class OperatorAnonymousNewMap extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 
-	public OperateData executeInner(InstructionSetContext  context, OperateData[] list) throws Exception {
+	public OperateData executeInner(InstructionSetContext  context, ArraySwap list) throws Exception {
 		Map<Object,Object> result = new HashMap<Object,Object>();
 		for(int i=0;i<list.length;i++){
-			result.put(((OperateDataKeyValue)list[i]).getKey().getObject(context), ((OperateDataKeyValue)list[i]).getValue().getObject(context));
+			result.put(((OperateDataKeyValue)list.get(i)).getKey().getObject(context), ((OperateDataKeyValue)list.get(i)).getValue().getObject(context));
 		}
 		return OperateDataCacheManager.fetchOperateData(result,HashMap.class);
 	}

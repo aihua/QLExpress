@@ -1,4 +1,4 @@
-macro ÀÛ¼Ó {qh = qh + 100;};
+macro ç´¯åŠ  {qh = qh + 100;};
 
 macro initial {
     exportDef int qh;

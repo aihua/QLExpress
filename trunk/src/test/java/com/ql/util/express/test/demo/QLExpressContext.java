@@ -23,7 +23,7 @@ public class QLExpressContext extends HashMap<String, Object> implements
 	}
 
 	/**
-	 * ³éÏó·½·¨£º¸ù¾İÃû³Æ´ÓÊôĞÔÁĞ±íÖĞÌáÈ¡ÊôĞÔÖµ
+	 * æŠ½è±¡æ–¹æ³•ï¼šæ ¹æ®åç§°ä»å±æ€§åˆ—è¡¨ä¸­æå–å±æ€§å€¼
 	 */
 	public Object get(Object name) {
 		Object result = null;
@@ -31,7 +31,7 @@ public class QLExpressContext extends HashMap<String, Object> implements
 		try {
 			if (result == null && this.context != null
 					&& this.context.containsBean((String) name)) {
-				// Èç¹ûÔÚSpringÈİÆ÷ÖĞ°üº¬bean£¬Ôò·µ»ØStringµÄBean
+				// å¦‚æœåœ¨Springå®¹å™¨ä¸­åŒ…å«beanï¼Œåˆ™è¿”å›Stringçš„Bean
 				result = this.context.getBean((String) name);
 			}
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class QLExpressContext extends HashMap<String, Object> implements
 
 	public Object put(String name, Object object) {
 		if (name.equalsIgnoreCase("myDbData")) {
-			throw new RuntimeException("Ã»ÓĞÊµÏÖ");
+			throw new RuntimeException("æ²¡æœ‰å®ç°");
 		}
 		return super.put(name, object);
 	}

@@ -8,9 +8,9 @@ exportDef int mm =1000;
 include includeMacro;
 
 initial;
-ÀÛ¼Ó;
-ÀÛ¼Ó;
-ÀÛ¼Ó;
+ç´¯åŠ ;
+ç´¯åŠ ;
+ç´¯åŠ ;
 
 mm = mm + 1;
 a = a + 1000000;

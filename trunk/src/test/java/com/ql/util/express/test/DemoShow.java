@@ -10,7 +10,7 @@ import com.ql.util.express.Operator;
 public class DemoShow {
 
 	/**
-	 * ËÄÔòÔËËã
+	 * å››åˆ™è¿ç®—
 	 * 
 	 * @throws Exception
 	 */
@@ -21,7 +21,7 @@ public class DemoShow {
 	}
 
 	/**
-	 * forÑ­»·
+	 * forå¾ªç¯
 	 * 
 	 * @throws Exception
 	 */
@@ -34,7 +34,7 @@ public class DemoShow {
 	}
 
 	/**
-	 * forÇ¶Ì×Ñ­»·
+	 * foråµŒå¥—å¾ªç¯
 	 * 
 	 * @throws Exception
 	 */
@@ -48,48 +48,48 @@ public class DemoShow {
 	}
 
 	/**
-	 * ººÅµËşËã·¨
+	 * æ±‰è¯ºå¡”ç®—æ³•
 	 * 
 	 * @throws Exception
 	 */
 	@org.junit.Test
 	public void testHanoiMethod() throws Exception {
 		ExpressRunner runner = new ExpressRunner(false, false);
-		runner.addFunctionOfClassMethod("ººÅµËşËã·¨", DemoShow.class.getName(),
+		runner.addFunctionOfClassMethod("æ±‰è¯ºå¡”ç®—æ³•", DemoShow.class.getName(),
 				"hanoi", new Class[] { int.class, char.class, char.class,
 						char.class }, null);
-		runner.execute("ººÅµËşËã·¨(3, '1', '2', '3')", null, null, false, false);
+		runner.execute("æ±‰è¯ºå¡”ç®—æ³•(3, '1', '2', '3')", null, null, false, false);
 	}
 
 	/**
-	 * ººÅµËşËã·¨2
+	 * æ±‰è¯ºå¡”ç®—æ³•2
 	 * 
 	 * @throws Exception
 	 */
 	@org.junit.Test
 	public void testHanoiMethod2() throws Exception {
 		ExpressRunner runner = new ExpressRunner(false, false);
-		runner.addFunctionOfServiceMethod("ººÅµËşËã·¨", new DemoShow(), "hanoi",
+		runner.addFunctionOfServiceMethod("æ±‰è¯ºå¡”ç®—æ³•", new DemoShow(), "hanoi",
 				new Class[] { int.class, char.class, char.class, char.class },
 				null);
-		runner.execute("ººÅµËşËã·¨(3, '1', '2', '3')", null, null, false, false);
+		runner.execute("æ±‰è¯ºå¡”ç®—æ³•(3, '1', '2', '3')", null, null, false, false);
 	}
 	
 	/**
-	 * ººÅµËşËã·¨3
+	 * æ±‰è¯ºå¡”ç®—æ³•3
 	 * 
 	 * @throws Exception
 	 */
 	@org.junit.Test
 	public void testHanoiMethod3() throws Exception {
 		ExpressRunner runner = new ExpressRunner(false, true);
-		runner.addFunctionOfServiceMethod("ººÅµËşËã·¨", new DemoShow(), "hanoi",
+		runner.addFunctionOfServiceMethod("æ±‰è¯ºå¡”ç®—æ³•", new DemoShow(), "hanoi",
 				new Class[] { int.class, char.class, char.class, char.class },
 				null);
-		runner.addMacro("ººÅµËşËã·¨ÑİÊ¾", "ººÅµËşËã·¨(3, '1', '2', '3')");
-		runner.execute("ººÅµËşËã·¨ÑİÊ¾", null, null, false, false);
+		runner.addMacro("æ±‰è¯ºå¡”ç®—æ³•æ¼”ç¤º", "æ±‰è¯ºå¡”ç®—æ³•(3, '1', '2', '3')");
+		runner.execute("æ±‰è¯ºå¡”ç®—æ³•æ¼”ç¤º", null, null, false, false);
 	}
-	// ½«n¸öÅÌ´Óone×ù½èÖútwo×ù,ÒÆµ½three×ù
+	// å°†nä¸ªç›˜ä»oneåº§å€ŸåŠ©twoåº§,ç§»åˆ°threeåº§
 	public void hanoi(int n, char one, char two, char three) {
 		if (n == 1)
 			move(one, three);
@@ -104,7 +104,7 @@ public class DemoShow {
 	}
 	
 	/**
-	 * ×Ô¶¨Òå²Ù×÷·û
+	 * è‡ªå®šä¹‰æ“ä½œç¬¦
 	 * 
 	 * @throws Exception
 	 */
@@ -134,7 +134,7 @@ public class DemoShow {
 	}
 	
 	/**
-	 * Ìæ»»²Ù×÷·û
+	 * æ›¿æ¢æ“ä½œç¬¦
 	 * 
 	 * @throws Exception
 	 */
@@ -150,7 +150,7 @@ public class DemoShow {
 	}
 	
 	/**
-	 * Ìæ»»²Ù×÷·û
+	 * æ›¿æ¢æ“ä½œç¬¦
 	 * 
 	 * @throws Exception
 	 */
@@ -158,20 +158,20 @@ public class DemoShow {
 	public void testShortLogicAndErrorInfo() throws Exception {
 		ExpressRunner runner = new ExpressRunner(false, false);
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
-		context.put("AÀàÎ¥¹æÌìÊı90ÌìÄÚ", true);
-		context.put("Ğé¼Ù½»Ò×¿Û·Ö", 11);
-		context.put("¼ÙÃ°¿Û·Ö", 11);
-		context.put("´ıÕû¸ÄÂô¼Ò", false);
-		context.put("±¦±´Ïà·ûDSR", 4.0);
+		context.put("Aç±»è¿è§„å¤©æ•°90å¤©å†…", true);
+		context.put("è™šå‡äº¤æ˜“æ‰£åˆ†", 11);
+		context.put("å‡å†’æ‰£åˆ†", 11);
+		context.put("å¾…æ•´æ”¹å–å®¶", false);
+		context.put("å®è´ç›¸ç¬¦DSR", 4.0);
 		String expression = 
-		"AÀàÎ¥¹æÌìÊı90ÌìÄÚ ==false and (Ğé¼Ù½»Ò×¿Û·Ö<48 or ¼ÙÃ°¿Û·Ö<12) and ´ıÕû¸ÄÂô¼Ò ==false and ±¦±´Ïà·ûDSR>4.6";
+		"Aç±»è¿è§„å¤©æ•°90å¤©å†… ==false and (è™šå‡äº¤æ˜“æ‰£åˆ†<48 or å‡å†’æ‰£åˆ†<12) and å¾…æ•´æ”¹å–å®¶ ==false and å®è´ç›¸ç¬¦DSR>4.6";
 		expression = initial(runner,expression);
 		List<String> errorInfo = new ArrayList<String>();
 		boolean result = (Boolean)runner.execute(expression, context, errorInfo, true, false);
 		if(result){
-			System.out.println("·ûºÏÓªÏú»î¶¯¹æÔò");
+			System.out.println("ç¬¦åˆè¥é”€æ´»åŠ¨è§„åˆ™");
 		}else{
-			System.out.println("²»·ûºÏÓªÏú»î¶¯¹æÔò");
+			System.out.println("ä¸ç¬¦åˆè¥é”€æ´»åŠ¨è§„åˆ™");
 			for(String error : errorInfo){
 				System.out.println(error);
 			}
@@ -179,25 +179,25 @@ public class DemoShow {
 	}
 	public String initial(ExpressRunner runner,String expression) throws Exception{
 		runner.setShortCircuit(false);
-		runner.addOperatorWithAlias("Ğ¡ÓÚ","<","$1 < $2 ²»·ûºÏ");
-		runner.addOperatorWithAlias("´óÓÚ",">","$1 > $2 ²»·ûºÏ");
-		runner.addOperatorWithAlias("µÈÓÚ","==","$1 == $2 ²»·ûºÏ");
-		return expression.replaceAll("<", " Ğ¡ÓÚ ").replaceAll(">", " ´óÓÚ ").replaceAll("==", " µÈÓÚ ");
+		runner.addOperatorWithAlias("å°äº","<","$1 < $2 ä¸ç¬¦åˆ");
+		runner.addOperatorWithAlias("å¤§äº",">","$1 > $2 ä¸ç¬¦åˆ");
+		runner.addOperatorWithAlias("ç­‰äº","==","$1 == $2 ä¸ç¬¦åˆ");
+		return expression.replaceAll("<", " å°äº ").replaceAll(">", " å¤§äº ").replaceAll("==", " ç­‰äº ");
 	}
 	
 	/**
-	 * Ô¤¼ÓÔØ±í´ïÊ½ & ĞéÄâÀà
+	 * é¢„åŠ è½½è¡¨è¾¾å¼ & è™šæ‹Ÿç±»
 	 * @throws Exception
 	 */
 	@org.junit.Test
 	public void testVirtualClass() throws Exception {
 		ExpressRunner runner = new ExpressRunner(false, true);
-		runner.loadMutilExpress("Àà³õÊ¼»¯", "class People(){sex;height;money;skin};");
-		runner.loadMutilExpress("´´½¨Ğ¡Ç¿", "a = new People();a.sex='male';a.height=185;a.money=10000000;");
-		runner.loadMutilExpress("Ìå¼ì", "if(a.sex=='male' && a.height>180 && a.money>5000000) return '¸ß¸»Ë§£¬¼ø¶¨Íê±Ï'");
+		runner.loadMutilExpress("ç±»åˆå§‹åŒ–", "class People(){sex;height;money;skin};");
+		runner.loadMutilExpress("åˆ›å»ºå°å¼º", "a = new People();a.sex='male';a.height=185;a.money=10000000;");
+		runner.loadMutilExpress("ä½“æ£€", "if(a.sex=='male' && a.height>180 && a.money>5000000) return 'é«˜å¯Œå¸…ï¼Œé‰´å®šå®Œæ¯•'");
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		
-		Object r = runner.execute("Àà³õÊ¼»¯;´´½¨Ğ¡Ç¿;Ìå¼ì", context, null, false, false);
+		Object r = runner.execute("ç±»åˆå§‹åŒ–;åˆ›å»ºå°å¼º;ä½“æ£€", context, null, false, false);
 		System.out.println(r);
 	}
 	

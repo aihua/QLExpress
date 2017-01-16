@@ -9,7 +9,7 @@ import com.ql.util.express.parse.ExpressNode;
 public class OperatorFactory {	
 	  
 	/**
-	 * ÊÇ·ñĞèÒª¸ß¾«¶È¼ÆËã
+	 * æ˜¯å¦éœ€è¦é«˜ç²¾åº¦è®¡ç®—
 	 */
 	protected boolean isPrecise = false;
 	private Map<String, OperatorBase> operator = new HashMap<String, OperatorBase>();
@@ -28,8 +28,8 @@ public class OperatorFactory {
 		  addOperator("/", new OperatorMultiDiv("/"));
 		  addOperator("%", new OperatorMultiDiv("%"));
 		  addOperator("mod", new OperatorMultiDiv("mod"));
-		  addOperator("+",new OperatorAddReduce("+"));
-		  addOperator("-",new OperatorAddReduce("-"));
+		  addOperator("+",new OperatorAdd("+"));
+		  addOperator("-",new OperatorReduce("-"));
 		  addOperator("<",new OperatorEqualsLessMore("<"));
 		  addOperator(">",new OperatorEqualsLessMore(">"));
 		  addOperator("<=",new OperatorEqualsLessMore("<="));
@@ -46,8 +46,6 @@ public class OperatorFactory {
 		  addOperator("break",new OperatorBreak("break"));
 		  addOperator("continue",new OperatorContinue("continue"));
 		  addOperator("return",new OperatorReturn("return"));		  
-		  addOperator("METHOD_CALL",new OperatorMethod());	 
-		  addOperator("FIELD_CALL",new OperatorField()); 
 		  addOperator("ARRAY_CALL",new OperatorArray("ARRAY_CALL"));
 		  addOperator("++",new OperatorDoubleAddReduce("++"));
 		  addOperator("--",new OperatorDoubleAddReduce("--"));
@@ -60,8 +58,8 @@ public class OperatorFactory {
 	public void addOperator(String name, OperatorBase op) {
 		OperatorBase oldOp = this.operator.get(name);
 		if (oldOp != null) {
-			throw new RuntimeException("ÖØ¸´¶¨Òå²Ù×÷·û£º" + name + "¶¨Òå1£º"
-					+ oldOp.getClass() + " ¶¨Òå2£º" + op.getClass());
+			throw new RuntimeException("é‡å¤å®šä¹‰æ“ä½œç¬¦ï¼š" + name + "å®šä¹‰1ï¼š"
+					+ oldOp.getClass() + " å®šä¹‰2ï¼š" + op.getClass());
 		}
 		op.setPrecise(this.isPrecise);
 		op.setAliasName(name);
@@ -76,11 +74,11 @@ public class OperatorFactory {
 	@SuppressWarnings("unchecked")
 	public void addOperatorWithAlias(String aAliasName,String name,String errorInfo) throws Exception{
 		 if (this.operator.containsKey(name) == false){
-			 throw new Exception(name + " ²»ÊÇÏµÍ³¼¶±ğµÄ²Ù×÷·ûºÅ£¬²»ÄÜÉèÖÃ±ğÃû");
+			 throw new Exception(name + " ä¸æ˜¯ç³»ç»Ÿçº§åˆ«çš„æ“ä½œç¬¦å·ï¼Œä¸èƒ½è®¾ç½®åˆ«å");
 		 }else{
 			 OperatorBase orgiOperator = this.operator.get(name);
 			 if(orgiOperator == null){
-				 throw new Exception(name + " ²»ÄÜ±»ÉèÖÃ±ğÃû");
+				 throw new Exception(name + " ä¸èƒ½è¢«è®¾ç½®åˆ«å");
 			 }
 			 OperatorBase destOperator = null;
 			if (orgiOperator instanceof CanClone) {
@@ -92,15 +90,15 @@ public class OperatorFactory {
 					constructor = (Constructor<OperatorBase>) opClass
 							.getConstructor(String.class, String.class,String.class);
 				} catch (Exception e) {
-					throw new Exception(name + " ²»ÄÜ±»ÉèÖÃ±ğÃû:" + e.getMessage());
+					throw new Exception(name + " ä¸èƒ½è¢«è®¾ç½®åˆ«å:" + e.getMessage());
 				}
 				if (constructor == null) {
-					throw new Exception(name + " ²»ÄÜ±»ÉèÖÃ±ğÃû");
+					throw new Exception(name + " ä¸èƒ½è¢«è®¾ç½®åˆ«å");
 				}
 				destOperator = constructor.newInstance(aAliasName, name,errorInfo);
 			}
 	    	 if(this.operator.containsKey(aAliasName)){
-	    		 throw new RuntimeException("²Ù×÷·ûºÅ£º\"" + aAliasName + "\" ÒÑ¾­´æÔÚ");
+	    		 throw new RuntimeException("æ“ä½œç¬¦å·ï¼š\"" + aAliasName + "\" å·²ç»å­˜åœ¨");
 	    	 }
 	    	 this.addOperator(aAliasName,destOperator);    
 		 }		 
@@ -113,7 +111,7 @@ public class OperatorFactory {
     }
 
 	/**
-	 * ´´½¨Ò»¸öĞÂµÄ²Ù×÷·ûÊµÀı
+	 * åˆ›å»ºä¸€ä¸ªæ–°çš„æ“ä½œç¬¦å®ä¾‹
 	 */
 	public OperatorBase newInstance(ExpressNode opItem) throws Exception {
 		OperatorBase op = operator.get(opItem.getNodeType().getName());
@@ -124,13 +122,13 @@ public class OperatorFactory {
 			op = operator.get(opItem.getValue());
 		}
 		if (op == null)
-			throw new Exception("Ã»ÓĞÎª\"" + opItem.getValue() + "\"¶¨Òå²Ù×÷·û´¦Àí¶ÔÏó");
+			throw new Exception("æ²¡æœ‰ä¸º\"" + opItem.getValue() + "\"å®šä¹‰æ“ä½œç¬¦å¤„ç†å¯¹è±¡");
 		return op;
 	}
 	public OperatorBase newInstance(String opName) throws Exception {
 		OperatorBase op = operator.get(opName);
 		if (op == null){
-			throw new Exception("Ã»ÓĞÎª\"" + opName + "\"¶¨Òå²Ù×÷·û´¦Àí¶ÔÏó");
+			throw new Exception("æ²¡æœ‰ä¸º\"" + opName + "\"å®šä¹‰æ“ä½œç¬¦å¤„ç†å¯¹è±¡");
 		}	
 		return op;		
 	}

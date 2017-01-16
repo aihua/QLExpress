@@ -8,145 +8,145 @@ import com.ql.util.express.IExpressContext;
 import com.ql.util.express.example.operator.ApproveOperator;
 
 /**
- * ±¾ÀıÄ£ÄâÁËÒ»¸ö¼òµ¥µÄÁ÷³Ì´¦Àí
- * ÓÃÓÚÕ¹Ê¾ÈçºÎ¶¨Òå±í´ïÊ½£¬·½·¨£¬²¢Ê¹ÓÃÉÏÏÂÎÄ±äÁ¿
+ * æœ¬ä¾‹æ¨¡æ‹Ÿäº†ä¸€ä¸ªç®€å•çš„æµç¨‹å¤„ç†
+ * ç”¨äºå±•ç¤ºå¦‚ä½•å®šä¹‰è¡¨è¾¾å¼ï¼Œæ–¹æ³•ï¼Œå¹¶ä½¿ç”¨ä¸Šä¸‹æ–‡å˜é‡
  *
  */
 public class WorkflowTest {
 
 	/**
-	 * Ö´ĞĞÒ»¶ÎÎÄ±¾
+	 * æ‰§è¡Œä¸€æ®µæ–‡æœ¬
 	 * @throws Exception
 	 */
 	@Test
 	public void testApprove1()throws Exception{
-		//¶¨Òå±í´ïÊ½
-		String exp = "Èç¹û (ÉóÅúÍ¨¹ı(¾­Àí,½ğ¶î)){" +
-				         "   Èç¹û  (½ğ¶î  ´óÓÚ 5000){ " +
-				         "     Èç¹û  (ÉóÅúÍ¨¹ı(×Ü¼à,½ğ¶î)){" +
-				         "        Èç¹û  (ÉóÅúÍ¨¹ı(²ÆÎñ,½ğ¶î)){" +
-				         "           ±¨ÏúÈëÕË(½ğ¶î)" +
-				         "        }·ñÔò  {" +
-				         "            ´ò»ØĞŞ¸Ä(ÉêÇëÈË)" +
+		//å®šä¹‰è¡¨è¾¾å¼
+		String exp = "å¦‚æœ (å®¡æ‰¹é€šè¿‡(ç»ç†,é‡‘é¢)){" +
+				         "   å¦‚æœ  (é‡‘é¢  å¤§äº 5000){ " +
+				         "     å¦‚æœ  (å®¡æ‰¹é€šè¿‡(æ€»ç›‘,é‡‘é¢)){" +
+				         "        å¦‚æœ  (å®¡æ‰¹é€šè¿‡(è´¢åŠ¡,é‡‘é¢)){" +
+				         "           æŠ¥é”€å…¥è´¦(é‡‘é¢)" +
+				         "        }å¦åˆ™  {" +
+				         "            æ‰“å›ä¿®æ”¹(ç”³è¯·äºº)" +
 				         "        }" +
-				         "     }·ñÔò {" +
-				         "        ´ò»ØĞŞ¸Ä(ÉêÇëÈË)" +
+				         "     }å¦åˆ™ {" +
+				         "        æ‰“å›ä¿®æ”¹(ç”³è¯·äºº)" +
 				         "     }" +
-				         "   }·ñÔò  {" +
-				         "      Èç¹û  (ÉóÅúÍ¨¹ı(²ÆÎñ,½ğ¶î)){" +
-				         "        ±¨ÏúÈëÕË(½ğ¶î)" +
-				         "      }·ñÔò {" +
-				         "         ´ò»ØĞŞ¸Ä(ÉêÇëÈË)" +
+				         "   }å¦åˆ™  {" +
+				         "      å¦‚æœ  (å®¡æ‰¹é€šè¿‡(è´¢åŠ¡,é‡‘é¢)){" +
+				         "        æŠ¥é”€å…¥è´¦(é‡‘é¢)" +
+				         "      }å¦åˆ™ {" +
+				         "         æ‰“å›ä¿®æ”¹(ç”³è¯·äºº)" +
 				         "      }" +
 				         "   }" +
-				         "}·ñÔò {" +
-				         "   ´ò»ØĞŞ¸Ä(ÉêÇëÈË)" +
+				         "}å¦åˆ™ {" +
+				         "   æ‰“å›ä¿®æ”¹(ç”³è¯·äºº)" +
 				         "}" +
-				         "´òÓ¡(\"Íê³É\")";
+				         "æ‰“å°(\"å®Œæˆ\")";
     ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·û±ğÃû
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-		runner.addOperatorWithAlias("·ñÔò", "else",null);
-		runner.addOperatorWithAlias("´óÓÚ", ">",null);
+		//å®šä¹‰æ“ä½œç¬¦åˆ«å
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+		runner.addOperatorWithAlias("å¦åˆ™", "else",null);
+		runner.addOperatorWithAlias("å¤§äº", ">",null);
 		//
-		runner.addFunctionOfServiceMethod("´òÓ¡", System.out, "println",new String[] { "String" }, null);
-		//¶¨Òå·½·¨
-		runner.addFunction("ÉóÅúÍ¨¹ı", new ApproveOperator(1));
-		runner.addFunction("±¨ÏúÈëÕË", new ApproveOperator(2));
-		runner.addFunction("´ò»ØĞŞ¸Ä", new ApproveOperator(3));
-		//ÉèÖÃÉÏÏÂÎÄ±äÁ¿
+		runner.addFunctionOfServiceMethod("æ‰“å°", System.out, "println",new String[] { "String" }, null);
+		//å®šä¹‰æ–¹æ³•
+		runner.addFunction("å®¡æ‰¹é€šè¿‡", new ApproveOperator(1));
+		runner.addFunction("æŠ¥é”€å…¥è´¦", new ApproveOperator(2));
+		runner.addFunction("æ‰“å›ä¿®æ”¹", new ApproveOperator(3));
+		//è®¾ç½®ä¸Šä¸‹æ–‡å˜é‡
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
-		expressContext.put("¾­Àí", "Íõ¾­Àí");
-		expressContext.put("×Ü¼à", "Àî×Ü¼à");
-		expressContext.put("²ÆÎñ", "ÕÅ²ÆÎñ");
-		expressContext.put("ÉêÇëÈË", "Ğ¡Ç¿");
-		expressContext.put("½ğ¶î", new Integer(4000));
-		//Ö´ĞĞ±í´ïÊ½
+		expressContext.put("ç»ç†", "ç‹ç»ç†");
+		expressContext.put("æ€»ç›‘", "ææ€»ç›‘");
+		expressContext.put("è´¢åŠ¡", "å¼ è´¢åŠ¡");
+		expressContext.put("ç”³è¯·äºº", "å°å¼º");
+		expressContext.put("é‡‘é¢", new Integer(4000));
+		//æ‰§è¡Œè¡¨è¾¾å¼
 		runner.execute(exp, expressContext, null,false, false);
 	}
 
 	/**
-	 * Í¨¹ıÎÄ¼ş¼ÓÔØ±í´ïÊ½
+	 * é€šè¿‡æ–‡ä»¶åŠ è½½è¡¨è¾¾å¼
 	 * @throws Exception
 	 */
 	@Test
 	public void testApprove2()throws Exception{
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·û±ğÃû
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-	  runner.addOperatorWithAlias("·ñÔò", "else",null);
-  	runner.addOperatorWithAlias("´óÓÚ", ">",null);
+		//å®šä¹‰æ“ä½œç¬¦åˆ«å
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+	  runner.addOperatorWithAlias("å¦åˆ™", "else",null);
+  	runner.addOperatorWithAlias("å¤§äº", ">",null);
 		//
-		runner.addFunctionOfServiceMethod("´òÓ¡", System.out, "println",new String[] { "String" }, null);
-		//¶¨Òå·½·¨
-		runner.addFunction("ÉóÅúÍ¨¹ı", new ApproveOperator(1));
-		runner.addFunction("±¨ÏúÈëÕË", new ApproveOperator(2));
-		runner.addFunction("´ò»ØĞŞ¸Ä", new ApproveOperator(3));
-		//¼ÓÔØÎÄ¼ş
+		runner.addFunctionOfServiceMethod("æ‰“å°", System.out, "println",new String[] { "String" }, null);
+		//å®šä¹‰æ–¹æ³•
+		runner.addFunction("å®¡æ‰¹é€šè¿‡", new ApproveOperator(1));
+		runner.addFunction("æŠ¥é”€å…¥è´¦", new ApproveOperator(2));
+		runner.addFunction("æ‰“å›ä¿®æ”¹", new ApproveOperator(3));
+		//åŠ è½½æ–‡ä»¶
 		runner.loadExpress("example/approve1");
-		//´ÓÖ¸¶¨ÎÄ¼şÖĞ»ñÈ¡±íÊ¾Ê½¹¹ÔìÖ¸Áî¼¯
+		//ä»æŒ‡å®šæ–‡ä»¶ä¸­è·å–è¡¨ç¤ºå¼æ„é€ æŒ‡ä»¤é›†
 		
-		//ÉèÖÃÉÏÏÂÎÄ±äÁ¿
+		//è®¾ç½®ä¸Šä¸‹æ–‡å˜é‡
 		IExpressContext<String,Object> expressContext = new DefaultContext<String, Object>();
-		expressContext.put("¾­Àí", "Íõ¾­Àí");
-		expressContext.put("×Ü¼à", "Àî×Ü¼à");
-		expressContext.put("²ÆÎñ", "ÕÅ²ÆÎñ");
-		expressContext.put("ÉêÇëÈË", "Ğ¡Ç¿");
-		expressContext.put("½ğ¶î", new Integer(5000));
+		expressContext.put("ç»ç†", "ç‹ç»ç†");
+		expressContext.put("æ€»ç›‘", "ææ€»ç›‘");
+		expressContext.put("è´¢åŠ¡", "å¼ è´¢åŠ¡");
+		expressContext.put("ç”³è¯·äºº", "å°å¼º");
+		expressContext.put("é‡‘é¢", new Integer(5000));
 		
 		runner.executeByExpressName("example/approve1", expressContext, null, false,false,null);
 	}
 	
 	/**
-	 * Í¨¹ıÎÄ¼ş¼ÓÔØ·½·¨¼°±í´ïÊ½
+	 * é€šè¿‡æ–‡ä»¶åŠ è½½æ–¹æ³•åŠè¡¨è¾¾å¼
 	 * @throws Exception
 	 */
 	@Test
 	public void testApprove3()throws Exception{
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·û±ğÃû
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-	  runner.addOperatorWithAlias("·ñÔò", "else",null);
-  	runner.addOperatorWithAlias("´óÓÚ", ">",null);
+		//å®šä¹‰æ“ä½œç¬¦åˆ«å
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+	  runner.addOperatorWithAlias("å¦åˆ™", "else",null);
+  	runner.addOperatorWithAlias("å¤§äº", ">",null);
 		//
-		runner.addFunctionOfServiceMethod("´òÓ¡", System.out, "println",new String[] { "String" }, null);		
-		//¼ÓÔØÎÄ¼ş
+		runner.addFunctionOfServiceMethod("æ‰“å°", System.out, "println",new String[] { "String" }, null);		
+		//åŠ è½½æ–‡ä»¶
 		runner.loadExpress("example/approve");
-		//ÉèÖÃÉÏÏÂÎÄ±äÁ¿
+		//è®¾ç½®ä¸Šä¸‹æ–‡å˜é‡
 		IExpressContext<String,Object> expressContext = new DefaultContext<String, Object>();
-		expressContext.put("¾­Àí", "Íõ¾­Àí");
-		expressContext.put("×Ü¼à", "Àî×Ü¼à");
-		expressContext.put("²ÆÎñ", "ÕÅ²ÆÎñ");
-		expressContext.put("ÉêÇëÈË", "Ğ¡Ç¿");
-		expressContext.put("½ğ¶î", new Integer(6000));
+		expressContext.put("ç»ç†", "ç‹ç»ç†");
+		expressContext.put("æ€»ç›‘", "ææ€»ç›‘");
+		expressContext.put("è´¢åŠ¡", "å¼ è´¢åŠ¡");
+		expressContext.put("ç”³è¯·äºº", "å°å¼º");
+		expressContext.put("é‡‘é¢", new Integer(6000));
 		
 		runner.executeByExpressName("example/approve", expressContext, null, false,false,null);
 	}
 	
 	/**
-	 * ´Ó²»Í¬µÄÎÄ¼şÖĞ¼ÓÔØ·½·¨¼°±í´ïÊ½
+	 * ä»ä¸åŒçš„æ–‡ä»¶ä¸­åŠ è½½æ–¹æ³•åŠè¡¨è¾¾å¼
 	 * @throws Exception
 	 */
 	@Test
 	public void testApprove4()throws Exception{
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·û±ğÃû
-		runner.addOperatorWithAlias("Èç¹û", "if",null);
-	  runner.addOperatorWithAlias("·ñÔò", "else",null);
-  	runner.addOperatorWithAlias("´óÓÚ", ">",null);
+		//å®šä¹‰æ“ä½œç¬¦åˆ«å
+		runner.addOperatorWithAlias("å¦‚æœ", "if",null);
+	  runner.addOperatorWithAlias("å¦åˆ™", "else",null);
+  	runner.addOperatorWithAlias("å¤§äº", ">",null);
 		//
-		runner.addFunctionOfServiceMethod("´òÓ¡", System.out, "println",new String[] { "String" }, null);
+		runner.addFunctionOfServiceMethod("æ‰“å°", System.out, "println",new String[] { "String" }, null);
 		
-		//¼ÓÔØÎÄ¼ş
+		//åŠ è½½æ–‡ä»¶
 		runner.loadExpress("example/approve1");
 		runner.loadExpress("example/approve2");
-		//ÉèÖÃÉÏÏÂÎÄ±äÁ¿
+		//è®¾ç½®ä¸Šä¸‹æ–‡å˜é‡
 		IExpressContext<String,Object> expressContext = new DefaultContext<String, Object>();
-		expressContext.put("¾­Àí", "Íõ¾­Àí");
-		expressContext.put("×Ü¼à", "Àî×Ü¼à");
-		expressContext.put("²ÆÎñ", "ÕÅ²ÆÎñ");
-		expressContext.put("ÉêÇëÈË", "Ğ¡Ç¿");
-		expressContext.put("½ğ¶î", new Integer(7000));
+		expressContext.put("ç»ç†", "ç‹ç»ç†");
+		expressContext.put("æ€»ç›‘", "ææ€»ç›‘");
+		expressContext.put("è´¢åŠ¡", "å¼ è´¢åŠ¡");
+		expressContext.put("ç”³è¯·äºº", "å°å¼º");
+		expressContext.put("é‡‘é¢", new Integer(7000));
 		
 		runner.executeByExpressName("example/approve1", expressContext, null, false,false,null);
 	}

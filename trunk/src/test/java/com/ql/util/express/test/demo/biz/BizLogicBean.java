@@ -4,7 +4,7 @@ public class BizLogicBean {
 	
 	
 	/**
-	 * ×¢²áĞÂÓÃ»§
+	 * æ³¨å†Œæ–°ç”¨æˆ·
 	 * @param nick
 	 * @return
 	 */
@@ -14,64 +14,64 @@ public class BizLogicBean {
 		user.setScore(0L);
 		user.setShopOpen(false);
 		user.setShopType("no_shop");
-		System.out.println("´´½¨ÓÃ»§³É¹¦£º"+user);
+		System.out.println("åˆ›å»ºç”¨æˆ·æˆåŠŸï¼š"+user);
 		return user;
 	}
 	/**
-	 * ÓÃ»§µêÆÌ¼¤»î
+	 * ç”¨æˆ·åº—é“ºæ¿€æ´»
 	 * @param user
 	 */
 	public void openShop(UserDO user){
 		user.setShopOpen(true);
 		user.setShopType("c2c");
-		System.out.println("µêÆÌÒÑ¾­¼¤»î£º"+user);
+		System.out.println("åº—é“ºå·²ç»æ¿€æ´»ï¼š"+user);
 		user.setShopOpen(true);
 	}
 	
 	/**
-	 * ÓÃ»§µêÆÌ¹Ø±Õ
+	 * ç”¨æˆ·åº—é“ºå…³é—­
 	 * @param user
 	 */
 	public void closeShop(UserDO user){
 		user.setShopOpen(false);
-		System.out.println("µêÆÌÒÑ¾­¹Ø±Õ£º"+user);
+		System.out.println("åº—é“ºå·²ç»å…³é—­ï¼š"+user);
 		user.setShopOpen(false);
 	}
 	
 	/**
-	 * ÓÃ»§ĞÇ¼¶+1
+	 * ç”¨æˆ·æ˜Ÿçº§+1
 	 * @param user
 	 */
 	public void addScore(UserDO user){
 		user.setScore(user.getScore()+1);
-		System.out.println("ÓÃ»§ĞÇ¼¶ +1 £º"+user);
+		System.out.println("ç”¨æˆ·æ˜Ÿçº§ +1 ï¼š"+user);
 	}
 	
 	public boolean isShopOpening(UserDO user){
 		if(user.isShopOpen()){
-			System.out.println("µ±Ç°µêÆÌÎªÓªÒµ×´Ì¬.");
+			System.out.println("å½“å‰åº—é“ºä¸ºè¥ä¸šçŠ¶æ€.");
 			return true;
 		}
-		System.out.println("µ±Ç°µêÆÌÎª¹Ø±Õ×´Ì¬.");
+		System.out.println("å½“å‰åº—é“ºä¸ºå…³é—­çŠ¶æ€.");
 		return false;
 	}
 	
 	/**
-	 * µêÆÌÉı¼¶
+	 * åº—é“ºå‡çº§
 	 * @param user
 	 * @return
 	 */
 	public boolean upgradeShop(UserDO user){
 		if(user.getShopType().equals("b2c")){
-			System.out.println("ÄúÒÑ¾­ÊÇBÉÌ¼Ò£¬²»ÓÃÉı¼¶ÁË.");
+			System.out.println("æ‚¨å·²ç»æ˜¯Bå•†å®¶ï¼Œä¸ç”¨å‡çº§äº†.");
 			return false;
 		}
 		if(user.getScore().longValue()>5L){
 			user.setShopType("b2c");
-			System.out.println("³É¹¦Éı¼¶ÎªBÉÌ¼Ò£º"+user);
+			System.out.println("æˆåŠŸå‡çº§ä¸ºBå•†å®¶ï¼š"+user);
 			return true;
 		}else{
-			System.out.println("ĞèÒª5ĞÇ¼¶ÒÔÉÏÂô¼Ò£¬ÄãÏÖÔÚ²Å"+user.getScore()+"ĞÇ¼¶£¬ÔÙ½ÓÔÙÀ÷Å¶!");
+			System.out.println("éœ€è¦5æ˜Ÿçº§ä»¥ä¸Šå–å®¶ï¼Œä½ ç°åœ¨æ‰"+user.getScore()+"æ˜Ÿçº§ï¼Œå†æ¥å†å‰å“¦!");
 			return false;
 		}
 	}
