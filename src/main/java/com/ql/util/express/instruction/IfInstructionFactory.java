@@ -14,9 +14,9 @@ public class IfInstructionFactory extends  InstructionFactory {
 			throws Exception {		
 		ExpressNode[] oldChildren = node.getChildren();
     	if(oldChildren.length < 2){
-    		throw new Exception("if ²Ù×÷·ûÖÁÉÙĞèÒª2¸ö²Ù×÷Êı " );
+    		throw new Exception("if æ“ä½œç¬¦è‡³å°‘éœ€è¦2ä¸ªæ“ä½œæ•° " );
     	}else if(oldChildren.length > 5){
-        		throw new Exception("if ²Ù×÷·û×î¶àÖ»ÓĞ5¸ö²Ù×÷Êı " );
+        		throw new Exception("if æ“ä½œç¬¦æœ€å¤šåªæœ‰5ä¸ªæ“ä½œæ•° " );
     	}
     	ExpressNode[] children = new ExpressNode[3];
     	int point = 0;    	

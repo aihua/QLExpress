@@ -1,5 +1,6 @@
 package com.ql.util.express.instruction.op;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 
@@ -14,23 +15,23 @@ public  class OperatorIf extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 	
-	public  OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
+	public  OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
 		if(list.length <2){
-			throw new Exception("\"" + this.aliasName + "\"²Ù×÷ÖÁÉÙÒªÁ½¸ö²Ù×÷Êý");
+			throw new Exception("\"" + this.aliasName + "\"æ“ä½œè‡³å°‘è¦ä¸¤ä¸ªæ“ä½œæ•°");
 		}
-		Object obj = list[0].getObject(parent);
+		Object obj = list.get(0).getObject(parent);
 		if (obj == null) {
-			String msg ="\"" + this.aliasName + "\"µÄÅÐ¶ÏÌõ¼þ²»ÄÜÎª¿Õ";
+			String msg ="\"" + this.aliasName + "\"çš„åˆ¤æ–­æ¡ä»¶ä¸èƒ½ä¸ºç©º";
 			throw new Exception(msg);
 		} else if ((obj instanceof Boolean) == false) {
-			String msg = "\"" + this.aliasName + "\"µÄÅÐ¶ÏÌõ¼þ ±ØÐëÊÇ Boolean,²»ÄÜÊÇ£º";
+			String msg = "\"" + this.aliasName + "\"çš„åˆ¤æ–­æ¡ä»¶ å¿…é¡»æ˜¯ Boolean,ä¸èƒ½æ˜¯ï¼š";
 			throw new Exception(msg + obj.getClass().getName());
 		} else {
 			if (((Boolean)obj).booleanValue() == true){
-				return list[1];
+				return list.get(1);
 			}else{
 				if(list.length == 3){
-					return list[2];
+					return list.get(2);
 				}
 			}
 			return null;			

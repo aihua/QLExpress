@@ -3,8 +3,8 @@ package com.ql.util.express.parse;
 
 public class KeyWordDefine4SQL {
 	public String[] splitWord={
-			 "+", "-","*", "/",//ËÄÔòÔËËã£º
-			 ".",",",":",";","(", ")","[", "]","{","}","?",//·Ö¸ô·ûºÅ
+			 "+", "-","*", "/",//å››åˆ™è¿ç®—ï¼š
+			 ".",",",":",";","(", ")","[", "]","{","}","?",//åˆ†éš”ç¬¦å·
 			 "!","<", ">", "<=", ">=", "<>","="
 	};
 	public  String[] keyWords = new String[] {

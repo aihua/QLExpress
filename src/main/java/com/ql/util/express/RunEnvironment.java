@@ -2,12 +2,13 @@ package com.ql.util.express;
 
 
 
-public class RunEnvironment {
+public final class RunEnvironment {
 		private static int INIT_DATA_LENTH = 15;
 	    private boolean isTrace = false;	
 		private int point = -1;
-	    private int programPoint = 0;
+	    protected int programPoint = 0;
 		private OperateData[] dataContainer;
+		private ArraySwap arraySwap = new ArraySwap();
 		
 		private boolean isExit = false;
 		private Object returnValue = null; 
@@ -24,7 +25,6 @@ public class RunEnvironment {
 		}
 		
 		public void initial(InstructionSet aInstructionSet,InstructionSetContext  aContext,boolean aIsTrace){
-			dataContainer = new OperateData[INIT_DATA_LENTH];
 			this.instructionSet = aInstructionSet;
 			this.context = aContext;
 			this.isTrace = aIsTrace;
@@ -33,7 +33,6 @@ public class RunEnvironment {
 		    isTrace = false;	
 			point = -1;
 		    programPoint = 0;
-			dataContainer = null;
 			
 			isExit = false;
 			returnValue = null; 
@@ -80,6 +79,9 @@ public class RunEnvironment {
 		public void programPointAddOne() {
 			programPoint ++ ;
 		}
+		public void gotoLastWhenReturn(){
+			programPoint = this.instructionSet.getInstructionLength();
+		}
 	    public int getDataStackSize(){
 	    	return this.point + 1;
 	    }
@@ -92,13 +94,13 @@ public class RunEnvironment {
 		}
 		public OperateData peek(){
 			if(point <0){
-				throw new RuntimeException("ÏµÍ³Òì³££¬¶ÑÕ»Ö¸Õë´íÎó");
+				throw new RuntimeException("ç³»ç»Ÿå¼‚å¸¸ï¼Œå †æ ˆæŒ‡é’ˆé”™è¯¯");
 			}
 			return this.dataContainer[point];		
 		}
 		public OperateData pop(){
 			if(point <0)
-				throw new RuntimeException("ÏµÍ³Òì³££¬¶ÑÕ»Ö¸Õë´íÎó");
+				throw new RuntimeException("ç³»ç»Ÿå¼‚å¸¸ï¼Œå †æ ˆæŒ‡é’ˆé”™è¯¯");
 			OperateData result = this.dataContainer[point];
 			this.point--;
 			return result;
@@ -110,29 +112,37 @@ public class RunEnvironment {
 			this.programPoint = this.programPoint + aOffset;
 		}
 	/**
-	 * ´Ë·½·¨ÊÇµ÷ÓÃ×îÆµ·±µÄ£¬Òò´Ë¾¡Á¿¾«¼ò´úÂë£¬Ìá¸ßÐ§ÂÊ 
+	 * æ­¤æ–¹æ³•æ˜¯è°ƒç”¨æœ€é¢‘ç¹çš„ï¼Œå› æ­¤å°½é‡ç²¾ç®€ä»£ç ï¼Œæé«˜æ•ˆçŽ‡ 
 	 * @param context
 	 * @param len
 	 * @return
 	 * @throws Exception
 	 */
-		public OperateData[] popArray(InstructionSetContext context,int len) throws Exception {
+		public ArraySwap popArray(InstructionSetContext context,int len) throws Exception {
+			int start = point - len + 1;
+			this.arraySwap.swap(this.dataContainer,start,len);
+			point = point - len;
+			return this.arraySwap;
+		}
+		
+		public OperateData[] popArrayOld(InstructionSetContext context,int len) throws Exception {
 			int start = point - len + 1;
 			OperateData[] result = new OperateData[len];
 			System.arraycopy(this.dataContainer,start, result,0, len);
 			point = point - len;
 			return result;
 		}
+		
 		public OperateData[] popArrayBackUp(InstructionSetContext context,int len) throws Exception {
 			int start = point - len + 1;
 			if(start <0){
-				throw new Exception("¶ÑÕ»Òç³ö£¬Çë¼ì²é±í´ïÊ½ÊÇ·ñ´íÎó");
+				throw new Exception("å †æ ˆæº¢å‡ºï¼Œè¯·æ£€æŸ¥è¡¨è¾¾å¼æ˜¯å¦é”™è¯¯");
 			}
 			OperateData[] result = new OperateData[len];
 			for (int i = 0 ; i < len; i++) {
 				result[i] = this.dataContainer[start + i];
 				if(void.class.equals(result[i].getType(context))){
-					throw new Exception("void ²»ÄÜ²ÎÓëÈÎºÎ²Ù×÷ÔËËã,Çë¼ì²éÊ¹ÓÃÔÚ±í´ïÊ½ÖÐÊ¹ÓÃÁËÃ»ÓÐ·µ»ØÖµµÄº¯Êý,»òÕß·ÖÖ§²»ÍêÕûµÄifÓï¾ä");
+					throw new Exception("void ä¸èƒ½å‚ä¸Žä»»ä½•æ“ä½œè¿ç®—,è¯·æ£€æŸ¥ä½¿ç”¨åœ¨è¡¨è¾¾å¼ä¸­ä½¿ç”¨äº†æ²¡æœ‰è¿”å›žå€¼çš„å‡½æ•°,æˆ–è€…åˆ†æ”¯ä¸å®Œæ•´çš„ifè¯­å¥");
 				}
 			}
 			point = point - len;

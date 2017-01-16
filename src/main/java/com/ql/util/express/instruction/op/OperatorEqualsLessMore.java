@@ -3,7 +3,7 @@ package com.ql.util.express.instruction.op;
 import com.ql.util.express.Operator;
 
  /**
- * ´¦Àí =,==,>,>=,<,<=,!=,<>
+ * å¤„ç† =,==,>,>=,<,<=,!=,<>
  */
 public class OperatorEqualsLessMore extends Operator {
 	public OperatorEqualsLessMore(String aName) {
@@ -35,7 +35,7 @@ public class OperatorEqualsLessMore extends Operator {
 			} else if (opStr.equals("!=") || opStr.equals("<>")) {
 				return false;
 			} else {
-				throw new Exception("Á½¸ö¿Õ²Ù×÷Êı²»ÄÜÖ´ĞĞÕâ¸ö²Ù×÷£º" + opStr);
+				throw new Exception("ä¸¤ä¸ªç©ºæ“ä½œæ•°ä¸èƒ½æ‰§è¡Œè¿™ä¸ªæ“ä½œï¼š" + opStr);
 			}
 		} else if (obj1 == null || obj2 == null) {
 			if (opStr.equals("==")) {
@@ -43,7 +43,7 @@ public class OperatorEqualsLessMore extends Operator {
 			} else if (opStr.equals("!=") || opStr.equals("<>")) {
 				return true;
 			} else {
-				throw new Exception("¿Õ²Ù×÷Êı²»ÄÜÖ´ĞĞÕâ¸ö²Ù×÷£º" + opStr);
+				throw new Exception("ç©ºæ“ä½œæ•°ä¸èƒ½æ‰§è¡Œè¿™ä¸ªæ“ä½œï¼š" + opStr);
 			}
 		}
 

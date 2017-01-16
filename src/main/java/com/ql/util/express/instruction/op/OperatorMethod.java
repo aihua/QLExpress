@@ -2,61 +2,75 @@ package com.ql.util.express.instruction.op;
 
 import java.lang.reflect.Method;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.ExpressUtil;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.instruction.OperateDataCacheManager;
 import com.ql.util.express.instruction.opdata.OperateClass;
 import com.ql.util.express.instruction.opdata.OperateDataVirClass;
+import com.ql.util.express.parse.AppendingClassMethodManager;
 
 public class OperatorMethod extends OperatorBase {
+	String methodName;
 	public OperatorMethod() {
 		this.name ="MethodCall";
 	}
-
+	public OperatorMethod(String aMethodName) {
+		this.name ="MethodCall";
+		this.methodName = aMethodName;
+	}
 	static Class<?> ArrayClass = (new Object[]{}).getClass();
 	
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		
-		Object obj = list[0].getObject(parent);
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		OperateData p0 = list.get(0);
+		Object obj = p0.getObject(parent);
 		if(obj instanceof OperateDataVirClass ){
 			OperateDataVirClass vClass = (OperateDataVirClass)obj;
-			String methodName = list[1].getObject(parent).toString();
-			OperateData[] parameters = new OperateData[list.length - 2];
-			for(int i=0;i< list.length -2;i++){
-				parameters[i] =list[i+2];
+			OperateData[] parameters = new OperateData[list.length - 1];
+			for(int i=0;i< list.length -1;i++){
+				parameters[i] =list.get(i+1);
 			}
-			return vClass.callSelfFunction(methodName, parameters);
+			return vClass.callSelfFunction(this.methodName, parameters);
 		}
 		
-		String methodName = list[1].getObject(parent).toString();
 		if (obj == null) {
-			// ¶ÔÏóÎª¿Õ£¬²»ÄÜÖ´ĞĞ·½·¨
-			String msg = "¶ÔÏóÎª¿Õ£¬²»ÄÜÖ´ĞĞ·½·¨:";
-			throw new Exception(msg + methodName);
+			// å¯¹è±¡ä¸ºç©ºï¼Œä¸èƒ½æ‰§è¡Œæ–¹æ³•
+			String msg = "å¯¹è±¡ä¸ºç©ºï¼Œä¸èƒ½æ‰§è¡Œæ–¹æ³•:";
+			throw new Exception(msg + this.methodName);
 		} else {
-			Class<?>[] types = new Class[list.length - 2];
-			Class<?>[] orgiTypes = new Class[list.length - 2];
+			Class<?>[] types = new Class[list.length - 1];
+			Class<?>[] orgiTypes = new Class[list.length - 1];
 			
-			Object[] objs = new Object[list.length - 2];
+			Object[] objs = new Object[list.length - 1];
 			Object tmpObj;
+			OperateData p;
 			for (int i = 0; i < types.length; i++) {
-				tmpObj = list[i + 2].getObject(parent);
-				types[i] = list[i + 2].getType(parent);
-				orgiTypes[i] = list[i + 2].getType(parent);
+				p = list.get(i+ 1); 
+				tmpObj = p.getObject(parent);
+				types[i] = p.getType(parent);
+				orgiTypes[i] = p.getType(parent);
 				objs[i] = tmpObj;
 			}
+			AppendingClassMethodManager appendingClassMethodManager = parent.getExpressRunner().getAppendingClassMethodManager();
+
+			if(appendingClassMethodManager!=null) {
+				AppendingClassMethodManager.AppendingMethod appendingClassMethod = appendingClassMethodManager.getAppendingClassMethod(obj, this.methodName);
+				if (appendingClassMethod != null) {
+					return appendingClassMethodManager.invoke(appendingClassMethod, parent, list, null);
+				}
+			}
 			Method m = null;
-			if (list[0] instanceof OperateClass) {// µ÷ÓÃ¾²Ì¬·½·¨
-				m = ExpressUtil.findMethodWithCache((Class<?>) obj, methodName,
+			if (p0 instanceof OperateClass) {// è°ƒç”¨é™æ€æ–¹æ³•
+				m = ExpressUtil.findMethodWithCache((Class<?>) obj, this.methodName,
 						types, true, true);
 			} else {
-				m = ExpressUtil.findMethodWithCache(obj.getClass(), methodName,
+				m = ExpressUtil.findMethodWithCache(obj.getClass(), this.methodName,
 						types, true, false);
 			}
 			if(m == null){
 				types = new Class[]{ArrayClass};
-				if (list[0] instanceof OperateClass) {// µ÷ÓÃ¾²Ì¬·½·¨
+				if (p0 instanceof OperateClass) {// è°ƒç”¨é™æ€æ–¹æ³•
 					m = ExpressUtil.findMethodWithCache((Class<?>) obj, methodName,
 							types, true, true);
 				} else {
@@ -67,7 +81,7 @@ public class OperatorMethod extends OperatorBase {
 			}
 			if (m == null) {
 				StringBuilder  s = new StringBuilder();
-				s.append("Ã»ÓĞÕÒµ½" + obj.getClass().getName() + "µÄ·½·¨£º"
+				s.append("æ²¡æœ‰æ‰¾åˆ°" + obj.getClass().getName() + "çš„æ–¹æ³•ï¼š"
 						+ methodName + "(");
 				for (int i = 0; i < orgiTypes.length; i++) {
 					if (i > 0)
@@ -82,7 +96,7 @@ public class OperatorMethod extends OperatorBase {
 				throw new Exception(s.toString());
 			}
 			
-			if (list[0] instanceof OperateClass) {// µ÷ÓÃ¾²Ì¬·½·¨
+			if (p0 instanceof OperateClass) {// è°ƒç”¨é™æ€æ–¹æ³•
 				boolean oldA = m.isAccessible();
 				m.setAccessible(true);
 				tmpObj = m.invoke(null,ExpressUtil.transferArray(objs,m.getParameterTypes()));
@@ -97,6 +111,6 @@ public class OperatorMethod extends OperatorBase {
 		}
 	}
     public String toString(){
-    	return this.name;
+    	return this.name + ":" + this.methodName;
     }
 }

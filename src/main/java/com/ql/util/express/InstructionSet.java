@@ -8,21 +8,18 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.ql.util.express.instruction.detail.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.ql.util.express.instruction.FunctionInstructionSet;
 import com.ql.util.express.instruction.OperateDataCacheManager;
-import com.ql.util.express.instruction.detail.Instruction;
-import com.ql.util.express.instruction.detail.InstructionConstData;
-import com.ql.util.express.instruction.detail.InstructionLoadAttr;
-import com.ql.util.express.instruction.detail.InstructionOperator;
 import com.ql.util.express.instruction.opdata.OperateDataLocalVar;
 
 
 
 /**
- * ±í´ïÊ½Ö´ĞĞ±àÒëºóĞÎ³ÉµÄÖ¸Áî¼¯ºÏ
+ * è¡¨è¾¾å¼æ‰§è¡Œç¼–è¯‘åå½¢æˆçš„æŒ‡ä»¤é›†åˆ
  * @author qhlhl2010@gmail.com
  *
  */
@@ -49,16 +46,18 @@ public class InstructionSet implements Serializable{
 	private String globeName;
 	
   /**
-   * Ö¸Áî
+   * æŒ‡ä»¤
    */
   private Instruction[] instructionList = new Instruction[0];
   /**
-   * º¯ÊıºÍºê¶¨Òå
+   * å‡½æ•°å’Œå®å®šä¹‰
    */
   private Map<String,FunctionInstructionSet> functionDefine = new HashMap<String,FunctionInstructionSet>();
+  //ä¸ºäº†å¢åŠ æ€§èƒ½ï¼Œå¼€å§‹çš„æ—¶å€™ç¼“å­˜ä¸ºæ•°ç»„
+  private Map<String,Object> cacheFunctionSet = null;
   private List<ExportItem> exportVar = new ArrayList<ExportItem>();
   /**
-   * º¯Êı²ÎÊı¶¨Òå
+   * å‡½æ•°å‚æ•°å®šä¹‰
    */
   private List<OperateDataLocalVar> parameterList = new ArrayList<OperateDataLocalVar>();
   
@@ -68,16 +67,33 @@ public class InstructionSet implements Serializable{
   public InstructionSet(String aType){
 	  this.type = aType;
   }
-  
+
+  public String[] getOutFunctionNames() throws Exception {
+	  Map<String,String> result = new TreeMap<String,String>();
+	  for (int i = 0; i < instructionList.length; i++) {
+		  Instruction instruction = instructionList[i];
+		  if (instruction instanceof InstructionCallSelfDefineFunction) {
+			  String functionName = ((InstructionCallSelfDefineFunction)instruction).getFunctionName();
+			  if(!functionDefine.containsKey(functionName)) {
+				  result.put(functionName, null);
+			  }
+		  }
+	  }
+	  return result.keySet().toArray(new String[0]);
+
+  }
   public String[] getOutAttrNames() throws Exception{
 	  Map<String,String> result = new TreeMap<String,String>();
 	  for(Instruction instruction:instructionList){
 		   if(instruction instanceof InstructionLoadAttr){
+			   if("null".equals(((InstructionLoadAttr)instruction).getAttrName())){
+				   continue;
+			   }
 			   result.put(((InstructionLoadAttr)instruction).getAttrName(),null);
 		   }
 	  }
 	 
-	  //ÌŞ³ı±¾µØ±äÁ¿¶¨ÒåºÍ±ğÃû¶¨Òå
+	  //å‰”é™¤æœ¬åœ°å˜é‡å®šä¹‰å’Œåˆ«åå®šä¹‰
 		for (int i = 0; i < instructionList.length; i++) {
 			Instruction instruction = instructionList[i];
 			if (instruction instanceof InstructionOperator) {
@@ -101,7 +117,7 @@ public class InstructionSet implements Serializable{
 
   
   /**
-   * Ìí¼ÓÖ¸Áî£¬ÎªÁËÌá¸ßÔËĞĞÆÚµÄĞ§ÂÊ£¬Ö¸Áî¼¯ÓÃÊı×é´æ´¢
+   * æ·»åŠ æŒ‡ä»¤ï¼Œä¸ºäº†æé«˜è¿è¡ŒæœŸçš„æ•ˆç‡ï¼ŒæŒ‡ä»¤é›†ç”¨æ•°ç»„å­˜å‚¨
    * @param item
    * @return
    */
@@ -112,7 +128,7 @@ public class InstructionSet implements Serializable{
 	  this.instructionList = newArray;
   }
   /**
-   * ²åÈëÊı¾İ
+   * æ’å…¥æ•°æ®
    * @param aPoint
    * @param item
    */
@@ -129,21 +145,28 @@ public class InstructionSet implements Serializable{
  * @param environmen
  * @param context
  * @param errorList
- * @param isLast
- * @param isReturnLastData ÊÇ·ñ×îºóµÄ½á¹û£¬Ö÷ÒªÊÇÔÚÖ´ĞĞºê¶¨ÒåµÄÊ±ºòĞèÒª
+ * @param isReturnLastData æ˜¯å¦æœ€åçš„ç»“æœï¼Œä¸»è¦æ˜¯åœ¨æ‰§è¡Œå®å®šä¹‰çš„æ—¶å€™éœ€è¦
  * @param aLog
  * @return
  * @throws Exception
  */
 	public CallResult excute(RunEnvironment environmen,InstructionSetContext context,
-			List<String> errorList,boolean isLast,boolean isReturnLastData,Log aLog)
+			List<String> errorList,boolean isReturnLastData,Log aLog)
 			throws Exception {
-		//½«º¯Êıexportµ½ÉÏÏÂÎÄÖĞ
-		for(FunctionInstructionSet item : this.functionDefine.values()){
-			context.addSymbol(item.name, item.instructionSet);
+		
+		//å°†å‡½æ•°exportåˆ°ä¸Šä¸‹æ–‡ä¸­,è¿™å„¿å°±æ˜¯é‡å…¥ä¹Ÿæ²¡æœ‰å…³ç³»ï¼Œä¸éœ€è¦è€ƒè™‘å¹¶å‘
+		if(cacheFunctionSet == null){
+			Map<String,Object> tempMap = new HashMap<String,Object>();
+			for(FunctionInstructionSet s : this.functionDefine.values()){
+				tempMap.put(s.name,s.instructionSet);
+			}
+			cacheFunctionSet = tempMap;
 		}
+		
+		context.addSymbol(cacheFunctionSet);
+		
 		this.executeInnerOrigiInstruction(environmen, errorList, aLog);
-		if (environmen.isExit() == false && isLast == true) {// ÊÇÔÚÖ´ĞĞÍêËùÓĞµÄÖ¸Áîºó½áÊøµÄ´úÂë
+		if (environmen.isExit() == false) {// æ˜¯åœ¨æ‰§è¡Œå®Œæ‰€æœ‰çš„æŒ‡ä»¤åç»“æŸçš„ä»£ç 
 			if (environmen.getDataStackSize() > 0) {
 				OperateData tmpObject = environmen.pop();
 				if (tmpObject == null) {
@@ -162,32 +185,34 @@ public class InstructionSet implements Serializable{
 			}
 		}
 		if (environmen.getDataStackSize() > 1) {
-			throw new Exception("ÔÚ±í´ïÊ½Ö´ĞĞÍê±Ïºó£¬¶ÑÕ»ÖĞ»¹´æÔÚ¶à¸öÊı¾İ");
+			throw new Exception("åœ¨è¡¨è¾¾å¼æ‰§è¡Œå®Œæ¯•åï¼Œå †æ ˆä¸­è¿˜å­˜åœ¨å¤šä¸ªæ•°æ®");
 		}
 		CallResult result = OperateDataCacheManager.fetchCallResult(environmen.getReturnValue(), environmen.isExit());
 		return result;
 	}
 	  public void executeInnerOrigiInstruction(RunEnvironment environmen,List<String> errorList,Log aLog) throws Exception{
-			Instruction instruction;
-			while (environmen.getProgramPoint() < this.instructionList.length) {
-				if (environmen.isExit() == true) {
-					return;
-				}
-				instruction = this.instructionList[environmen.getProgramPoint()];
-				instruction.setLog(aLog);//ÉèÖÃlog
-				try{
-					instruction.execute(environmen, errorList);
-				}catch(Exception e){
-					if(printInstructionError){
-						log.error("µ±Ç°ProgramPoint = " + environmen.getProgramPoint());
-						log.error("µ±Ç°Ö¸Áî" +  instruction);
-						log.error(e);
-					}
-		            throw e;
-				}
+			Instruction instruction =null;
+		try {
+			while (environmen.programPoint < this.instructionList.length) {
+//				if (environmen.isExit() == true) {
+//					return;
+//				}
+				instruction = this.instructionList[environmen.programPoint];
+				instruction.setLog(aLog);// è®¾ç½®log
+				instruction.execute(environmen, errorList);
 			}
+		} catch (Exception e) {
+			if (printInstructionError) {
+				log.error("å½“å‰ProgramPoint = " + environmen.programPoint);
+				log.error("å½“å‰æŒ‡ä»¤" + instruction);
+				log.error(e);
+			}
+			throw e;
+		}
 	}
-
+  public int getInstructionLength(){
+	  return this.instructionList.length;
+  }
   public void addMacroDefine(String macroName,FunctionInstructionSet iset){
 	  this.functionDefine.put(macroName, iset);
   }
@@ -259,7 +284,7 @@ public String toString() {
 	public String toString(int level) {
 		try {
 			StringBuffer buffer = new StringBuffer();
-			// Êä³öºê¶¨Òå
+			// è¾“å‡ºå®å®šä¹‰
 			for (FunctionInstructionSet set : this.functionDefine.values()) {
 				appendSpace(buffer,level);
 				buffer.append(set.type + ":" + set.name).append("(");

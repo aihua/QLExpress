@@ -13,7 +13,7 @@ public class ExpressClassLoader extends ClassLoader {
 
 	public synchronized Class<?> loadClass(String name, boolean resolve)
 			throws ClassNotFoundException {
-		//System.out.print("¿ªÊ¼²éÕÒ Àà" + name + "¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£");
+		//System.out.print("å¼€å§‹æŸ¥æ‰¾ ç±»" + name + "ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚ã€‚");
 		Class<?> clasz = findLoadedClass(this, name);
 		if (clasz != null) {
 			//System.out.println(clasz.getClassLoader());
@@ -22,7 +22,7 @@ public class ExpressClassLoader extends ClassLoader {
 		if (clasz == null) {
 			clasz = parentLoadClass(this, name);
 		}
-		if (clasz == null && name.startsWith("[")) { // ½øĞĞÊı×é´¦Àí
+		if (clasz == null && name.startsWith("[")) { // è¿›è¡Œæ•°ç»„å¤„ç†
 			int index = name.indexOf("L");
 			String str = name.substring(0, index);
 			String componentClassName = name.substring(index + 1,
@@ -35,7 +35,7 @@ public class ExpressClassLoader extends ClassLoader {
 				Class<?> componentType = this.loadClass(componentClassName);
 				clasz = Array.newInstance(componentType, dimes).getClass();
 			} catch (Exception e) {
-				// ²»´í´¦Àí
+				// ä¸é”™å¤„ç†
 			}
 		}
 
@@ -72,7 +72,7 @@ public class ExpressClassLoader extends ClassLoader {
 
 	public static Class<?> parentLoadClass(ClassLoader loader, String name)
 			throws ClassNotFoundException {
-		// Èç¹û´æÔÚÕâ¸öÀà£¬ÔòÖ±½Ó·µ»Ø
+		// å¦‚æœå­˜åœ¨è¿™ä¸ªç±»ï¼Œåˆ™ç›´æ¥è¿”å›
 		Class<?> clasz = null;
 		if (clasz == null) {
 			try {

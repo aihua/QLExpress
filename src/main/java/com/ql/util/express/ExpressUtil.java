@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 
 /**
- * ±í´ïÊ½¹¤¾ßÀà
+ * è¡¨è¾¾å¼å·¥å…·ç±»
  * 
  * @author qhlhl2010@gmail.com
  * 
@@ -50,7 +51,7 @@ public class ExpressUtil {
 	public static Map<String,Object> methodCache = new ConcurrentHashMap<String, Object>();
 	
 	public static Class<?>[][] classMatchs =new Class[][]{
-			//Ô­Ê¼Êı¾İÀàĞÍ
+			//åŸå§‹æ•°æ®ç±»å‹
 			{BigDecimal.class,double.class},{BigDecimal.class,float.class},{BigDecimal.class,long.class},{BigDecimal.class,int.class}, {BigDecimal.class,short.class},{BigDecimal.class,byte.class},
 			{double.class,float.class},{double.class,long.class},{double.class,int.class}, {double.class,short.class},{double.class,byte.class},{double.class,BigDecimal.class},
 			{float.class,long.class},  {float.class,int.class},  {float.class,short.class},{float.class,byte.class},{float.class,BigDecimal.class},
@@ -62,24 +63,29 @@ public class ExpressUtil {
 			{boolean.class,Boolean.class},{Boolean.class,boolean.class}
 	};	
 	
+	
 	public static Class<?> getSimpleDataType(Class<?> aClass) {
-		if (Integer.class.equals(aClass))
-			return Integer.TYPE;
-		if (Short.class.equals(aClass))
-			return Short.TYPE;
-		if (Long.class.equals(aClass))
-			return Long.TYPE;
-		if (Double.class.equals(aClass))
-			return Double.TYPE;
-		if (Float.class.equals(aClass))
-			return Float.TYPE;
-		if (Byte.class.equals(aClass))
-			return Byte.TYPE;
-		if (Character.class.equals(aClass))
-			return Character.TYPE;
-		if (Boolean.class.equals(aClass))
-			return Boolean.TYPE;
-		return aClass;
+		if (aClass.isPrimitive()){
+			if (Integer.class.equals(aClass))
+				return Integer.TYPE;
+			if (Short.class.equals(aClass))
+				return Short.TYPE;
+			if (Long.class.equals(aClass))
+				return Long.TYPE;
+			if (Double.class.equals(aClass))
+				return Double.TYPE;
+			if (Float.class.equals(aClass))
+				return Float.TYPE;
+			if (Byte.class.equals(aClass))
+				return Byte.TYPE;
+			if (Character.class.equals(aClass))
+				return Character.TYPE;
+			if (Boolean.class.equals(aClass))
+				return Boolean.TYPE;
+			return aClass;
+		}else{
+			return aClass;
+		}
 	}
     public static boolean isAssignable(Class<?> target, Class<?> source) {
     	if (target == source)
@@ -95,7 +101,7 @@ public class ExpressUtil {
 
 		if (target == null)
 			return false;
-		if (source == null)//null×ª»»
+		if (source == null)//nullè½¬æ¢
 			return !target.isPrimitive();
 		
 		if (target.isAssignableFrom(source) == true){
@@ -133,7 +139,7 @@ public class ExpressUtil {
 			else if (source == Double.class)
 				source = double.class;
 		}
-		if (target == source)// ×ª»»ºóĞèÒªÔÚÅĞ¶ÏÒ»ÏÂ
+		if (target == source)// è½¬æ¢åéœ€è¦åœ¨åˆ¤æ–­ä¸€ä¸‹
 			return true;
 
 		for (int i = 0; i < classMatchs.length; i++) {
@@ -198,7 +204,7 @@ public class ExpressUtil {
 		Class<?>[] bestMatch = null;
 		int bestMatchIndex = -1;
 
-		for (int i = candidates.length - 1; i >= 0; i--) {// ÏÈ´Ó»ùÀà¿ªÊ¼²éÕÒ
+		for (int i = candidates.length - 1; i >= 0; i--) {// å…ˆä»åŸºç±»å¼€å§‹æŸ¥æ‰¾
 			Class<?>[] targetMatch = candidates[i];
 			if (ExpressUtil.isSignatureAssignable(idealMatch, targetMatch)
 					&& ((bestMatch == null) || ExpressUtil
@@ -218,9 +224,9 @@ public class ExpressUtil {
 			String aMethodName, Class<?>[] aTypes, boolean aPublicOnly,
 			boolean aIsStatic) {
 		StringBuilder builder = new StringBuilder();
-		builder.append(aPublicOnly).append("-").append(aIsStatic).append("-");
+//		builder.append(aPublicOnly).append("-").append(aIsStatic).append("-");
 		builder.append(aBaseClass.getName()).append(".").append(aMethodName)
-				.append("(");
+				.append(".");
 		if (aTypes == null) {
 			builder.append("null");
 		} else {
@@ -235,7 +241,7 @@ public class ExpressUtil {
 				}
 			}
 		}
-		builder.append(")");
+//		builder.append(")");
 		return builder.toString();
 
 	}
@@ -256,6 +262,7 @@ public class ExpressUtil {
     	}
     	return (Method)result;
     }
+    
 	public static Method findMethod(Class<?> baseClass, String methodName,
 			Class<?>[] types, boolean publicOnly, boolean isStatic) {
 		List<Method> candidates = gatherMethodsRecursive(baseClass, methodName,
@@ -265,7 +272,17 @@ public class ExpressUtil {
 		return method;
 	}
 
-	public static Constructor<?> findConstructor(Class<?> baseClass, Class<?>[] types) {
+	public static Constructor<?> findConstructorWithCache(Class<?> baseClass, Class<?>[] types) {
+	    	String key = createCacheKey(baseClass, "new", types, true, false);
+	    	Constructor<?> result = (Constructor<?>)methodCache.get(key);
+	    	if(result == null){
+	    		result = findConstructor(baseClass,types);
+	    		methodCache.put(key, result);
+	    	}
+	    	return result;
+	}    	
+	  
+	private static Constructor<?> findConstructor(Class<?> baseClass, Class<?>[] types) {
 		Constructor<?>[] constructors = baseClass.getConstructors();
 		List<Constructor<?>> constructorList = new ArrayList<Constructor<?>>();
 		List<Class<?>[]> listClass = new ArrayList<Class<?>[]>();
@@ -482,8 +499,8 @@ public class ExpressUtil {
 	}
 
 	/**
-	 * Ìæ»»×Ö·û´®ÖĞµÄ²ÎÊı replaceString("$1Ç¿»¯$2ÊµÊ©$2",new String[]{"qq","ff"})
-	 * ="qq Ç¿»¯ ff ÊµÊ© ff"
+	 * æ›¿æ¢å­—ç¬¦ä¸²ä¸­çš„å‚æ•° replaceString("$1å¼ºåŒ–$2å®æ–½$2",new String[]{"qq","ff"})
+	 * ="qq å¼ºåŒ– ff å®æ–½ ff"
 	 * 
 	 * @param str
 	 * @param parameters
@@ -501,7 +518,7 @@ public class ExpressUtil {
 		while (m.find()) {
 			int index = Integer.parseInt(m.group().substring(1)) - 1;
 			if (index < 0 || index >= parameters.length) {
-				throw new Exception("ÉèÖÃµÄ²ÎÊıÎ»ÖÃ$" + (index + 1) + "³¬¹ıÁË·¶Î§ "
+				throw new Exception("è®¾ç½®çš„å‚æ•°ä½ç½®$" + (index + 1) + "è¶…è¿‡äº†èŒƒå›´ "
 						+ parameters.length);
 			}
 			m.appendReplacement(sb, " " + parameters[index].toString() + " ");
@@ -568,22 +585,21 @@ public class ExpressUtil {
 				PropertyUtils.setProperty(bean, name.toString(),ExpressUtil.castObject(value, filedClass, false));
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("²»ÄÜ·ÃÎÊ" + bean + "µÄproperty:" + name,e);
+			throw new RuntimeException("ä¸èƒ½è®¿é—®" + bean + "çš„property:" + name,e);
 		}
 	}
 
 	  public static Object[] transferArray(Object[] values,Class<?>[] types){
-		  Object[] result = new Object[values.length];
-		  for(int i=0;i <result.length;i++){
-			  result[i] = castObject(values[i],types[i],false);
+		  for(int i=0;i <values.length;i++){
+			  values[i] = castObject(values[i],types[i],false);
 		  }
-		  return result;
+		  return values;
 	  }  
 /**
  * 
  * @param value
  * @param type
- * @param isForce ÊÇ·ñÇ¿ÖÆ×ª»»
+ * @param isForce æ˜¯å¦å¼ºåˆ¶è½¬æ¢
  * @return
  * @throws Exception
  */
@@ -596,6 +612,25 @@ public class ExpressUtil {
 		if (value instanceof Number
 				&& (type.isPrimitive() || Number.class.isAssignableFrom(type))) {
 			return OperatorOfNumber.transfer((Number)value, type, isForce);
+		}else if(type.isArray() && value.getClass().isArray()) {
+			//éœ€è¦å¯¹å…ƒç´ åšå…¼å®¹æ€§,å¦‚æœvalueçš„å…ƒç´ å…¨éƒ¨ä¸ºnullå¹¶ä¸”å’Œå£°æ˜çš„ä¸ä¸€è‡´,è½¬åŒ–ä¸ºæ‰€å£°æ˜çš„ç±»å‹
+			Class<?> valueType = value.getClass().getComponentType();
+			Class<?> declareType = type.getComponentType();
+			if(declareType!=valueType){
+				Object[] values = (Object[]) value;
+				boolean allBlank = true;
+				for(int i=0;i<values.length;i++) {
+					if(values[i]!=null){
+						allBlank = false;
+						break;
+					}
+				}
+				if(allBlank){
+					return Array.newInstance(declareType,values.length);
+				}
+			}
+			return value;
+
 		}else{
 			return value;
 		}
@@ -603,7 +638,7 @@ public class ExpressUtil {
 
 	  
 		public static void main(String[] args) throws Exception {
-			System.out.println(replaceString("$1Ç¿»¯$2ÊµÊ©$2", new String[] { "qq",
+			System.out.println(replaceString("$1å¼ºåŒ–$2å®æ–½$2", new String[] { "qq",
 					"ff" }));
 			System.out.println(Number.class.isAssignableFrom(Long.class));
 			Object obj = castObject(Double.valueOf(1d),Double.class,false);

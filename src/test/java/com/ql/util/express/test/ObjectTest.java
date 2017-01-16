@@ -17,7 +17,7 @@ public class ObjectTest {
 		Object r =  runner.execute(express, context, null, false,
 				true);
 		System.out.println(r);
-		Assert.assertTrue("Êı¾İÖ´ĞĞ´íÎó", r.toString().equals(260) == false);
+		Assert.assertTrue("æ•°æ®æ‰§è¡Œé”™è¯¯", r.toString().equals(260) == false);
 	}
 
 }

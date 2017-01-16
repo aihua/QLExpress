@@ -8,7 +8,7 @@ import com.ql.util.express.instruction.FunctionInstructionSet;
 
 
 /**
- * ±í´ïÊ½×°ÔØÆ÷
+ * è¡¨è¾¾å¼è£…è½½å™¨
  * 
  * @author xuannan
  * 
@@ -28,7 +28,7 @@ public class ExpressLoader {
 			throws Exception {
 		synchronized (expressInstructionSetCache) {
 			if (expressInstructionSetCache.containsKey(expressName)) {
-				throw new Exception("±í´ïÊ½¶¨ÒåÖØ¸´£º" + expressName);
+				throw new Exception("è¡¨è¾¾å¼å®šä¹‰é‡å¤ï¼š" + expressName);
 			}
 			expressInstructionSetCache.put(expressName, set);
 		}
@@ -38,13 +38,13 @@ public class ExpressLoader {
 			String expressString) throws Exception {
 		InstructionSet parseResult = null;
 		if (expressInstructionSetCache.containsKey(expressName)) {
-			throw new Exception("±í´ïÊ½¶¨ÒåÖØ¸´£º" + expressName);
+			throw new Exception("è¡¨è¾¾å¼å®šä¹‰é‡å¤ï¼š" + expressName);
 		}
 		synchronized (expressInstructionSetCache) {
 			parseResult = this.creator.parseInstructionSet(expressString);
 			parseResult.setName(expressName);
 			parseResult.setGlobeName(expressName);
-			// ĞèÒª½«º¯ÊıºÍºê¶¨Òå¶¼ÌáÈ¡³öÀ´
+			// éœ€è¦å°†å‡½æ•°å’Œå®å®šä¹‰éƒ½æå–å‡ºæ¥
 			for (FunctionInstructionSet item : parseResult
 					.getFunctionInstructionSets()) {
 				this.addInstructionSet(item.name, item.instructionSet);

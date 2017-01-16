@@ -49,8 +49,8 @@ public class OperateDataAttr extends OperateData {
 				return null;
 			}
 			if (context == null) {
-				throw new RuntimeException("没有设置表达式计算的上下文，不能获取属性：\"" + this.name
-						+ "\"请检查表达式");
+				throw new RuntimeException("娌℃湁璁剧疆琛ㄨ揪寮忚绠楃殑涓婁笅鏂囷紝涓嶈兘鑾峰彇灞炴�э細\"" + this.name
+						+ "\"璇锋鏌ヨ〃杈惧紡");
 			}
 			try {
 				   return context.get(this.name);

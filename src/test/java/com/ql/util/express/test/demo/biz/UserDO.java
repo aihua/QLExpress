@@ -3,22 +3,22 @@ package com.ql.util.express.test.demo.biz;
 public class UserDO {
 	
 	/**
-	 * ÓÃ»§êÇ³Æ
+	 * ç”¨æˆ·æ˜µç§°
 	 */
 	private String nick;	
 	
 	/**
-	 * ¿ªµê×´Ì¬
+	 * å¼€åº—çŠ¶æ€
 	 */
 	private boolean shopOpen;
 	
 	/**
-	 * ĞÇ¼¶
+	 * æ˜Ÿçº§
 	 */
 	private Long score;
 	
 	/**
-	 * µêÆÌÀàĞÍ:c2c,b2c
+	 * åº—é“ºç±»å‹:c2c,b2c
 	 */
 	private String shopType;	
 
@@ -56,15 +56,15 @@ public class UserDO {
 	
 	
 	public String toString(){
-		StringBuffer sb = new StringBuffer("ÓÃ»§ĞÅÏ¢£º");
-		sb.append("\t\têÇ³Æ: ").append(nick);
+		StringBuffer sb = new StringBuffer("ç”¨æˆ·ä¿¡æ¯ï¼š");
+		sb.append("\t\tæ˜µç§°: ").append(nick);
 		if(shopOpen){
-			sb.append("\t\tµêÆÌ×´Ì¬: ÓªÒµÖĞ");
+			sb.append("\t\tåº—é“ºçŠ¶æ€: è¥ä¸šä¸­");
 		}else{
-			sb.append("\t\tµêÆÌ×´Ì¬: ¹Ø±ÕÖĞ");
+			sb.append("\t\tåº—é“ºçŠ¶æ€: å…³é—­ä¸­");
 		}
-		sb.append("\t\tÂô¼ÒĞÇ¼¶: ").append(score);
-		sb.append("\t\tµêÆÌÀàĞÍ: ").append(shopType);
+		sb.append("\t\tå–å®¶æ˜Ÿçº§: ").append(score);
+		sb.append("\t\tåº—é“ºç±»å‹: ").append(shopType);
 		return sb.toString();
 	}
 	

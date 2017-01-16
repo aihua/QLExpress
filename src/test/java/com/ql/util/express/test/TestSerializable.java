@@ -20,14 +20,14 @@ public class TestSerializable {
 		try {
 
 			ObjectOutputStream out = new ObjectOutputStream(
-					new FileOutputStream("qlcache.dat"));
+					new FileOutputStream("target/qlcache.dat"));
 
 			out.writeObject(staff);
 
 			out.close();
 
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-					"qlcache.dat"));
+					"target/qlcache.dat"));
 
 			InstructionSet newStaff = (InstructionSet) in.readObject();
 

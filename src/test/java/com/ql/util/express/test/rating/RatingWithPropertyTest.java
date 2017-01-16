@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.ql.util.express.DefaultContext;
 import com.ql.util.express.ExpressRunner;
 /**
- * ·Ö³ÉÅäÖÃ·¶Àı,Í¨¹ı¶¯Ì¬ÊôĞÔÀ´ÊµÏÖ
+ * åˆ†æˆé…ç½®èŒƒä¾‹,é€šè¿‡åŠ¨æ€å±æ€§æ¥å®ç°
  * @author xuannan
  *
  */
@@ -19,28 +19,28 @@ public class RatingWithPropertyTest {
 		Map logisticsOrder = new HashMap();
 		Map tcOrder = new HashMap();
 		Map goodsOrder = new HashMap();
-		//ÉèÖÃÎïÁ÷¶©µ¥ĞÅÏ¢
-		logisticsOrder.put("ÖØÁ¿",4);
-		logisticsOrder.put("²Ö´¢TPID","ĞşÄÑ");
-		logisticsOrder.put("ÎïÁ÷TPID","ÔÆÊâ");
-		logisticsOrder.put("°ü×°TPID","Ç§¾ø");
-        //½¨Á¢¼ÆËãÆ÷
+		//è®¾ç½®ç‰©æµè®¢å•ä¿¡æ¯
+		logisticsOrder.put("é‡é‡",4);
+		logisticsOrder.put("ä»“å‚¨TPID","ç„éš¾");
+		logisticsOrder.put("ç‰©æµTPID","äº‘æ®Š");
+		logisticsOrder.put("åŒ…è£…TPID","åƒç»");
+        //å»ºç«‹è®¡ç®—å™¨
 		ExpressRunner runner = new ExpressRunner();
-		//Ôö¼Ó×Ô¶¨Òåº¯Êı
-		runner.addFunction("·ÑÓÃ¿ÆÄ¿",new SujectOperator("·ÑÓÃ¿ÆÄ¿"));
-        //×°ÔØ·Ö³É¹æÔòrating.qlÎÄ¼ş
+		//å¢åŠ è‡ªå®šä¹‰å‡½æ•°
+		runner.addFunction("è´¹ç”¨ç§‘ç›®",new SujectOperator("è´¹ç”¨ç§‘ç›®"));
+        //è£…è½½åˆ†æˆè§„åˆ™rating.qlæ–‡ä»¶
 		runner.loadExpress("ratingWithProperty");
-		//ÉèÖÃÉÏÏÂÎÄ
+		//è®¾ç½®ä¸Šä¸‹æ–‡
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
-		context.put("ÎïÁ÷¶©µ¥", logisticsOrder);
-		context.put("½»Ò×¶©µ¥", tcOrder);
-		context.put("²Ö´¢¶©µ¥", goodsOrder);
+		context.put("ç‰©æµè®¢å•", logisticsOrder);
+		context.put("äº¤æ˜“è®¢å•", tcOrder);
+		context.put("ä»“å‚¨è®¢å•", goodsOrder);
 		SubjectMananger subjectMananger = new SubjectMananger();
-		context.put("·ÑÓÃ", subjectMananger);
+		context.put("è´¹ç”¨", subjectMananger);
 		
 		runner.executeByExpressName("ratingWithProperty", context, null, false,false,null);
-		//Êä³ö·Ö³É½á¹û
-		System.out.println("----------·Ö³É½á¹û----------------");
+		//è¾“å‡ºåˆ†æˆç»“æœ
+		System.out.println("----------åˆ†æˆç»“æœ----------------");
 		for(Object item : subjectMananger.getSubjectValues()){
 			System.out.println(item);
 		}		

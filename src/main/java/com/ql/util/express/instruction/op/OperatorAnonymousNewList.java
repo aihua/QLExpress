@@ -3,6 +3,7 @@ package com.ql.util.express.instruction.op;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.instruction.OperateDataCacheManager;
@@ -17,10 +18,10 @@ public class OperatorAnonymousNewList extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 
-	public OperateData executeInner(InstructionSetContext  context, OperateData[] list) throws Exception {
+	public OperateData executeInner(InstructionSetContext  context, ArraySwap list) throws Exception {
 		List<Object> result = new ArrayList<Object>();
 		for(int i=0;i<list.length;i++){
-			result.add(list[i].getObject(context));
+			result.add(list.get(i).getObject(context));
 		}
 		return OperateDataCacheManager.fetchOperateData(result,List.class);
 	}

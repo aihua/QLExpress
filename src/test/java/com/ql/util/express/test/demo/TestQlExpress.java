@@ -15,16 +15,16 @@ public class TestQlExpress  extends UnitilsJUnit4{
 	
 	
 	/**
-	 * Ê¹ÓÃqlExpressUtilÀ©Õ¹ÁËQlExpressRunnerµÄexpressContext²ÎÊı£¬
-	 * Ê¹½Å±¾ÖĞ¿ÉÒÔÖ±½Óµ÷ÓÃspringÖĞµÄbean
+	 * ä½¿ç”¨qlExpressUtilæ‰©å±•äº†QlExpressRunnerçš„expressContextå‚æ•°ï¼Œ
+	 * ä½¿è„šæœ¬ä¸­å¯ä»¥ç›´æ¥è°ƒç”¨springä¸­çš„bean
 	 * 
-	 * ³¡¾°ÒµÎñÂß¼­ÈçÏÂ£º
+	 * åœºæ™¯ä¸šåŠ¡é€»è¾‘å¦‚ä¸‹ï¼š
 	 * ******************************************************************
 	 * 
-	 * ÓÃ»§qlExpress×¢²áÒ»¸öÕËºÅ
-	 * ÓÃ»§qlExpress¿ªÁË¸öÌÔ±¦µê
-     * Í¨¹ı×Ô¼ºµÄ¿àĞÄ¾­Óª£¬ĞÇ¼¶²»¶ÏÉı¸ß£¬qlExpress²»¶ÏµÄÆÚÍû×ÅÄÜ¹»µØµêÆÌÉı¼¶ÎªÉÌ³ÇÓÃ»§
-     * ÖÕÓÚÓĞÒ»ÌìËû³É¹¦ÁË¡£
+	 * ç”¨æˆ·qlExpressæ³¨å†Œä¸€ä¸ªè´¦å·
+	 * ç”¨æˆ·qlExpresså¼€äº†ä¸ªæ·˜å®åº—
+     * é€šè¿‡è‡ªå·±çš„è‹¦å¿ƒç»è¥ï¼Œæ˜Ÿçº§ä¸æ–­å‡é«˜ï¼ŒqlExpressä¸æ–­çš„æœŸæœ›ç€èƒ½å¤Ÿåœ°åº—é“ºå‡çº§ä¸ºå•†åŸç”¨æˆ·
+     * ç»ˆäºæœ‰ä¸€å¤©ä»–æˆåŠŸäº†ã€‚
      * 
 	 * ******************************************************************
 	 * @throws Exception
@@ -34,21 +34,21 @@ public class TestQlExpress  extends UnitilsJUnit4{
 
 		Map<String, Object> context = new HashMap<String, Object>();
 		context.put("nick", "qlExpress");
-		qlExpressUtil.execute("ÓÃ»§A = bizLogicBean.signUser(nick);" +
-							  "bizLogicBean.openShop(ÓÃ»§A );" +
-				              "for(;; bizLogicBean.isShopOpening(ÓÃ»§A ) && !bizLogicBean.upgradeShop(ÓÃ»§A )){bizLogicBean.addScore(ÓÃ»§A );}", 
+		qlExpressUtil.execute("ç”¨æˆ·A = bizLogicBean.signUser(nick);" +
+							  "bizLogicBean.openShop(ç”¨æˆ·A );" +
+				              "for(;; bizLogicBean.isShopOpening(ç”¨æˆ·A ) && !bizLogicBean.upgradeShop(ç”¨æˆ·A )){bizLogicBean.addScore(ç”¨æˆ·A );}", 
 				              context);
 	}
 	
 	
 	/**
 	 * 
-	 * Ê¹ÓÃÔ¤ÏÈ¶¨ÒåµÄº¯Êı£¬½Å±¾¼´Âß¼­£º
+	 * ä½¿ç”¨é¢„å…ˆå®šä¹‰çš„å‡½æ•°ï¼Œè„šæœ¬å³é€»è¾‘ï¼š
 	 * ******************************************************************
 	 * 
-	 * "ÓÃ»§A = ×¢²áÓÃ»§(nick);" +
-	 * "¿ªµê(ÓÃ»§A);" +
-     * "for(;;µêÆÌÓªÒµÖĞ(ÓÃ»§A) && !µêÆÌÉı¼¶(ÓÃ»§A)){ĞÇ¼¶×ÔÔö(ÓÃ»§A);}
+	 * "ç”¨æˆ·A = æ³¨å†Œç”¨æˆ·(nick);" +
+	 * "å¼€åº—(ç”¨æˆ·A);" +
+     * "for(;;åº—é“ºè¥ä¸šä¸­(ç”¨æˆ·A) && !åº—é“ºå‡çº§(ç”¨æˆ·A)){æ˜Ÿçº§è‡ªå¢(ç”¨æˆ·A);}
      *
      * ******************************************************************
 	 * @throws Exception
@@ -59,9 +59,9 @@ public class TestQlExpress  extends UnitilsJUnit4{
 
 		Map<String, Object> context = new HashMap<String, Object>();
 		context.put("nick", "qlExpress");
-		qlExpressUtil.execute("ÓÃ»§A = ×¢²áÓÃ»§(nick);" +
-							  "¿ªµê(ÓÃ»§A);" +
-				              "for(;;µêÆÌÓªÒµÖĞ(ÓÃ»§A) && !µêÆÌÉı¼¶(ÓÃ»§A)){ĞÇ¼¶×ÔÔö(ÓÃ»§A);}", 
+		qlExpressUtil.execute("ç”¨æˆ·A = æ³¨å†Œç”¨æˆ·(nick);" +
+							  "å¼€åº—(ç”¨æˆ·A);" +
+				              "for(;;åº—é“ºè¥ä¸šä¸­(ç”¨æˆ·A) && !åº—é“ºå‡çº§(ç”¨æˆ·A)){æ˜Ÿçº§è‡ªå¢(ç”¨æˆ·A);}", 
 				              context);
 	}
 	

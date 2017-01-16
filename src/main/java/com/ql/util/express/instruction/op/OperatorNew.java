@@ -3,6 +3,7 @@ package com.ql.util.express.instruction.op;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.ExpressUtil;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
@@ -13,8 +14,8 @@ public class OperatorNew extends OperatorBase {
 		this.name = aName;
 	}
 
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		Class<?> obj = (Class<?>) list[0].getObject(parent);
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		Class<?> obj = (Class<?>) list.get(0).getObject(parent);
 		if (obj.isArray()) {
 			Class<?> tmpClass = obj;
 			int dim = 0;
@@ -24,7 +25,7 @@ public class OperatorNew extends OperatorBase {
 			}
 			int[] dimLength = new int[dim];
 			for (int index = 0; index < dim; index++) {
-				dimLength[index] = ((Number) (list[index + 1].getObject(parent)))
+				dimLength[index] = ((Number) (list.get(index + 1).getObject(parent)))
 						.intValue();
 			}
 			return OperateDataCacheManager.fetchOperateData(Array.newInstance(tmpClass, dimLength), obj);
@@ -33,16 +34,16 @@ public class OperatorNew extends OperatorBase {
 		Object[] objs = new Object[list.length - 1];
 		Object tmpObj;
 		for (int i = 0; i < types.length; i++) {
-			tmpObj = list[i + 1].getObject(parent);
-			types[i] = list[i + 1].getType(parent);
+			tmpObj = list.get(i + 1).getObject(parent);
+			types[i] = list.get(i + 1).getType(parent);
 			objs[i] = tmpObj;
 		}
-		Constructor<?> c = ExpressUtil.findConstructor(obj, types);
+		Constructor<?> c = ExpressUtil.findConstructorWithCache(obj, types);
 
 		if (c == null) {
-			// "没有找到" + obj.getName() + "的构造方法："
+			// "娌℃湁鎵惧埌" + obj.getName() + "鐨勬瀯閫犳柟娉曪細"
 			StringBuilder  s = new StringBuilder();
-			s.append("没有找到" + obj.getName() + "的构造方法：" + obj.getName() + "(");
+			s.append("娌℃湁鎵惧埌" + obj.getName() + "鐨勬瀯閫犳柟娉曪細" + obj.getName() + "(");
 			for (int i = 0; i < types.length; i++) {
 				if (i > 0){
 					s.append(",");

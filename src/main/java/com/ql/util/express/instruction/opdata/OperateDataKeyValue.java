@@ -35,16 +35,16 @@ public class OperateDataKeyValue extends OperateData {
 	}
 
 	public Object getObjectInner(InstructionSetContext context) {
-		throw new RuntimeException("没有实现方法：getObjectInner");
+		throw new RuntimeException("娌℃湁瀹炵幇鏂规硶锛歡etObjectInner");
 	}
 
 	public Class<?> getType(InstructionSetContext context)
 			throws Exception {
-		throw new RuntimeException("没有实现方法：getType");
+		throw new RuntimeException("娌℃湁瀹炵幇鏂规硶锛歡etType");
 	}
 
 	public void setObject(InstructionSetContext parent,
 			Object object) {
-		throw new RuntimeException("没有实现方法：setObject");
+		throw new RuntimeException("娌℃湁瀹炵幇鏂规硶锛歴etObject");
 	}
 }

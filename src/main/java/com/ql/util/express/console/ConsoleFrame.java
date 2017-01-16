@@ -103,16 +103,16 @@ public class ConsoleFrame
     contentPane.setPreferredSize(new Dimension(500, 400));
     jButton1.addActionListener(new ConsoleFrame_jButton1_actionAdapter(this));
     jPanelResult.setLayout(borderLayout3);
-    jLabelScript.setText("ÔËÐÐ½Å±¾");
-    jLabelResult.setText("ÔËÐÐ½á¹û");
-    jLabelContext.setText("½Å±¾ÉÏÏÂÎÄ");
+    jLabelScript.setText("è¿è¡Œè„šæœ¬");
+    jLabelResult.setText("è¿è¡Œç»“æžœ");
+    jLabelContext.setText("è„šæœ¬ä¸Šä¸‹æ–‡");
     jPanelScript.setLayout(borderLayout4);
     jPanelContext.setLayout(borderLayout5);
     jMenuBar1.add(jMenuFile);
     jMenuFile.add(jMenuFileExit);
     setJMenuBar(jMenuBar1);
     jButton1.setIcon(image1);
-    jButton1.setToolTipText("Ö´ÐÐ");
+    jButton1.setToolTipText("æ‰§è¡Œ");
     jToolBar.add(jButton1);
     contentPane.add(statusBar, BorderLayout.SOUTH);
     jPanelResult.add(jScrollPaneResult, java.awt.BorderLayout.CENTER);
@@ -172,11 +172,11 @@ public class ConsoleFrame
 	      context.putAll(tempMap);
 	      r = runner.execute(script, context, null,false,false);
 	      System.out.print("QL>\n" +
-				"-------------------Ô­Ê¼Ö´ÐÐ½Å±¾--------------------------------\n" +
+				"-------------------åŽŸå§‹æ‰§è¡Œè„šæœ¬--------------------------------\n" +
 				script +  "\n" +
-				"-------------------½Å±¾ÔËÐÐ½á¹û--------------------------------\n" +
+				"-------------------è„šæœ¬è¿è¡Œç»“æžœ--------------------------------\n" +
 				r +"\n" +
-				"-------------------ÔËÐÐºóÉÏÏÂÎÄ--------------------------------\n" +
+				"-------------------è¿è¡ŒåŽä¸Šä¸‹æ–‡--------------------------------\n" +
 				context
 				+ "\nQL>");
 	} catch (Exception e1) {

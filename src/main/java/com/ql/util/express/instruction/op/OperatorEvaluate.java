@@ -1,5 +1,6 @@
 package com.ql.util.express.instruction.op;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.ExpressUtil;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
@@ -13,8 +14,8 @@ public class OperatorEvaluate extends OperatorBase {
 		this.aliasName = aAliasName;
 		this.errorInfo = aErrorInfo;
 	}
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
-		return executeInner(parent, list[0], list[1]);
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
+		return executeInner(parent, list.get(0), list.get(1));
 	}
 
 	public OperateData executeInner(InstructionSetContext parent,
@@ -23,8 +24,8 @@ public class OperatorEvaluate extends OperatorBase {
 		Class<?> sourceType = op2.getType(parent);
 		if (targetType != null) {
 			if (ExpressUtil.isAssignable(targetType, sourceType) == false) {
-					throw new Exception("¸³ÖµÊ±ºò£¬ÀàĞÍ×ª»»´íÎó£º"
-							+ ExpressUtil.getClassName(sourceType) + " ²»ÄÜ×ª»»Îª "
+					throw new Exception("èµ‹å€¼æ—¶å€™ï¼Œç±»å‹è½¬æ¢é”™è¯¯ï¼š"
+							+ ExpressUtil.getClassName(sourceType) + " ä¸èƒ½è½¬æ¢ä¸º "
 							+ ExpressUtil.getClassName(targetType));
 			}
 

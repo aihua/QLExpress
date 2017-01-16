@@ -3,6 +3,7 @@ package com.ql.util.express.instruction.detail;
 import java.util.List;
 
 import com.ql.util.express.InstructionSet;
+import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.InstructionSetRunner;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.RunEnvironment;
@@ -20,13 +21,16 @@ public class InstructionCallMacro extends Instruction{
 			if(environment.isTrace()&&log.isDebugEnabled()){
 				log.debug(this);
 			}
-			Object functionSet = environment.getContext().getSymbol(this.name);
+			
+			InstructionSetContext context = environment.getContext();
+			
+			Object functionSet = context.getSymbol(this.name);
 			
 			Object result =InstructionSetRunner.execute(
-					environment.getContext().getExpressRunner(),
-					new InstructionSet[]{(InstructionSet)functionSet},
-					environment.getContext().getExpressLoader(),
-					environment.getContext(), 
+					context.getExpressRunner(),
+					(InstructionSet)functionSet,
+					context.getExpressLoader(),
+					context, 
 					errorList,
 					environment.isTrace(),
 					false,false,this.log,

@@ -18,7 +18,7 @@ public class TestMap {
 		ExpressRunner runner = new ExpressRunner();
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		Object r = runner.execute(express, context, null, false, true);
-		Assert.assertTrue("Map¶ÁÈ¡´íÎó", r.toString().equalsIgnoreCase("90"));
+		Assert.assertTrue("Mapè¯»å–é”™è¯¯", r.toString().equalsIgnoreCase("90"));
 
 	}
 
@@ -42,7 +42,7 @@ public class TestMap {
 		ExpressRunner runner = new ExpressRunner(false,true);
 		Object r =runner.execute(expressionstr, expressContext, null,
 				true, true);
-		Assert.assertTrue("Map¶ÁÈ¡´íÎó", r.toString().equalsIgnoreCase("1"));
+		Assert.assertTrue("Mapè¯»å–é”™è¯¯", r.toString().equalsIgnoreCase("1"));
 
 	}
 }

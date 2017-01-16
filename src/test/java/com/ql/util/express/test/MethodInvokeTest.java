@@ -130,13 +130,13 @@ public class MethodInvokeTest {
 
 	
 	
-	//²éÕÒÔÚÏßµÄµêÆÌĞÅÏ¢
+	//æŸ¥æ‰¾åœ¨çº¿çš„åº—é“ºä¿¡æ¯
 	public PersonalShopInfo getOnlinePersonalShopInfo(long userId) {
 		return null;
 //		return new PersonalShopInfo();
 	}
 	
-	//ËÑË÷ÒıÇæ·µ»ØÊÇ·ñ´æÔÚ¸ÄµêÆÌĞÅÏ¢
+	//æœç´¢å¼•æ“è¿”å›æ˜¯å¦å­˜åœ¨æ”¹åº—é“ºä¿¡æ¯
 	public boolean getSearchResult(PersonalShopInfo personalInfo) {
 		if(personalInfo == null) {
 			return false;

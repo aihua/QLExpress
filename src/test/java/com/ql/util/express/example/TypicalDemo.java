@@ -8,7 +8,7 @@ import com.ql.util.express.ExpressRunner;
 import com.ql.util.express.IExpressContext;
 
 /**
- * QLExpressµÄÒ»ÖÖµäĞÍÓ¦ÓÃ³¡¾°
+ * QLExpressçš„ä¸€ç§å…¸å‹åº”ç”¨åœºæ™¯
  * @author xuannan
  *
  */
@@ -16,7 +16,7 @@ public class TypicalDemo {
 
 	private ExpressRunner runner = new ExpressRunner();
     /**
-     * ÅĞ¶ÏÒ»¸öÓÃ»§TAGµÄµÚXÎ»ÊÇ·ñÎª1¡£Õâ¸öµÄdemo,ÆäÊµÏÖºÏÀíĞÔ²»¿¼ÂÇ
+     * åˆ¤æ–­ä¸€ä¸ªç”¨æˆ·TAGçš„ç¬¬Xä½æ˜¯å¦ä¸º1ã€‚è¿™ä¸ªçš„demo,å…¶å®ç°åˆç†æ€§ä¸è€ƒè™‘
      * @param user
      * @param tagBitIndex
      * @return
@@ -27,13 +27,13 @@ public class TypicalDemo {
     }
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸öÓÃ»§ÊÇ·ñ¶©¹º¹ıÄ³¸öÉÌÆ·
+	 * åˆ¤æ–­ä¸€ä¸ªç”¨æˆ·æ˜¯å¦è®¢è´­è¿‡æŸä¸ªå•†å“
 	 * @param user
 	 * @param goodsId
 	 * @return
 	 */
 	public boolean hasOrderGoods(UserInfo user,long goodsId){
-		//Ëæ»úÄ£ÄâÒ»¸ö
+		//éšæœºæ¨¡æ‹Ÿä¸€ä¸ª
 		if(user.getUserId() % 2 == 1){
 			return true;
 		}else{
@@ -42,7 +42,7 @@ public class TypicalDemo {
 	}
 
 	/**
-	 * ÅĞ¶ÏÂß¼­Ö´ĞĞº¯Êı
+	 * åˆ¤æ–­é€»è¾‘æ‰§è¡Œå‡½æ•°
 	 * @param userInfo
 	 * @param expression
 	 * @return
@@ -55,7 +55,7 @@ public class TypicalDemo {
             Boolean result = (Boolean)runner.execute(expression, expressContext, errorInfo, true, false);
             String resultStr ="";
             if(result.booleanValue() == true){
-            	resultStr = "¿ÉÒÔ¶©¹º´ËÉÌÆ·";
+            	resultStr = "å¯ä»¥è®¢è´­æ­¤å•†å“";
             }else{
               for(int i=0;i<errorInfo.size();i++){
             	  if(i > 0){
@@ -63,24 +63,24 @@ public class TypicalDemo {
             	  }
             	  resultStr  = resultStr + errorInfo.get(i);
               }
-              resultStr = resultStr  + ",ËùÒÔ²»ÄÜ¶©¹º´ËÉÌÆ·";
+              resultStr = resultStr  + ",æ‰€ä»¥ä¸èƒ½è®¢è´­æ­¤å•†å“";
             }
-            return "Ç×°®µÄ" + userInfo.getName() + " : " + resultStr;
+            return "äº²çˆ±çš„" + userInfo.getName() + " : " + resultStr;
     }		
 	public void initial() throws Exception{
-		runner.addOperatorWithAlias("¶øÇÒ","and",null);
-		runner.addFunctionOfClassMethod("userTagJudge", TypicalDemo.class.getName(), "userTagJudge",new String[] {UserInfo.class.getName(),"int"}, "Äã²»ÊÇÈıĞÇÂô¼Ò");
-		runner.addFunctionOfClassMethod("hasOrderGoods", TypicalDemo.class.getName(), "hasOrderGoods",new String[] {UserInfo.class.getName(),"long"}, "ÄãÃ»ÓĞ¿ªÍ¨ÌÔ±¦µêÆÌ");
-		runner.addMacro("ÈıĞÇÂô¼Ò", "userTagJudge(userInfo,3)");//3±íÊ¾ÈıĞÇÂô¼ÒµÄ±êÖ¾Î»
-		runner.addMacro("ÒÑ¾­¿ªµê", "hasOrderGoods(userInfo,100)");//100±íÊ¾ÍúÆÌÉÌÆ·µÄID
+		runner.addOperatorWithAlias("è€Œä¸”","and",null);
+		runner.addFunctionOfClassMethod("userTagJudge", TypicalDemo.class.getName(), "userTagJudge",new String[] {UserInfo.class.getName(),"int"}, "ä½ ä¸æ˜¯ä¸‰æ˜Ÿå–å®¶");
+		runner.addFunctionOfClassMethod("hasOrderGoods", TypicalDemo.class.getName(), "hasOrderGoods",new String[] {UserInfo.class.getName(),"long"}, "ä½ æ²¡æœ‰å¼€é€šæ·˜å®åº—é“º");
+		runner.addMacro("ä¸‰æ˜Ÿå–å®¶", "userTagJudge(userInfo,3)");//3è¡¨ç¤ºä¸‰æ˜Ÿå–å®¶çš„æ ‡å¿—ä½
+		runner.addMacro("å·²ç»å¼€åº—", "hasOrderGoods(userInfo,100)");//100è¡¨ç¤ºæ—ºé“ºå•†å“çš„ID
 	}
 	public static void main(String args[]) throws Exception{
 		TypicalDemo demo = new TypicalDemo();
 		demo.initial();
-		System.out.println(demo.hasPermission(new UserInfo(100,"xuannan",7),  "ÈıĞÇÂô¼Ò   ¶øÇÒ   ÒÑ¾­¿ªµê"));
-		System.out.println(demo.hasPermission(new UserInfo(101,"qianghui",8), "ÈıĞÇÂô¼Ò   ¶øÇÒ   ÒÑ¾­¿ªµê"));
-		System.out.println(demo.hasPermission(new UserInfo(100,"ÕÅÈı",8), "ÈıĞÇÂô¼Ò and ÒÑ¾­¿ªµê"));
-		System.out.println(demo.hasPermission(new UserInfo(100,"ÀîËÄ",7), "ÈıĞÇÂô¼Ò and ÒÑ¾­¿ªµê"));
+		System.out.println(demo.hasPermission(new UserInfo(100,"xuannan",7),  "ä¸‰æ˜Ÿå–å®¶   è€Œä¸”   å·²ç»å¼€åº—"));
+		System.out.println(demo.hasPermission(new UserInfo(101,"qianghui",8), "ä¸‰æ˜Ÿå–å®¶   è€Œä¸”   å·²ç»å¼€åº—"));
+		System.out.println(demo.hasPermission(new UserInfo(100,"å¼ ä¸‰",8), "ä¸‰æ˜Ÿå–å®¶ and å·²ç»å¼€åº—"));
+		System.out.println(demo.hasPermission(new UserInfo(100,"æå››",7), "ä¸‰æ˜Ÿå–å®¶ and å·²ç»å¼€åº—"));
 	}
 }
 

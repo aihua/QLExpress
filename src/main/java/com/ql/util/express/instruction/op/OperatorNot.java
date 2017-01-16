@@ -19,15 +19,15 @@ public class OperatorNot extends Operator {
 			throws Exception {
 		Object result = null;
         if (op == null){
-        	throw new Exception("null ²»ÄÜÖ´ĞĞ²Ù×÷£º" + this.getAliasName());
+        	throw new Exception("null ä¸èƒ½æ‰§è¡Œæ“ä½œï¼š" + this.getAliasName());
         }
 		if (Boolean.class.equals(op.getClass()) == true) {
 			boolean r = !((Boolean) op).booleanValue();
 			result = Boolean.valueOf(r);
 		} else {
 			//
-			String msg = "Ã»ÓĞ¶¨ÒåÀàĞÍ" + op.getClass().getName() + " µÄ " + this.name
-					+ "²Ù×÷";
+			String msg = "æ²¡æœ‰å®šä¹‰ç±»å‹" + op.getClass().getName() + " çš„ " + this.name
+					+ "æ“ä½œ";
 			throw new Exception(msg);
 		}
 		return result;

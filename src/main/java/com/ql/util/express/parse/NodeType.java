@@ -21,7 +21,7 @@ public class NodeType implements INodeType {
 	private NodeType realNodeType;
 	private String instructionFactory;
 	/**
-	 * Ä£Ê½Æ¥Åä
+	 * æ¨¡å¼åŒ¹é…
 	 */
 	private QLPatternNode qlPatternNode;
 
@@ -67,13 +67,13 @@ public class NodeType implements INodeType {
 					this.qlPatternNode = QLPattern.createPattern(this.manager,
 							this.name, tempList[1]);
 				} else {
-					throw new RuntimeException("²»ÄÜÊ¶±ğ\"" + this.name
-							+ "\"µÄÊôĞÔÀàĞÍ£º" + tempList[0] + " ¶¨Òå£º"
+					throw new RuntimeException("ä¸èƒ½è¯†åˆ«\"" + this.name
+							+ "\"çš„å±æ€§ç±»å‹ï¼š" + tempList[0] + " å®šä¹‰ï¼š"
 							+ this.defineStr);
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("½ÚµãÀàĞÍ\"" + this.name + "\"³õÊ¼»¯Ê§°Ü,¶¨Òå£º"
+			throw new RuntimeException("èŠ‚ç‚¹ç±»å‹\"" + this.name + "\"åˆå§‹åŒ–å¤±è´¥,å®šä¹‰ï¼š"
 					+ this.defineStr, e);
 		}
 	}
@@ -92,7 +92,7 @@ public class NodeType implements INodeType {
 			return ((NodeType) this.qlPatternNode.getNodeType())
 					.isContainerChild(child);
 		}
-		// ÊÇandÀàĞÍ£¬²»ÄÜÔö¼Ó×Ó½Úµã»ò½øĞĞÅĞ¶Ï
+		// æ˜¯andç±»å‹ï¼Œä¸èƒ½å¢åŠ å­èŠ‚ç‚¹æˆ–è¿›è¡Œåˆ¤æ–­
 		if (this.qlPatternNode.isAndMode()
 				&& this.qlPatternNode.getChildren().size() > 0) {
 			return false;

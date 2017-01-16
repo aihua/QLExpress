@@ -18,9 +18,9 @@ public class QLPattern {
 		AtomicLong maxMatchPoint = new AtomicLong();
 		QLMatchResult result = findMatchStatementWithAddRoot(aManager,pattern,nodes,point,true,maxMatchPoint);
 		if(result == null || result.matchs.size() == 0){
-			throw new Exception("³ÌĞò´íÎó£¬²»Âú×ãÓï·¨¹æ·¶£¬Ã»ÓĞÆ¥Åäµ½ºÏÊÊµÄÓï·¨,×î´óÆ¥ÅäÖÂ[0:" + (maxMatchPoint.longValue()-1) +"]");
+			throw new Exception("ç¨‹åºé”™è¯¯ï¼Œä¸æ»¡è¶³è¯­æ³•è§„èŒƒï¼Œæ²¡æœ‰åŒ¹é…åˆ°åˆé€‚çš„è¯­æ³•,æœ€å¤§åŒ¹é…è‡´[0:" + (maxMatchPoint.longValue()-1) +"]");
 		}else if(result != null && result.matchs.size() != 1){
-			throw new Exception("³ÌĞò´íÎó£¬²»Âú×ãÓï·¨¹æ·¶£¬±ØĞëÓĞÒ»¸ö¸ù½Úµã£º" + pattern + ",×î´óÆ¥ÅäÖÂ[0:" + (maxMatchPoint.longValue()-1) +"]");
+			throw new Exception("ç¨‹åºé”™è¯¯ï¼Œä¸æ»¡è¶³è¯­æ³•è§„èŒƒï¼Œå¿…é¡»æœ‰ä¸€ä¸ªæ ¹èŠ‚ç‚¹ï¼š" + pattern + ",æœ€å¤§åŒ¹é…è‡´[0:" + (maxMatchPoint.longValue()-1) +"]");
 		}
 		return result;
 	}
@@ -38,11 +38,11 @@ public class QLPattern {
 			}else if (pattern.matchMode == MatchMode.OR) {
 				tempResult = matchOrOneTime(aManager,pattern,nodes, lastPoint,maxMatchPoint);
 			}else{
-				throw new Exception("²»ÕıÈ·µÄÀàĞÍ£º" + pattern.matchMode.toString());
+				throw new Exception("ä¸æ­£ç¡®çš„ç±»å‹ï¼š" + pattern.matchMode.toString());
 			}
 			if(tempResult == null){
 				if(count >= pattern.minMatchNum && count <=pattern.maxMatchNum){
-					//ÕıÈ·Æ¥Åä
+					//æ­£ç¡®åŒ¹é…
 					if(tempList == null){
 						 tempList = new ArrayList<QLMatchResultTree>();
 					}
@@ -58,7 +58,7 @@ public class QLPattern {
 				lastPoint = tempResult.matchLastIndex;
 				if(pattern.isTreeRoot == true){
 					if(tempResult.matchs.size() > 1){
-						throw new Exception("¸ù½ÚµãµÄÊıÁ¿±ØĞëÊÇ1");
+						throw new Exception("æ ¹èŠ‚ç‚¹çš„æ•°é‡å¿…é¡»æ˜¯1");
 					}
 					if(tempList.size() == 0){
 						tempList.addAll(tempResult.matchs);
@@ -77,7 +77,7 @@ public class QLPattern {
 			}
 		}
 		if(result != null && pattern.isSkip == true){
-			//ºöÂÔÌø¹ıËùÓĞÆ¥Åäµ½µÄ½Úµã
+			//å¿½ç•¥è·³è¿‡æ‰€æœ‰åŒ¹é…åˆ°çš„èŠ‚ç‚¹
 			result.matchs.clear();
 		}
 
@@ -117,12 +117,12 @@ public class QLPattern {
 					result = findMatchStatementWithAddRoot(aManager,pattern.nodeType.getPatternNode(),nodes,point,false,maxMatchPoint);
 					if(pattern.targetNodeType != null && result != null && result.matchs.size() >0){
 						if(result.matchs.size() > 1){
-							throw new Exception("ÉèÖÃÁËÀàĞÍ×ª»»µÄÓï·¨£¬Ö»ÄÜÓĞÒ»¸ö¸ù½Úµã");
+							throw new Exception("è®¾ç½®äº†ç±»å‹è½¬æ¢çš„è¯­æ³•ï¼Œåªèƒ½æœ‰ä¸€ä¸ªæ ¹èŠ‚ç‚¹");
 						}
 						result.matchs.get(0).targetNodeType = pattern.targetNodeType;
 					}
 				}
-				if(pattern.blame == true){//È¡·µ´¦Àí
+				if(pattern.blame == true){//å–è¿”å¤„ç†
 					if( result == null){
 						List<QLMatchResultTree> tempList = new ArrayList<QLMatchResultTree>();
 						tempList.add(new QLMatchResultTree(tempNodeType,nodes.get(point),null));
@@ -155,7 +155,7 @@ public class QLPattern {
 	private  static QLMatchResult matchAndOneTime(INodeTypeManager aManager,QLPatternNode pattern ,List<? extends IDataNode> nodes,int point,AtomicLong maxMatchPoint) throws Exception{
 		int orgiPoint = point;
 			QLMatchResultTree root = null;
-			int matchCount =0;//ÓÃÓÚµ÷ÊÔÈÕÖ¾µÄÊä³ö
+			int matchCount =0;//ç”¨äºè°ƒè¯•æ—¥å¿—çš„è¾“å‡º
     		List<QLMatchResultTree> tempList =null;
 			for (QLPatternNode item : pattern.children) {
 				if(point > nodes.size()){
@@ -173,7 +173,7 @@ public class QLPattern {
 					point = tempResult.matchLastIndex;
 					if (item.isTreeRoot == true && tempResult.matchs.size() >0) {
 						if (tempResult.matchs.size() > 1)
-							throw new Exception("¸ù½ÚµãµÄÊıÁ¿±ØĞëÊÇ1");
+							throw new Exception("æ ¹èŠ‚ç‚¹çš„æ•°é‡å¿…é¡»æ˜¯1");
 						if (root == null) {
 							QLMatchResultTree tempTree = tempResult.matchs.get(0);
 							while(tempTree.getLeft()!= null && tempTree.getLeft().size()>0){
@@ -205,7 +205,7 @@ public class QLPattern {
 	public static void traceLog(QLPatternNode pattern, QLMatchResult result,
 			List<? extends IDataNode> nodes, int point,int matchCount) {
 		if (log.isTraceEnabled() && (pattern.matchMode ==MatchMode.DETAIL || pattern.matchMode == MatchMode.AND && matchCount > 1 && pattern.name.equals("ANONY_PATTERN") == false )) {
-			log.trace("Æ¥Åä--" + pattern.name +"[" + point  + ":" + (result.matchLastIndex -1)+ "]:" + pattern);
+			log.trace("åŒ¹é…--" + pattern.name +"[" + point  + ":" + (result.matchLastIndex -1)+ "]:" + pattern);
 		}
 	}
 }

@@ -11,8 +11,8 @@ public class AddMacroDefineTest {
 		ExpressRunner runner = new ExpressRunner(false,true);	
 		runner.addFunctionOfClassMethod("abc", BeanExample.class.getName(),
 				"testLong", new String[] { "long" }, null);	
-		runner.addMacro("ÐþÄÑ", "abc(100);");
-		String express = "ÐþÄÑ + \" - Test\";";
+		runner.addMacro("çŽ„éš¾", "abc(100);");
+		String express = "çŽ„éš¾ + \" - Test\";";
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
 		Object r =   runner.execute(express, context, null, false,true);
 		System.out.println(r);		

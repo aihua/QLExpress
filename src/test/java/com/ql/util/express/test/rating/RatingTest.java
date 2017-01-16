@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.ql.util.express.DefaultContext;
 import com.ql.util.express.ExpressRunner;
 /**
- * ·Ö³ÉÅäÖÃ·¶Àı
+ * åˆ†æˆé…ç½®èŒƒä¾‹
  * @author xuannan
  *
  */
@@ -20,28 +20,31 @@ public class RatingTest {
 		Map tcOrder = new HashMap();
 		Map goodsOrder = new HashMap();
 		Map subjectValue = new HashMap();
-		//ÉèÖÃÎïÁ÷¶©µ¥ĞÅÏ¢
-		logisticsOrder.put("ÖØÁ¿",4);
-		logisticsOrder.put("²Ö´¢TP","ĞşÄÑ");
-		logisticsOrder.put("ÎïÁ÷TP","ÔÆÊâ");
-		logisticsOrder.put("°ü×°TP","Ç§¾ø");
-        //½¨Á¢¼ÆËãÆ÷
-		ExpressRunner runner = new ExpressRunner();
-		//Ôö¼Ó×Ô¶¨Òåº¯Êı
-		runner.addFunction("·ÑÓÃ¿ÆÄ¿",new SujectOperator("·ÑÓÃ¿ÆÄ¿"));
-        //×°ÔØ·Ö³É¹æÔòrating.qlÎÄ¼ş
+		//è®¾ç½®ç‰©æµè®¢å•ä¿¡æ¯
+		logisticsOrder.put("é‡é‡",4);
+		logisticsOrder.put("ä»“å‚¨TP","ç„éš¾");
+		logisticsOrder.put("ç‰©æµTP","äº‘æ®Š");
+		logisticsOrder.put("åŒ…è£…TP","åƒç»");
+        //å»ºç«‹è®¡ç®—å™¨
+		ExpressRunner runner = new ExpressRunner(true,true);
+		//å¢åŠ è‡ªå®šä¹‰å‡½æ•°
+		runner.addFunction("è´¹ç”¨ç§‘ç›®",new SujectOperator("è´¹ç”¨ç§‘ç›®"));
+        //è£…è½½åˆ†æˆè§„åˆ™rating.qlæ–‡ä»¶
 		runner.loadExpress("rating");
-		//ÉèÖÃÉÏÏÂÎÄ
+		//è®¾ç½®ä¸Šä¸‹æ–‡
 		DefaultContext<String, Object> context = new DefaultContext<String, Object>();
-		context.put("ÎïÁ÷¶©µ¥", logisticsOrder);
-		context.put("½»Ò×¶©µ¥", tcOrder);
-		context.put("²Ö´¢¶©µ¥", goodsOrder);
-		context.put("·ÑÓÃ¿ÆÄ¿", subjectValue);
-		//Ö´ĞĞÖ¸Áî
-		runner.executeByExpressName("rating",context, null, false,false,null);
-		
-		//Êä³ö·Ö³É½á¹û
-		System.out.println("----------·Ö³É½á¹û----------------");
+		context.put("ç‰©æµè®¢å•", logisticsOrder);
+		context.put("äº¤æ˜“è®¢å•", tcOrder);
+		context.put("ä»“å‚¨è®¢å•", goodsOrder);
+		context.put("è´¹ç”¨ç§‘ç›®", subjectValue);
+		//æ‰§è¡ŒæŒ‡ä»¤
+		  runner.executeByExpressName("rating",context, null, false,false,null);
+//		  runner.executeByExpressName("rating",context, null, false,false,null);
+//		while(true){
+//		  runner.executeByExpressName("rating",context, null, false,false,null);
+//		}
+		//è¾“å‡ºåˆ†æˆç»“æœ
+		System.out.println("----------åˆ†æˆç»“æœ----------------");
 		for(Object item : subjectValue.values()){
 			System.out.println(item);
 		}		

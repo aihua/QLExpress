@@ -13,77 +13,77 @@ public class BeanTest {
 	public void test1() throws Exception{
 		String exp = "import com.ql.util.express.example.CustBean;" + 
 		        "CustBean cust = new CustBean(1);" +
-		        "cust.setName(\"Ğ¡Ç¿\");" +
+		        "cust.setName(\"å°å¼º\");" +
 		        "return cust.getName();";
 		ExpressRunner runner = new ExpressRunner();
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		String r = (String)runner.execute(exp,null,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó","Ğ¡Ç¿".equals(r));
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯","å°å¼º".equals(r));
 	}
 	
 	@Test
 	public void test2() throws Exception{
-		String exp = "cust.setName(\"Ğ¡Ç¿\");" +
-			     // "cust.name = \"Ğ¡Ç¿\";" + 
+		String exp = "cust.setName(\"å°å¼º\");" +
+			     // "cust.name = \"å°å¼º\";" + 
 		        "return cust.getName();";
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
 		expressContext.put("cust", new CustBean(1));
 		ExpressRunner runner = new ExpressRunner();
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		String r = (String)runner.execute(exp,expressContext,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó","Ğ¡Ç¿".equals(r));
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯","å°å¼º".equals(r));
 	}
 	
 	@Test
 	public void test3() throws Exception{
-		String exp = "Ê××ÖÄ¸´óĞ´(\"abcd\")";
+		String exp = "é¦–å­—æ¯å¤§å†™(\"abcd\")";
 		ExpressRunner runner = new ExpressRunner();
-		runner.addFunctionOfClassMethod("Ê××ÖÄ¸´óĞ´", CustBean.class.getName(), "firstToUpper", new String[]{"String"},null);
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		runner.addFunctionOfClassMethod("é¦–å­—æ¯å¤§å†™", CustBean.class.getName(), "firstToUpper", new String[]{"String"},null);
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		String r = (String)runner.execute(exp,null,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó","Abcd".equals(r));
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯","Abcd".equals(r));
 	}
 	
 	/**
-	 * Ê¹ÓÃ±ğÃû
+	 * ä½¿ç”¨åˆ«å
 	 * @throws Exception
 	 */
 	@Test
 	public void testAlias() throws Exception{
-		String exp = "cust.setName(\"Ğ¡Ç¿\");" +
-			      "¶¨Òå±ğÃû custName cust.name;" + 
+		String exp = "cust.setName(\"å°å¼º\");" +
+			      "å®šä¹‰åˆ«å custName cust.name;" + 
 		        "return custName;";
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
 		expressContext.put("cust", new CustBean(1));
 		ExpressRunner runner = new ExpressRunner();
 		//
-		runner.addOperatorWithAlias("¶¨Òå±ğÃû", "alias", null);
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		runner.addOperatorWithAlias("å®šä¹‰åˆ«å", "alias", null);
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		String r = (String)runner.execute(exp,expressContext,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó","Ğ¡Ç¿".equals(r));
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯","å°å¼º".equals(r));
 	}
 	
 	/**
-	 * Ê¹ÓÃºê
+	 * ä½¿ç”¨å®
 	 * @throws Exception
 	 */
 	@Test
 	public void testMacro() throws Exception{
-		String exp = "cust.setName(\"Ğ¡Ç¿\");" +
-			      "¶¨Òåºê custName {cust.name};" + 
+		String exp = "cust.setName(\"å°å¼º\");" +
+			      "å®šä¹‰å® custName {cust.name};" + 
 		        "return custName;";
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
 		expressContext.put("cust", new CustBean(1));
 		ExpressRunner runner = new ExpressRunner();
 		//
-		runner.addOperatorWithAlias("¶¨Òåºê", "macro", null);
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		runner.addOperatorWithAlias("å®šä¹‰å®", "macro", null);
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		String r = (String)runner.execute(exp,expressContext,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó","Ğ¡Ç¿".equals(r));
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯","å°å¼º".equals(r));
 	}
 }

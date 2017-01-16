@@ -25,7 +25,7 @@ class DefineInstructionFactory  extends InstructionFactory{
 				node.getLeftChildren().remove(i);
 				tempStr = tempStr +"[]";
 			}else{
-				throw new Exception("不正确的类型定义");
+				throw new Exception("涓嶆纭殑绫诲瀷瀹氫箟");
 			}
 		}
 		if(arrayDimeCount > 0){

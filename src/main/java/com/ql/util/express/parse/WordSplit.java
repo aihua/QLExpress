@@ -8,8 +8,8 @@ import java.util.List;
 
 
 /**
- * Óï·¨½âÎöÀà
- * 1¡¢µ¥´Ê·Ö½â
+ * è¯­æ³•è§£æç±»
+ * 1ã€å•è¯åˆ†è§£
  * @author xuannan
  *
  */
@@ -17,7 +17,7 @@ import java.util.List;
 public class WordSplit
 {
    /**
-    * ÎÄ±¾·ÖÎöº¯Êı£¬¡°.¡±×÷Îª²Ù×÷·ûºÅ´¦Àí
+    * æ–‡æœ¬åˆ†æå‡½æ•°ï¼Œâ€œ.â€ä½œä¸ºæ“ä½œç¬¦å·å¤„ç†
     * @param str String
     * @throws Exception
     * @return String[]
@@ -33,22 +33,22 @@ public class WordSplit
 	     int point = 0;
 	     while(i<str.length()){
 	        c = str.charAt(i);
-	       if (c=='"' || c=='\''){//×Ö·û´®´¦Àí        
+	       if (c=='"' || c=='\''){//å­—ç¬¦ä¸²å¤„ç†        
 	     	int index = str.indexOf(c,i + 1);
-	     	//´¦Àí×Ö·û´®ÖĞµÄ¡±ÎÊÌâ
+	     	//å¤„ç†å­—ç¬¦ä¸²ä¸­çš„â€é—®é¢˜
 	         while(index >0 && str.charAt(index - 1) =='\\'){
 	         	index = str.indexOf(c,index + 1);
 	         }
 	         if (index < 0)
-	         	throw new Exception("×Ö·û´®Ã»ÓĞ¹Ø±Õ");
+	         	throw new Exception("å­—ç¬¦ä¸²æ²¡æœ‰å…³é—­");
 	         String tempDealStr = str.substring(i,index + 1);
-	         //´¦Àí \\£¬\"µÄÇé¿ö
+	         //å¤„ç† \\ï¼Œ\"çš„æƒ…å†µ
 	         String tmpResult = "";
 	         int tmpPoint = tempDealStr.indexOf("\\");        
 	         while(tmpPoint >=0 ){
 	         	tmpResult = tmpResult + tempDealStr.substring(0,tmpPoint);
 	         	if(tmpPoint == tempDealStr.length() -1){
-	         		throw new Exception("×Ö·û´®ÖĞµÄ" + "\\´íÎó:" + tempDealStr);
+	         		throw new Exception("å­—ç¬¦ä¸²ä¸­çš„" + "\\é”™è¯¯:" + tempDealStr);
 	         	}
 	         	tmpResult = tmpResult + tempDealStr.substring(tmpPoint + 1 ,tmpPoint + 2);
 	         	tempDealStr = tempDealStr.substring(tmpPoint + 2);
@@ -63,7 +63,7 @@ public class WordSplit
 	         i = index + 1;
 	         point = i;
 	       }else if(c=='.' && point < i && isNumber(str.substring(point,i))){
-	    	   i = i + 1; //Ğ¡ÊıµãµÄÌØÊâ´¦Àí
+	    	   i = i + 1; //å°æ•°ç‚¹çš„ç‰¹æ®Šå¤„ç†
 	       }else if(c == ' ' ||c =='\r'|| c =='\n'||c=='\t'||c=='\u000C'){
 	    	    if (point < i ){
 		             list.add(new Word(str.substring(point,i),line,i));
@@ -122,7 +122,7 @@ public class WordSplit
 		if (str == null || str.equals(""))
 			return false;
 		char c = str.charAt(0);
-		if (c >= '0' && c <= '9') { // Êı×Ö
+		if (c >= '0' && c <= '9') { // æ•°å­—
 			return true;
 		} else {
 			return false;

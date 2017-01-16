@@ -3,7 +3,7 @@ package com.ql.util.express.example.operator;
 import com.ql.util.express.Operator;
 
 /**
- * 定义连加的操作符
+ * 瀹氫箟杩炲姞鐨勬搷浣滅
  *
  */
 public class AddNOperator extends Operator{

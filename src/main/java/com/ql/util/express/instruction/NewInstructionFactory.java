@@ -29,7 +29,7 @@ public class NewInstructionFactory  extends InstructionFactory{
 		}
 
 		boolean returnVal = false;
-		children = node.getChildren();// ĞèÒªÖØĞÂ»ñÈ¡Êı¾İ
+		children = node.getChildren();// éœ€è¦é‡æ–°è·å–æ•°æ®
 		for (int i = 0; i < children.length; i++) {
 			boolean tmpHas = aCompile.createInstructionSetPrivate(result,forStack, children[i], false);
 			returnVal = returnVal || tmpHas;

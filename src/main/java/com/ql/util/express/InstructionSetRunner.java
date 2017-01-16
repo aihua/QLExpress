@@ -9,7 +9,7 @@ import com.ql.util.express.instruction.OperateDataCacheManager;
 
 public class InstructionSetRunner {
 	private static final Log log = LogFactory.getLog(InstructionSetRunner.class);
-	  public static Object executeOuter(ExpressRunner runner,InstructionSet[] sets,ExpressLoader loader,
+	  public static Object executeOuter(ExpressRunner runner,InstructionSet sets,ExpressLoader loader,
 				IExpressContext<String,Object> aContext, List<String> errorList,
 				boolean isTrace,boolean isCatchException,
 				Log aLog,boolean isSupportDynamicFieldName) throws Exception{
@@ -20,19 +20,23 @@ public class InstructionSetRunner {
 			 OperateDataCacheManager.resetCache(runner);
 		 }
 	  }
-	  
-	  /**
-	   * ÅúÁ¿Ö´ĞĞÖ¸Áî¼¯ºÏ£¬Ö¸Áî¼¯¼ä¿ÉÒÔ¹²Ïí ±äÁ¿ºÍº¯Êı
-	   * @param sets
-	   * @param aOperatorManager
-	   * @param aContext
-	   * @param errorList
-	   * @param aFunctionCacheMananger
-	   * @param isTrace
-	   * @return
-	   * @throws Exception
-	   */
-	  public static Object execute(ExpressRunner runner,InstructionSet[] sets,ExpressLoader loader,
+
+    /**
+	 * æ‰¹é‡æ‰§è¡ŒæŒ‡ä»¤é›†åˆï¼ŒæŒ‡ä»¤é›†é—´å¯ä»¥å…±äº« å˜é‡å’Œå‡½æ•°
+	 * @param runner
+	 * @param sets
+	 * @param loader
+	 * @param aContext
+	 * @param errorList
+	 * @param isTrace
+	 * @param isCatchException
+	 * @param isReturnLastData
+	 * @param aLog
+	 * @param isSupportDynamicFieldName
+     * @return
+     * @throws Exception
+     */
+	  public static Object execute(ExpressRunner runner,InstructionSet sets,ExpressLoader loader,
 				IExpressContext<String,Object> aContext, List<String> errorList,
 				boolean isTrace,boolean isCatchException,
 				boolean isReturnLastData,Log aLog,boolean isSupportDynamicFieldName)
@@ -43,35 +47,32 @@ public class InstructionSetRunner {
 	      return result;
 	  }
 
-		public static Object execute(InstructionSet[] sets,
+		public static Object execute(InstructionSet set,
 				InstructionSetContext context, List<String> errorList, boolean isTrace,boolean isCatchException,
 				boolean isReturnLastData,Log aLog) throws Exception {
-			RunEnvironment environmen = null;
-			Object result = null;
-			for (int i = 0; i < sets.length; i++) {
-				InstructionSet tmpSet = sets[i];
-				environmen = OperateDataCacheManager.fetRunEnvironment(tmpSet,
-						(InstructionSetContext ) context, isTrace);
-				try {
-					CallResult tempResult = tmpSet.excute(environmen, context,
-							errorList, i == sets.length - 1,isReturnLastData,aLog);
-					if (tempResult.isExit() == true) {
-						result = tempResult.getReturnValue();
-						break;
-					}
-				} catch (Exception e) {
-					if(isCatchException == true){
-						if (aLog != null){
-					       aLog.error(e.getMessage(), e);
-						}else{
-						   log.error(e.getMessage(),e);
-						}
-					}else{
-						throw e;
-					}
-				}
+		
+		RunEnvironment environmen = null;
+		Object result = null;
+		environmen = OperateDataCacheManager.fetRunEnvironment(set,
+				(InstructionSetContext) context, isTrace);
+		try {
+			CallResult tempResult = set.excute(environmen, context, errorList,
+					isReturnLastData, aLog);
+			if (tempResult.isExit() == true) {
+				result = tempResult.getReturnValue();
 			}
-			return result;
+		} catch (Exception e) {
+			if (isCatchException == true) {
+				if (aLog != null) {
+					aLog.error(e.getMessage(), e);
+				} else {
+					log.error(e.getMessage(), e);
+				}
+			} else {
+				throw e;
+			}
+		}
+		return result;
 
 		}
 }

@@ -16,14 +16,14 @@ public class QlExpressUtil implements ApplicationContextAware {
 		runner = new ExpressRunner();
 	}
 	private static boolean isInitialRunner = false;
-	private ApplicationContext applicationContext;// springÉÏÏÂÎÄ
+	private ApplicationContext applicationContext;// springä¸Šä¸‹æ–‡
 
 	/**
 	 * 
 	 * @param statement
-	 *            Ö´ĞĞÓï¾ä
+	 *            æ‰§è¡Œè¯­å¥
 	 * @param context
-	 *            ÉÏÏÂÎÄ
+	 *            ä¸Šä¸‹æ–‡
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -37,14 +37,14 @@ public class QlExpressUtil implements ApplicationContextAware {
 	}
 
 	/**
-	 * ÔÚ´Ë´¦°ÑÒ»Ğ©ÖĞÎÄ·ûºÅÌæ»»³ÉÓ¢ÎÄ·ûºÅ
+	 * åœ¨æ­¤å¤„æŠŠä¸€äº›ä¸­æ–‡ç¬¦å·æ›¿æ¢æˆè‹±æ–‡ç¬¦å·
 	 * 
 	 * @param statement
 	 * @return
 	 */
 	private String initStatement(String statement) {
-		return statement.replace("£¨", "(").replace("£©", ")").replace("£»", ";")
-				.replace("£¬", ",").replace("¡°", "\"").replace("¡±", "\"");
+		return statement.replace("ï¼ˆ", "(").replace("ï¼‰", ")").replace("ï¼›", ";")
+				.replace("ï¼Œ", ",").replace("â€œ", "\"").replace("â€", "\"");
 	}
 
 	private void initRunner(ExpressRunner runner) {
@@ -56,14 +56,14 @@ public class QlExpressUtil implements ApplicationContextAware {
 				return;
 			}
 			try {
-				runner.addFunctionOfServiceMethod("×¢²áÓÃ»§",applicationContext.getBean("bizLogicBean"), "signUser", new Class[] {String.class}, null); 
-				runner.addFunctionOfServiceMethod("¿ªµê",applicationContext.getBean("bizLogicBean"), "openShop", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
-				runner.addFunctionOfServiceMethod("ĞÇ¼¶×ÔÔö",applicationContext.getBean("bizLogicBean"), "addScore", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
-				runner.addFunctionOfServiceMethod("µêÆÌÉı¼¶",applicationContext.getBean("bizLogicBean"), "upgradeShop", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
-				runner.addFunctionOfServiceMethod("µêÆÌÓªÒµÖĞ",applicationContext.getBean("bizLogicBean"), "isShopOpening", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
+				runner.addFunctionOfServiceMethod("æ³¨å†Œç”¨æˆ·",applicationContext.getBean("bizLogicBean"), "signUser", new Class[] {String.class}, null); 
+				runner.addFunctionOfServiceMethod("å¼€åº—",applicationContext.getBean("bizLogicBean"), "openShop", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
+				runner.addFunctionOfServiceMethod("æ˜Ÿçº§è‡ªå¢",applicationContext.getBean("bizLogicBean"), "addScore", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
+				runner.addFunctionOfServiceMethod("åº—é“ºå‡çº§",applicationContext.getBean("bizLogicBean"), "upgradeShop", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
+				runner.addFunctionOfServiceMethod("åº—é“ºè¥ä¸šä¸­",applicationContext.getBean("bizLogicBean"), "isShopOpening", new Class[] {com.ql.util.express.test.demo.biz.UserDO.class}, null); 
 
 			} catch (Exception e) {
-				throw new RuntimeException("³õÊ¼»¯Ê§°Ü±í´ïÊ½", e);
+				throw new RuntimeException("åˆå§‹åŒ–å¤±è´¥è¡¨è¾¾å¼", e);
 			}
 		}
 		isInitialRunner = true;

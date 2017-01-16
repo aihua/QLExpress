@@ -1,5 +1,6 @@
 package com.ql.util.express.test;
 
+import com.ql.util.express.DefaultContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -9,14 +10,27 @@ public class GetExpressAttrNamesTest {
 
 	@Test
 	public void testABC() throws Exception {
-		String express = "alias qh 100; exportAlias fff qh; int a = b; c = a;macro  ³Í·£    {100 + 100} ³Í·£; qh ;fff;";
+		String express = "alias qh 100; exportAlias fff qh; int a = b; c = a;macro  æƒ©ç½š    {100 + 100} æƒ©ç½š; qh ;fff;";
 		ExpressRunner runner = new ExpressRunner(true,true);
 		String[] names = runner.getOutVarNames(express);
 		for(String s:names){
 			System.out.println("var : " + s);
 		}
-		Assert.assertTrue("»ñÈ¡Íâ²¿ÊôĞÔ´íÎó",names.length == 2);
-		Assert.assertTrue("»ñÈ¡Íâ²¿ÊôĞÔ´íÎó",names[0].equalsIgnoreCase("b"));
-		Assert.assertTrue("»ñÈ¡Íâ²¿ÊôĞÔ´íÎó",names[1].equalsIgnoreCase("c"));
+		Assert.assertTrue("è·å–å¤–éƒ¨å±æ€§é”™è¯¯",names.length == 2);
+		Assert.assertTrue("è·å–å¤–éƒ¨å±æ€§é”™è¯¯",names[0].equalsIgnoreCase("b"));
+		Assert.assertTrue("è·å–å¤–éƒ¨å±æ€§é”™è¯¯",names[1].equalsIgnoreCase("c"));
+	}
+
+	@Test
+	public void testABCD() throws Exception {
+		String express = "if(a!=null)return a";
+		ExpressRunner runner = new ExpressRunner(true,true);
+		String[] names = runner.getOutVarNames(express);
+		runner.execute(express,new DefaultContext<String, Object>(),null,false,false);
+		for(String s:names){
+			System.out.println("var : " + s);
+		}
+		Assert.assertTrue("è·å–å¤–éƒ¨å±æ€§é”™è¯¯",names.length == 1);
+		Assert.assertTrue("è·å–å¤–éƒ¨å±æ€§é”™è¯¯",names[0].equalsIgnoreCase("a"));
 	}
 }

@@ -10,80 +10,80 @@ import com.ql.util.express.example.operator.AddNOperator;
 import com.ql.util.express.example.operator.AddTwiceOperator;
 
 /**
- * ±¾ÀıÓÃÓÚÕ¹Ê¾ÈçºÎ×Ô¶¨Òå²Ù×÷·ûºÍ·½·¨
+ * æœ¬ä¾‹ç”¨äºå±•ç¤ºå¦‚ä½•è‡ªå®šä¹‰æ“ä½œç¬¦å’Œæ–¹æ³•
  *
  */
 public class OperatorTest {
 
 	/**
-	 * ¶¨ÒåÒ»¸ö¼òµ¥µÄ¶şÔª²Ù×÷·û
+	 * å®šä¹‰ä¸€ä¸ªç®€å•çš„äºŒå…ƒæ“ä½œç¬¦
 	 * @throws Exception
 	 */
 	@Test
 	public void testAddTwice() throws Exception{
-		//¶¨Òå±í´ïÊ½£¬Ïàµ±ÓÚ 1+(22+22)+(2+2)
+		//å®šä¹‰è¡¨è¾¾å¼ï¼Œç›¸å½“äº 1+(22+22)+(2+2)
 		String exp = " 1 addT 22 addT 2";
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·ûaddT£¬ÆäÊµÏÖÎªAddTwiceOperator
+		//å®šä¹‰æ“ä½œç¬¦addTï¼Œå…¶å®ç°ä¸ºAddTwiceOperator
 		runner.addOperator("addT", new AddTwiceOperator());
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		int r = (Integer)runner.execute(exp,null,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó",r==49);
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯",r==49);
 	}
 
 	/**
-	 * ¶¨ÒåÒ»¸ö¶àÔª²Ù×÷·û
+	 * å®šä¹‰ä¸€ä¸ªå¤šå…ƒæ“ä½œç¬¦
 	 * @throws Exception
 	 */
 	@Test
 	public void testAddNByOperator() throws Exception{
-		//¶¨Òå±í´ïÊ½£¬Ïàµ±ÓÚ4+1+2+3
+		//å®šä¹‰è¡¨è¾¾å¼ï¼Œç›¸å½“äº4+1+2+3
 		String exp = "4 addN (1,2,3)";
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·ûaddN£¬ÆäÊµÏÖÎªAddNOperator£¬Óï·¨¸ñÊ½ÓëinÒ»ÖÂ
+		//å®šä¹‰æ“ä½œç¬¦addNï¼Œå…¶å®ç°ä¸ºAddNOperatorï¼Œè¯­æ³•æ ¼å¼ä¸inä¸€è‡´
 		runner.addOperator("addN","in",new AddNOperator());
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		int r = (Integer)runner.execute(exp,null,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó",r==10);
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯",r==10);
 	}
 	
 	/**
-	 * ¶¨ÒåÒ»¸ö·½·¨
+	 * å®šä¹‰ä¸€ä¸ªæ–¹æ³•
 	 * @throws Exception
 	 */
 	@Test
 	public void testAddNByFunction() throws Exception{
-		//¶¨Òå±í´ïÊ½£¬Ïàµ±ÓÚ1+2+3+4
+		//å®šä¹‰è¡¨è¾¾å¼ï¼Œç›¸å½“äº1+2+3+4
 		String exp = "addN(1,2,3,4)";
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå·½·¨addN£¬ÆäÊµÏÖÎªAddNOperator
+		//å®šä¹‰æ–¹æ³•addNï¼Œå…¶å®ç°ä¸ºAddNOperator
 		runner.addFunction("addN",new AddNOperator());
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		int r = (Integer)runner.execute(exp,null,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó",r==10);
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯",r==10);
 	}
 	
 	/**
-	 * Ê¹ÓÃ²ÎÊı
+	 * ä½¿ç”¨å‚æ•°
 	 * @throws Exception
 	 */
 	@Test
 	public void testAddTwiceWithParams() throws Exception{
-		//¶¨Òå±í´ïÊ½£¬Ïàµ±ÓÚ i+(j+j)+(n+n)
+		//å®šä¹‰è¡¨è¾¾å¼ï¼Œç›¸å½“äº i+(j+j)+(n+n)
 		String exp = " i addT j addT n";
 		IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
 		expressContext.put("i", Integer.valueOf(1));
 		expressContext.put("j", Integer.valueOf(22));
 		expressContext.put("n", Integer.valueOf(2));
 		ExpressRunner runner = new ExpressRunner();
-		//¶¨Òå²Ù×÷·ûaddT£¬ÆäÊµÏÖÎªAddTwiceOperator
+		//å®šä¹‰æ“ä½œç¬¦addTï¼Œå…¶å®ç°ä¸ºAddTwiceOperator
 		runner.addOperator("addT", new AddTwiceOperator());
-		//Ö´ĞĞ±í´ïÊ½£¬²¢½«½á¹û¸³¸ør
+		//æ‰§è¡Œè¡¨è¾¾å¼ï¼Œå¹¶å°†ç»“æœèµ‹ç»™r
 		int r = (Integer)runner.execute(exp,expressContext,null,false,false);
 		System.out.println(r);
-		Assert.assertTrue("²Ù×÷·ûÖ´ĞĞ´íÎó",r==49);
+		Assert.assertTrue("æ“ä½œç¬¦æ‰§è¡Œé”™è¯¯",r==49);
 	}
 }

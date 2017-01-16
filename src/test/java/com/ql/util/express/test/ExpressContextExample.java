@@ -20,20 +20,20 @@ public class ExpressContextExample extends HashMap<String,Object> implements IEx
     }
     
 	/**
-	 * ³éÏó·½·¨£º¸ù¾İÃû³Æ´ÓÊôĞÔÁĞ±íÖĞÌáÈ¡ÊôĞÔÖµ
+	 * æŠ½è±¡æ–¹æ³•ï¼šæ ¹æ®åç§°ä»å±æ€§åˆ—è¡¨ä¸­æå–å±æ€§å€¼
 	 */
 	public Object get(Object name) {
 		Object result = null;
-		if(((String)name).equalsIgnoreCase("ÈıĞÇÂô¼Ò")){
+		if(((String)name).equalsIgnoreCase("ä¸‰æ˜Ÿå–å®¶")){
 			result = Boolean.valueOf(true);
-		} else if (((String)name).equalsIgnoreCase("Ïû±£ÓÃ»§")) {
+		} else if (((String)name).equalsIgnoreCase("æ¶ˆä¿ç”¨æˆ·")) {
 			result = Boolean.valueOf(true);
 		} else {
 			result = super.get(name);
 		}
 		try{
 		if (result == null &&this.context!= null && this.context.containsBean((String)name)) {
-			//Èç¹ûÔÚSpringÈİÆ÷ÖĞ°üº¬bean£¬Ôò·µ»ØStringµÄBean
+			//å¦‚æœåœ¨Springå®¹å™¨ä¸­åŒ…å«beanï¼Œåˆ™è¿”å›Stringçš„Bean
 			result = this.context.getBean((String)name);
 		}
 		}catch(Exception  e){
@@ -44,7 +44,7 @@ public class ExpressContextExample extends HashMap<String,Object> implements IEx
 
 	public Object  put(String name, Object object) {
 	   if(name.equalsIgnoreCase("myDbData")){
-		   throw new RuntimeException("Ã»ÓĞÊµÏÖ");
+		   throw new RuntimeException("æ²¡æœ‰å®ç°");
 	   }
        return  super.put(name,object);
 	}

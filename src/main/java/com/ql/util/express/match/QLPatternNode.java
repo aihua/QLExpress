@@ -16,73 +16,73 @@ public class QLPatternNode{
 	String name;
 	
 	/**
-	 * Ô­Ê¼µÄ×Ö·û´®
+	 * åŸå§‹çš„å­—ç¬¦ä¸²
 	 */
 	String orgiContent;
 	/**
-	 * Æ¥ÅäÄ£Ê½
+	 * åŒ¹é…æ¨¡å¼
 	 */
 	MatchMode matchMode =MatchMode.NULL ;
 	/**
-	 * ÊÇ·ñÒ»¸ö×ÓÆ¥ÅäÄ£Ê½
+	 * æ˜¯å¦ä¸€ä¸ªå­åŒ¹é…æ¨¡å¼
 	 */
 	boolean isChildMode = false;
 	/**
-	 * ²ã´Î
+	 * å±‚æ¬¡
 	 */
 	int level =0;
 	/**
-	 * ÊÇ·ñ¸ù½Úµã,ÀıÈç£ºif^
+	 * æ˜¯å¦æ ¹èŠ‚ç‚¹,ä¾‹å¦‚ï¼šif^
 	 */
 	protected boolean isTreeRoot;
 	
 	/**
-	 * ×îĞ¡Æ¥Åä´ÎÊı£¬0..n
+	 * æœ€å°åŒ¹é…æ¬¡æ•°ï¼Œ0..n
 	 */
 	protected int minMatchNum =1;
 	
 	/**
-	 * ×î´óÆ¥Åä´ÎÊı
+	 * æœ€å¤§åŒ¹é…æ¬¡æ•°
 	 */
 	protected int maxMatchNum =1;
 	
 	
 	/**
-	 * Æ¥ÅäÀàĞÍ£¬ÀıÈç ID,if,SELECT
+	 * åŒ¹é…ç±»å‹ï¼Œä¾‹å¦‚ ID,if,SELECT
 	 */
 	protected INodeType nodeType;
 	
 	/**
-	 * Æ¥Åäµ½µÄ½ÚµãĞèÒª×ª»»³ÉµÄÀàĞÍ£¬ÀıÈç ID->CONST_STRING
+	 * åŒ¹é…åˆ°çš„èŠ‚ç‚¹éœ€è¦è½¬æ¢æˆçš„ç±»å‹ï¼Œä¾‹å¦‚ ID->CONST_STRING
 	 */
 	protected INodeType targetNodeType;
 	
 	/**
-	 * ĞèÒª×ªÎªµÄĞéÄâÀàĞÍ£¬ÀıÈç£º(ID$(,$ID)*)#COL_LIST
+	 * éœ€è¦è½¬ä¸ºçš„è™šæ‹Ÿç±»å‹ï¼Œä¾‹å¦‚ï¼š(ID$(,$ID)*)#COL_LIST
 	 */
 	protected INodeType rootNodeType;
 	
 	/**
-	 * ÊÇ·ñÆ¥Åä³É¹¦£¬µ«ÔÚÊä³öµÄÊ±ºòºöÂÔ,ÓÃ"~"±íÊ¾
+	 * æ˜¯å¦åŒ¹é…æˆåŠŸï¼Œä½†åœ¨è¾“å‡ºçš„æ—¶å€™å¿½ç•¥,ç”¨"~"è¡¨ç¤º
 	 * CONST$(,~$CONST)*
 	 */
 	protected boolean isSkip;
 	
 	/**
-	 * È¡·´£¬ÀıÈç£º+@,Æ¥Åä²»ÊÇ+µÄËùÓĞ×Ö·û
+	 * å–åï¼Œä¾‹å¦‚ï¼š+@,åŒ¹é…ä¸æ˜¯+çš„æ‰€æœ‰å­—ç¬¦
 	 */
 	protected boolean blame = false;
 	
 	
 	/**
-	 * ×ÓÆ¥ÅäÄ£Ê½
+	 * å­åŒ¹é…æ¨¡å¼
 	 */
 	List<QLPatternNode> children = new ArrayList<QLPatternNode>();
 	
 	protected QLPatternNode(INodeTypeManager aManager,String aName,String aOrgiContent) throws Exception{
 		this(aManager,aName,aOrgiContent,false,1);
 		if(this.toString().equals(aOrgiContent)==false){
-				throw new Exception("Óï·¨¶¨Òå½âÎöºóµÄ½á¹ûÓëÔ­Ê¼Öµ²»Ò»ÖÂ£¬Ô­Ê¼Öµ:"+ aOrgiContent + " ½âÎö½á¹û:" + this.toString());
+				throw new Exception("è¯­æ³•å®šä¹‰è§£æåçš„ç»“æœä¸åŸå§‹å€¼ä¸ä¸€è‡´ï¼ŒåŸå§‹å€¼:"+ aOrgiContent + " è§£æç»“æœ:" + this.toString());
 		}
 	}
 	protected QLPatternNode(INodeTypeManager aManager,String aName,String aOrgiContent,boolean aIsChildMode,int aLevel) throws Exception{
@@ -99,7 +99,7 @@ public class QLPatternNode{
 			for(int i=0;i<this.level;i++){
 				str = str + "  ";
 			}
-			//log.trace("·Ö½âÆ¥ÅäÄ£Ê½[LEVEL="+ this.level +"]START:" + str + this.orgiContent);
+			//log.trace("åˆ†è§£åŒ¹é…æ¨¡å¼[LEVEL="+ this.level +"]START:" + str + this.orgiContent);
 		}
 		String orgStr = this.orgiContent;
 		if(orgStr.equals("(") || orgStr.equals(")") || orgStr.equals("|")||orgStr.equals("||")||orgStr.equals("/**") || orgStr.equals("**/")||orgStr.equals("*")){
@@ -122,7 +122,7 @@ public class QLPatternNode{
 			}else if(orgStr.charAt(i) == '$'){
 				if (this.matchMode != MatchMode.NULL
 						&& this.matchMode != MatchMode.AND) {
-					throw new Exception("²»ÕıÈ·µÄÄ£Ê½´®,ÔÚÒ»¸öÆ¥ÅäÄ£Ê½ÖĞ²»ÄÜ|,$²¢´æ,ÇëÊ¹ÓÃ×Ö´®Ä£Ê½:"
+					throw new Exception("ä¸æ­£ç¡®çš„æ¨¡å¼ä¸²,åœ¨ä¸€ä¸ªåŒ¹é…æ¨¡å¼ä¸­ä¸èƒ½|,$å¹¶å­˜,è¯·ä½¿ç”¨å­—ä¸²æ¨¡å¼:"
 							+ orgStr);
 				}
 				children.add(new QLPatternNode(this.nodeTypeManager,"ANONY_PATTERN",tempStr, false,this.level + 1));
@@ -131,7 +131,7 @@ public class QLPatternNode{
 			}else if(orgStr.charAt(i) == '|'){
 					if (this.matchMode != MatchMode.NULL
 							&& this.matchMode != MatchMode.OR) {
-						throw new Exception("²»ÕıÈ·µÄÄ£Ê½´®,ÔÚÒ»¸öÆ¥ÅäÄ£Ê½ÖĞ²»ÄÜ|,$²¢´æ,ÇëÊ¹ÓÃ×Ö´®Ä£Ê½:"
+						throw new Exception("ä¸æ­£ç¡®çš„æ¨¡å¼ä¸²,åœ¨ä¸€ä¸ªåŒ¹é…æ¨¡å¼ä¸­ä¸èƒ½|,$å¹¶å­˜,è¯·ä½¿ç”¨å­—ä¸²æ¨¡å¼:"
 								+ orgStr);
 					}
 					children.add(new QLPatternNode(this.nodeTypeManager,"ANONY_PATTERN",tempStr, false,this.level + 1));
@@ -144,9 +144,9 @@ public class QLPatternNode{
 				tempStr = tempStr + orgStr.charAt(i);
 			}
 		}
-		// ´¦ÀíÃ»ÓĞ()µÄÄÚÈİ
+		// å¤„ç†æ²¡æœ‰()çš„å†…å®¹
 		if (count > 0) {
-			throw new Exception("²»ÕıÈ·µÄÄ£Ê½´®,(Ã»ÓĞÕÒµ½¶ÔÓ¦µÄ):" + orgStr);
+			throw new Exception("ä¸æ­£ç¡®çš„æ¨¡å¼ä¸²,(æ²¡æœ‰æ‰¾åˆ°å¯¹åº”çš„):" + orgStr);
 		}
         
 		if(this.children.size() > 0){
@@ -154,7 +154,7 @@ public class QLPatternNode{
 			tempStr ="";
 		}
 		
-		//ĞèÒªÌŞ³ı³Ë·¨*µÄÇé¿ö
+		//éœ€è¦å‰”é™¤ä¹˜æ³•*çš„æƒ…å†µ
 		if(tempStr.endsWith("*") && tempStr.length() >1){
 	    	this.minMatchNum = 0;
 	    	this.maxMatchNum = Integer.MAX_VALUE;
@@ -191,7 +191,7 @@ public class QLPatternNode{
 	    	tempStr = tempStr.substring(0,tempStr.length() -1);
 		}
     	
-    	//´¦Àí(ABC|bcd)Ä£Ê½
+    	//å¤„ç†(ABC|bcd)æ¨¡å¼
     	if(tempStr.length() > 2 && tempStr.charAt(0)=='(' && tempStr.charAt(tempStr.length() - 1) ==')'){
     		this.isChildMode = true;
     		this.children.add(new QLPatternNode(this.nodeTypeManager,"ANONY_PATTERN",tempStr.substring(1, tempStr.length() - 1), false,this.level + 1));

@@ -88,12 +88,12 @@ public class TestMatch {
 				{"(new String[3][5])[1].length","5"},
 		        {"class ABC(com.ql.util.express.test.BeanExample bean,String name){"
 					+"InnerClass a = new InnerClass();"
-					+ "¹şÏ£Öµ:{bean.hashCode();};"
+					+ "å“ˆå¸Œå€¼:{bean.hashCode();};"
 					+ "class InnerClass(){" +
-							"int ¼ÆÊı =200;" +
+							"int è®¡æ•° =200;" +
 							"};"
 					+ "}" +
-							"return new ABC(new com.ql.util.express.test.BeanExample(),'xuannan').a.¼ÆÊı" ,
+							"return new ABC(new com.ql.util.express.test.BeanExample(),'xuannan').a.è®¡æ•°" ,
 				  "200" 
 				},
 				{";i=100;;","100"}
@@ -106,12 +106,12 @@ public class TestMatch {
 			if (expressTest[point][1].equalsIgnoreCase("null")
 					&& result != null
 					|| expressTest[point][1].equalsIgnoreCase(result==null?"null":result.toString()) == false) {
-				throw new Exception("´¦Àí´íÎó,¼ÆËã½á¹ûÓëÔ¤ÆÚµÄ²»Æ¥Åä:" + expressStr + " = " + result + "µ«ÊÇÆÚÍûÖµÊÇ£º" + expressTest[point][1]);
+				throw new Exception("å¤„ç†é”™è¯¯,è®¡ç®—ç»“æœä¸é¢„æœŸçš„ä¸åŒ¹é…:" + expressStr + " = " + result + "ä½†æ˜¯æœŸæœ›å€¼æ˜¯ï¼š" + expressTest[point][1]);
 			}
 			System.out.println("Example " + point + " : " + expressStr + " =  " + result);
 			System.out.println(expressContext);
 			if(errorList.size() > 0){
-			   System.out.println("\t\tÏµÍ³Êä³öµÄ´íÎóÌáÊ¾ĞÅÏ¢:" + errorList);
+			   System.out.println("\t\tç³»ç»Ÿè¾“å‡ºçš„é”™è¯¯æç¤ºä¿¡æ¯:" + errorList);
 			}
 		}
 	 }

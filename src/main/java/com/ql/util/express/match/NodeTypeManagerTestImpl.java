@@ -18,11 +18,11 @@ class TestNodeTypeImpl implements INodeType{
 	}
 
 	public INodeTypeManager getManager() {
-		throw new RuntimeException("Ã»ÓÐÊµÏÖµÄ·½·¨");
+		throw new RuntimeException("æ²¡æœ‰å®žçŽ°çš„æ–¹æ³•");
 	}
 
 	@Override
 	public QLPatternNode getPatternNode() {
-		throw new RuntimeException("Ã»ÓÐÊµÏÖµÄ·½·¨");
+		throw new RuntimeException("æ²¡æœ‰å®žçŽ°çš„æ–¹æ³•");
 	}
 }

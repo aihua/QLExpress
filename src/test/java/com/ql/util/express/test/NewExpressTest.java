@@ -19,7 +19,7 @@ public class NewExpressTest {
 				{"Integer.parseInt(\"1\")-1","0"},
 				{"Double.parseDouble(\"-0.22\")","-0.22"},
 				{"(int)((Double.parseDouble(\"0.22\")-0.21)*100)","1"},
-				{"1+2+/** ×¢ÊÍ²âÊÔ **/ 12+1 ","16"},
+				{"1+2+/** æ³¨é‡Šæµ‹è¯• **/ 12+1 ","16"},
 				{"3240732988055L","3240732988055"},
 				{"3240732988054","3240732988054"},
 				{"0.5d","0.5"},
@@ -62,24 +62,24 @@ public class NewExpressTest {
 				{"return ((float)9)/2","4.5"},
 				{"int a =9; return ((float)a)/2","4.5"},
 				{"float a =9; return a/2","4.5"},
-				{"macro  ³Í·£    {100 + 100} ³Í·£;","200"},
+				{"macro  æƒ©ç½š    {100 + 100} æƒ©ç½š;","200"},
 				{"function union(String a,String b){return a +'-'+ b;}; union(\"qiang\",\"hui\")","qiang-hui"},
 				{" 3+4 in (8+3,7,9)","true"},
 				{"\"ab\" like \"a%\"","true"},
-				{"int ÖĞ¹ú = 100; int ÃÀ¹ú = 200 ;return ÖĞ¹ú + ÃÀ¹ú","300"},
-				{"1 ¼Ó 1 ","2"},
+				{"int ä¸­å›½ = 100; int ç¾å›½ = 200 ;return ä¸­å›½ + ç¾å›½","300"},
+				{"1 åŠ  1 ","2"},
 				{" 'a' love 'b' love 'c'","c{b{a}b}c"},
 				{"if 1==2 then {return 10}else{return 100}","100"}
 		};
 		for(int i=0;i<expresses.length;i++){
 			IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
 			ExpressRunner runner = new ExpressRunner(false,true);
-			runner.addOperatorWithAlias("¼Ó", "+",null);
+			runner.addOperatorWithAlias("åŠ ", "+",null);
 			runner.addOperator("love","+",new LoveOperator("love"));
 			Object result = runner.execute(expresses[i][0],expressContext, null, false,true);
-			System.out.println("ÔËËã½á¹û£º" + result);
-			System.out.println("»·¾³½á¹û£º" + expressContext);		
-			Assert.assertTrue("±í´ïÊ½Ö´ĞĞ´íÎó:" + expresses[i][0] + " ÆÚÍûÖµ£º" + expresses[i][1] +" ÔËËã½á¹û£º" + result ,expresses[i][1].equals(result == null?"null":result.toString()));
+			System.out.println("è¿ç®—ç»“æœï¼š" + result);
+			System.out.println("ç¯å¢ƒç»“æœï¼š" + expressContext);		
+			Assert.assertTrue("è¡¨è¾¾å¼æ‰§è¡Œé”™è¯¯:" + expresses[i][0] + " æœŸæœ›å€¼ï¼š" + expresses[i][1] +" è¿ç®—ç»“æœï¼š" + result ,expresses[i][1].equals(result == null?"null":result.toString()));
 		}
 	}
 }

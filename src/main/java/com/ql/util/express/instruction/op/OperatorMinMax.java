@@ -9,7 +9,7 @@ public class OperatorMinMax extends Operator {
 
 	public Object executeInner(Object[] list) throws Exception {
 		if (list.length == 0){
-			throw new Exception("²Ù×÷ÊıÒì³£");
+			throw new Exception("æ“ä½œæ•°å¼‚å¸¸");
 		}
 		Object result = list[0];
 

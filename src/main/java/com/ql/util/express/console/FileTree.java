@@ -14,7 +14,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 /**
-* <p>Description: 系统目录树，动态生成，解决载入慢的问题 </p>
+* <p>Description: 绯荤粺鐩綍鏍戯紝鍔ㄦ�佺敓鎴愶紝瑙ｅ喅杞藉叆鎱㈢殑闂 </p>
 */
 public class FileTree extends JTree {
 	private static final long serialVersionUID = 1L;

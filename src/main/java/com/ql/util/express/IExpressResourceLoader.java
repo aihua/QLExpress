@@ -1,13 +1,13 @@
 package com.ql.util.express;
 
 /**
- * ¼ÓÔØ±í´ïÊ½×ÊÔ´½Ó¿Ú
+ * åŠ è½½è¡¨è¾¾å¼èµ„æºæ¥å£
  * @author xuannan
  *
  */
 public interface IExpressResourceLoader {
 	/**
-	 * ¸ù¾İ±í´ïÊ½Ãû³Æ»ñÈ¡±í´ïÊ½µÄÄÚÈİ
+	 * æ ¹æ®è¡¨è¾¾å¼åç§°è·å–è¡¨è¾¾å¼çš„å†…å®¹
 	 * @param expressName
 	 * @return
 	 * @throws Exception

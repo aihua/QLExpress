@@ -31,12 +31,12 @@ public class IfTest {
 		for(int i=0;i<expresses.length;i++){
 			IExpressContext<String,Object> expressContext = new DefaultContext<String,Object>();
 			ExpressRunner runner = new ExpressRunner(false,true);
-			runner.addOperatorWithAlias("¼Ó", "+",null);
+			runner.addOperatorWithAlias("åŠ ", "+",null);
 			runner.addOperator("love","+",new LoveOperator("love"));
 			Object result = runner.execute(expresses[i][0],expressContext, null, false,true);
-			System.out.println("ÔËËã½á¹û£º" + result);
-			System.out.println("»·¾³½á¹û£º" + expressContext);		
-			Assert.assertTrue("±í´ïÊ½Ö´ĞĞ´íÎó:" + expresses[i][0] + " ÆÚÍûÖµ£º" + expresses[i][1] +" ÔËËã½á¹û£º" + result ,expresses[i][1].equals(result == null?"null":result.toString()));
+			System.out.println("è¿ç®—ç»“æœï¼š" + result);
+			System.out.println("ç¯å¢ƒç»“æœï¼š" + expressContext);		
+			Assert.assertTrue("è¡¨è¾¾å¼æ‰§è¡Œé”™è¯¯:" + expresses[i][0] + " æœŸæœ›å€¼ï¼š" + expresses[i][1] +" è¿ç®—ç»“æœï¼š" + result ,expresses[i][1].equals(result == null?"null":result.toString()));
 		}
 	}	
 }

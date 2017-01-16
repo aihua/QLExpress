@@ -1,7 +1,7 @@
 initial;
-ÀÛ¼Ó;
-ÀÛ¼Ó;
-ÀÛ¼Ó;
+ç´¯åŠ ;
+ç´¯åŠ ;
+ç´¯åŠ ;
 
 if(true)then {1==1} else{ 3==3} ;
 exportDef int mm =1000;

@@ -4,20 +4,20 @@ import com.ql.util.express.instruction.OperateDataCacheManager;
 import com.ql.util.express.instruction.op.OperatorBase;
 
 /**
- * ²Ù×÷·ûµÄ»ùÀà
+ * æ“ä½œç¬¦çš„åŸºç±»
  * @author xuannan
  *
  */
 public abstract class Operator extends  OperatorBase{
 	
-	public OperateData executeInner(InstructionSetContext context, OperateData[] list) throws Exception{
+	public OperateData executeInner(InstructionSetContext context, ArraySwap list) throws Exception{
 		Object[] parameters = new Object[list.length];
 		for(int i = 0;i <list.length;i++){			
-			parameters[i] = list[i].getObject(context);
+			parameters[i] = list.get(i).getObject(context);
 		}
 		Object result = this.executeInner(parameters);
 		if(result != null && result.getClass().equals(OperateData.class)){
-			throw new Exception("²Ù×÷·ûºÅ¶¨ÒåµÄ·µ»ØÀàĞÍ´íÎó£º" + this.getAliasName());
+			throw new Exception("æ“ä½œç¬¦å·å®šä¹‰çš„è¿”å›ç±»å‹é”™è¯¯ï¼š" + this.getAliasName());
 		}
 		if(result == null){
 			//return new OperateData(null,null);
@@ -30,10 +30,10 @@ public abstract class Operator extends  OperatorBase{
 	public abstract Object executeInner(Object[] list) throws Exception;
 
     /**
-     * ½øĞĞ¶ÔÏó±È½Ï
+     * è¿›è¡Œå¯¹è±¡æ¯”è¾ƒ
      * @param op1
      * @param op2
-     * @return 0--µÈÓÚ £¬¸ºÊı < , ÕıÊı >
+     * @return 0--ç­‰äº ï¼Œè´Ÿæ•° < , æ­£æ•° >
      * @throws Exception
      */
     public  static int compareData(Object op1,Object op2) throws Exception{
@@ -44,7 +44,7 @@ public abstract class Operator extends  OperatorBase{
      }else if(op2 instanceof String){
     	compareResult = op1.toString().compareTo((String)op2);
      }else if(op1 instanceof Number && op2 instanceof Number){
-   	  //Êı×Ö±È½Ï
+   	  //æ•°å­—æ¯”è¾ƒ
    	  compareResult =  OperatorOfNumber.compareNumber((Number)op1, (Number)op2);
      }
      else if ((op1 instanceof Boolean) && (op2 instanceof Boolean))
@@ -55,7 +55,7 @@ public abstract class Operator extends  OperatorBase{
             compareResult =-1;
       }
      else
-        throw new Exception(op1 + "ºÍ" + op2 +"²»ÄÜÖ´ĞĞcompare ²Ù×÷");
+        throw new Exception(op1 + "å’Œ" + op2 +"ä¸èƒ½æ‰§è¡Œcompare æ“ä½œ");
      return compareResult;
    }
 

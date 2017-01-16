@@ -14,12 +14,12 @@ public class LoadAttrInstructionFactory extends InstructionFactory {
 			Stack<ForRelBreakContinue> forStack, ExpressNode node,boolean isRoot)
 			throws Exception{
 		FunctionInstructionSet functionSet =  result.getMacroDefine(node.getValue());
-		if(functionSet != null){//ÊÇºê¶¨Òå
+		if(functionSet != null){//æ˜¯å®å®šä¹‰
 			result.insertInstruction(result.getCurrentPoint()+1, new InstructionCallMacro(node.getValue()));
 		}else{
 		  result.addInstruction(new InstructionLoadAttr(node.getValue()));
 		  if(node.getChildren().length >0){
-			  throw new Exception("±í´ïÊ½ÉèÖÃ´íÎó");
+			  throw new Exception("è¡¨è¾¾å¼è®¾ç½®é”™è¯¯");
 		  }
 		}  
 		return false;

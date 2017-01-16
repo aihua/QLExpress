@@ -9,7 +9,7 @@ import com.ql.util.express.IExpressContext;
 import com.ql.util.express.LocalExpressCacheRunner;
 
 /**
- * ¹ØÓÚExpressRunnerµÄ½Å±¾»º´æ¹ÜÀí·½°¸
+ * å…³äºExpressRunnerçš„è„šæœ¬ç¼“å­˜ç®¡ç†æ–¹æ¡ˆ
  * @author tianqiao
  *
  */
@@ -19,18 +19,18 @@ public class ExpressCacheTest {
 	
 	@Test
 	public void testScriptCache() throws Exception {
-		runner.addMacro("¼ÆËãÆ½¾ù³É¼¨", "(ÓïÎÄ+ÊıÑ§+Ó¢Óï)/3.0");
+		runner.addMacro("è®¡ç®—å¹³å‡æˆç»©", "(è¯­æ–‡+æ•°å­¦+è‹±è¯­)/3.0");
 		IExpressContext<String, Object> context =new DefaultContext<String, Object>();
-		context.put("ÓïÎÄ", 88);
-		context.put("ÊıÑ§", 99);
-		context.put("Ó¢Óï", 95);
+		context.put("è¯­æ–‡", 88);
+		context.put("æ•°å­¦", 99);
+		context.put("è‹±è¯­", 95);
 		long times =10000;
 		long start = new java.util.Date().getTime();
 		while(times-->0){
 			calulateTask(false, context);
 		}
 		long end = new java.util.Date().getTime();
-		echo("²»×ö»º´æºÄÊ±£º"+ (end-start) +" ms");
+		echo("ä¸åšç¼“å­˜è€—æ—¶ï¼š"+ (end-start) +" ms");
 		
 		times =10000;
 		start = new java.util.Date().getTime();
@@ -38,47 +38,47 @@ public class ExpressCacheTest {
 			calulateTask(true, context);
 		}
 		end = new java.util.Date().getTime();
-		echo("×ö»º´æºÄÊ±£º"+ (end-start) +" ms");
+		echo("åšç¼“å­˜è€—æ—¶ï¼š"+ (end-start) +" ms");
 			
 	}
 
 	@Test
 	public void testLocalCacheMutualImpact()throws Exception {
 		
-		//»º´æÔÚ±¾µØµÄ½Å±¾¶¼ÊÇÈ«¾ÖµÄ£¬¿ÉÒÔÏà»¥µ÷ÓÃ
+		//ç¼“å­˜åœ¨æœ¬åœ°çš„è„šæœ¬éƒ½æ˜¯å…¨å±€çš„ï¼Œå¯ä»¥ç›¸äº’è°ƒç”¨
 		
-		runner.addMacro("¼ÆËãÆ½¾ù³É¼¨", "(ÓïÎÄ+ÊıÑ§+Ó¢Óï)/3.0");
-		runner.addMacro("ÊÇ·ñÓÅĞã", "¼ÆËãÆ½¾ù³É¼¨>90");
+		runner.addMacro("è®¡ç®—å¹³å‡æˆç»©", "(è¯­æ–‡+æ•°å­¦+è‹±è¯­)/3.0");
+		runner.addMacro("æ˜¯å¦ä¼˜ç§€", "è®¡ç®—å¹³å‡æˆç»©>90");
 		IExpressContext<String, Object> context =new DefaultContext<String, Object>();
-		context.put("ÓïÎÄ", 88);
-		context.put("ÊıÑ§", 99);
-		context.put("Ó¢Óï", 95);
-		echo(runner.execute("ÊÇ·ñÓÅĞã", context, null, false, false));
+		context.put("è¯­æ–‡", 88);
+		context.put("æ•°å­¦", 99);
+		context.put("è‹±è¯­", 95);
+		echo(runner.execute("æ˜¯å¦ä¼˜ç§€", context, null, false, false));
 	}
 	
 	@Test
 	public void testRemoteCache(){
-		//Êı¾İµÄÔ¤ÏÈ¼ÓÔØ
+		//æ•°æ®çš„é¢„å…ˆåŠ è½½
 		ExpressRunner runner =new ExpressRunner();		
 		ExpressRemoteCacheRunner cacheRunner = new LocalExpressCacheRunner(runner);
-		cacheRunner.loadCache("¼ÆËãÆ½¾ù³É¼¨", "(ÓïÎÄ+ÊıÑ§+Ó¢Óï)/3.0");
-		cacheRunner.loadCache("ÊÇ·ñÓÅĞã", "¼ÆËãÆ½¾ù³É¼¨>90");
+		cacheRunner.loadCache("è®¡ç®—å¹³å‡æˆç»©", "(è¯­æ–‡+æ•°å­¦+è‹±è¯­)/3.0");
+		cacheRunner.loadCache("æ˜¯å¦ä¼˜ç§€", "è®¡ç®—å¹³å‡æˆç»©>90");
 		
 		IExpressContext<String, Object> context =new DefaultContext<String, Object>();
-		context.put("ÓïÎÄ", 88);
-		context.put("ÊıÑ§", 99);
-		context.put("Ó¢Óï", 95);
-		//ExpressRemoteCacheRunner¶¼Ö»ÄÜÖ´ĞĞ×Ô¼ºÔ­ÓĞµÄ½Å±¾ÄÚÈİ£¬¶øÇÒÏà»¥Ö®¼ä¸ôÀë£¬±£Ö¤×î¸ßµÄ½Å±¾°²È«ĞÔ
-		echo(cacheRunner.execute("¼ÆËãÆ½¾ù³É¼¨", context, null, false, false, null));
+		context.put("è¯­æ–‡", 88);
+		context.put("æ•°å­¦", 99);
+		context.put("è‹±è¯­", 95);
+		//ExpressRemoteCacheRunneréƒ½åªèƒ½æ‰§è¡Œè‡ªå·±åŸæœ‰çš„è„šæœ¬å†…å®¹ï¼Œè€Œä¸”ç›¸äº’ä¹‹é—´éš”ç¦»ï¼Œä¿è¯æœ€é«˜çš„è„šæœ¬å®‰å…¨æ€§
+		echo(cacheRunner.execute("è®¡ç®—å¹³å‡æˆç»©", context, null, false, false, null));
 		try{
-			echo(cacheRunner.execute("¼ÆËãÆ½¾ù³É¼¨>90", context, null, false, false, null));			
+			echo(cacheRunner.execute("è®¡ç®—å¹³å‡æˆç»©>90", context, null, false, false, null));			
 		}catch(Exception e){
-			echo("ExpressRemoteCacheRunnerÖ»Ö§³ÖÔ¤ÏÈ¼ÓÔØµÄ½Å±¾ÄÚÈİ");
+			echo("ExpressRemoteCacheRunneråªæ”¯æŒé¢„å…ˆåŠ è½½çš„è„šæœ¬å†…å®¹");
 		}
 		try{
-			echo(cacheRunner.execute("ÊÇ·ñÓÅĞã", context, null, false, false, null));			
+			echo(cacheRunner.execute("æ˜¯å¦ä¼˜ç§€", context, null, false, false, null));			
 		}catch(Exception e){
-			echo("ExpressRemoteCacheRunner²»Ö§³Ö½Å±¾¼äµÄÏà»¥µ÷ÓÃ");
+			echo("ExpressRemoteCacheRunnerä¸æ”¯æŒè„šæœ¬é—´çš„ç›¸äº’è°ƒç”¨");
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class ExpressCacheTest {
 	}
 	
 	private void calulateTask(boolean isCache, IExpressContext<String, Object> context) throws Exception{
-		runner.execute("¼ÆËãÆ½¾ù³É¼¨", context, null, isCache, false);
+		runner.execute("è®¡ç®—å¹³å‡æˆç»©", context, null, isCache, false);
 	}
 	
 	

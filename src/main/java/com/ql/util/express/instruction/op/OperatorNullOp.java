@@ -1,12 +1,13 @@
 package com.ql.util.express.instruction.op;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.IExpressContext;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 
 
 /**
- * ¥¶¿Ì ",","(",")",";"
+ * Â§ÑÁêÜ ",","(",")",";"
  */
 
 public class OperatorNullOp extends OperatorBase {
@@ -18,7 +19,7 @@ public class OperatorNullOp extends OperatorBase {
 		this.aliasName = aAliasName;
 		this.errorInfo = aErrorInfo;
 	}
-	public OperateData executeInner(InstructionSetContext parent, OperateData[] list) throws Exception {
+	public OperateData executeInner(InstructionSetContext parent, ArraySwap list) throws Exception {
 		return executeInner(parent);
 	}
 

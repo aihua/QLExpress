@@ -1,5 +1,6 @@
 package com.ql.util.express.instruction.op;
 
+import com.ql.util.express.ArraySwap;
 import com.ql.util.express.InstructionSetContext;
 import com.ql.util.express.OperateData;
 import com.ql.util.express.instruction.OperateDataCacheManager;
@@ -16,7 +17,7 @@ public class OperatorKeyValue extends OperatorBase {
 		this.errorInfo = aErrorInfo;
 	}
 
-	public OperateData executeInner(InstructionSetContext context, OperateData[] list) throws Exception {
-		 return  OperateDataCacheManager.fetchOperateDataKeyValue(list[0],list[1]);
+	public OperateData executeInner(InstructionSetContext context, ArraySwap list) throws Exception {
+		 return  OperateDataCacheManager.fetchOperateDataKeyValue(list.get(0),list.get(1));
 	}
 }
